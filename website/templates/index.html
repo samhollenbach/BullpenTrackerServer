@@ -4,22 +4,22 @@
     <meta charset="UTF-8">
     <title>Bullpen Tracker</title>
     <link href="https://fonts.googleapis.com/css?family=Cutive|Pacifico|Shrikhand" rel="stylesheet">
-    <link rel="stylesheet" type="text/css" href="main_stylesheet.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main_stylesheet.css') }}">
 </head>
 
 <body class="homepage">
 <div class="header">
-    <a class="title" href="index.html">Bullpen Tracker</a>
-    <a class="login" href="login.html">Log In</a>
-    <a class="login" href="about.html">About Us</a>
-    <a class="login" href="index.html">Home</a>
+    <a class="title" href="/">Bullpen Tracker</a>
+    <a class="login" href="/login">Log In</a>
+    <a class="login" href="/about">About Us</a>
+    <a class="login" href="/">Home</a>
 
 </div>
 
 <div class="body">
 
     <div class="img">
-        <img id="bpt_demo" src="images/demo_iphone.png" title="Bullpen Tracker Demo">
+        <img id="bpt_demo" src="{{ url_for('static',filename='demo_iphone.png') }}" title="Bullpen Tracker Demo">
     </div>
     <div class="blurb">
         <h2>Stop Wasting Pitches,</h2>
@@ -42,7 +42,7 @@
 
 
 </div>
-<button id="dl-link" href="login.html">Start Tracking</button>
+<button id="dl-link" href="/login">Start Tracking</button>
 
 
 </body>
