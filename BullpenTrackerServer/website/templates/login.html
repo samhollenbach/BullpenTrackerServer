@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Bullpen Tracker</title>
+    <link href="https://fonts.googleapis.com/css?family=Cutive|Pacifico|Shrikhand" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='main_stylesheet.css') }}">
+</head>
+<body class="login">
+
+<div class="header">
+    <a class="title" href="index.html">Bullpen Tracker</a>
+    <a class="login" href="login.html">Log In</a>
+    <a class="login" href="about.html">About Us</a>
+    <a class="login" href="index.html">Home</a>
+</div>
+<div class="login-body">
+
+
+
+    <label for="inp" class="inp">
+        <input type="text" id="inp" placeholder="&nbsp;">
+        <span class="label">Search Pitchers</span>
+        <span class="border"></span>
+    </label>
+    <form action="Stats.php" method="GET">
+
+        <input type="hidden" name="pitcher_name" value="test"/>
+        <input class="search-button" type="submit" value="Find Stats" />
+    </form>
+
+
+
+
+</div>
+</body>
+</html>
