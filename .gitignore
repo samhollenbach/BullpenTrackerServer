@@ -1,6 +1,6 @@
 website/Stats.php
-api/DBConnect.py
 api/DBConnection
 api/php
 *.pyc
 */__pycache__
+*.egg-info
