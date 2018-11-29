@@ -5,5 +5,3 @@ app.debug = True
 
 import BullpenTrackerServer.api.bptAPI as api
 import BullpenTrackerServer.website.bptweb as web
-
-web.make_routes(app)
