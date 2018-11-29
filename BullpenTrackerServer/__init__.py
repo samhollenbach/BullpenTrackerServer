@@ -8,10 +8,5 @@ import BullpenTrackerServer.website.bptweb
 
 
 
-#web.BullpenTrackerWebsite().make_routes(app)
-
-#api.make_api(app)
-
-
-#if __name__ == "__main__":
-#	app.run()
+if __name__ = '__main__':
+	app.run()
