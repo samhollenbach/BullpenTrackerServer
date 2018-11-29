@@ -11,7 +11,3 @@ class Pitcher(Resource):
 
 
 api.add_resource(Pitcher, '/pitcher')
-
-
-if __name__ = '__main__':
-	app.run()
