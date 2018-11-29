@@ -1,6 +1,6 @@
 from sqlalchemy import *
 
-class dbConnector(object):
+class bptDatabase(object):
 
 
 	db = create_engine('mysql+pymysql://macbaseball:macalester@main-bpt-db.cds8eiszpipe.us-east-1.rds.amazonaws.com:3306/macbullpens')

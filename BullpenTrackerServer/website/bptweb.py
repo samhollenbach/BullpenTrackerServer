@@ -17,6 +17,3 @@ def about():
 def login():
 	return render_template('login.html')
 
-
-
-print("WOEIHGOWEIHGOIWEHIGOIWEHIGO")
