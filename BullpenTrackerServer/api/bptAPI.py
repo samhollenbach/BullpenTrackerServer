@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, request
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
 
@@ -13,13 +13,30 @@ api = Api(app)
 
 
 class Pitcher(Resource):
-	parser = reqparse.RequestParser()
-	parser.add_argument('p_token', type=str, help='Pitcher access token')
+	
 	
 	def get(self):
-		filters = self.parser.parse_args(strict=True)
+		parser = reqparse.RequestParser()
+		parser.add_argument('p_token', type=str, help='Pitcher access token')
+		filters = parser.parse_args(strict=True)
 		fields = ('p_token', 'throws', 'email', 'firstname', 'lastname')
-		return bptDatabase().select_where_single('pitchers', *fields, **filters)
+		return bptDatabase().select_where_first('pitchers', *fields, **filters)
+
+
+	def post(self, *args, **kwargs):
+		parser = reqparse.RequestParser()
+		parser.add_argument('p_token', type=str, help='Pitcher access token')
+		parser.add_argument('throws', type=str, help='Pitcher throwing side')
+		parser.add_argument('email', type=str, help='Pitcher email')
+		parser.add_argument('firstname', type=str, help='Pitcher first name')
+		parser.add_argument('lastname', type=str, help='Pitcher last name')
+		parser.add_argument('pass', type=str, help='Pitcher password')
+		data = parser.parse_args()
+		print(data)
+
+		return bptDatabase().insert('pitchers', **data)
+
+
 
 
 class Team(Resource):
@@ -36,3 +53,5 @@ class Team(Resource):
 
 api.add_resource(Pitcher, '/pitcher')
 api.add_resource(Team, '/team')
+
+
