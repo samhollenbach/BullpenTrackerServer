@@ -5,6 +5,6 @@ setup(
     packages=['BullpenTrackerServer'],
     include_package_data=True,
     install_requires=[
-        'flask', 'flask-restful',
+        'flask', 'flask-restful', 'flask-sqlalchemy', 'sqlalchemy',
     ],
 )

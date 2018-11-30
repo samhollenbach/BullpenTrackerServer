@@ -5,34 +5,34 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from sqlalchemy.sql import select
 
+from BullpenTrackerServer.api.bptDatabase import bptDatabase
+
 from BullpenTrackerServer import app
 
 api = Api(app)
 
 
 class Pitcher(Resource):
-
-	#parser = reqparse.RequestParser()
-	#parser.add_argument('token', type=str, help='Pitcher access token')
-	#args = parser.parse_args()
-
-
-	def get(self, p_token):
-		db = create_engine('mysql+pymysql://macbaseball:macalester@main-bpt-db.cds8eiszpipe.us-east-1.rds.amazonaws.com:3306/macbullpens')
-
-		print(db.table_names())
-
-		metadata = MetaData(db)
-
-		conn = db.connect()
-
-		pitchers = Table('pitchers', metadata, autoload=True)
-		s = select([pitchers]).where(pitchers.c.p_token == p_token)
-		res = conn.execute(s)
-		r = [dict(row) for row in res][0]
-
-		j = jsonify(r)
-		return j
+	parser = reqparse.RequestParser()
+	parser.add_argument('p_token', type=str, help='Pitcher access token')
+	
+	def get(self):
+		filters = self.parser.parse_args(strict=True)
+		fields = ('p_token', 'throws', 'email', 'firstname', 'lastname')
+		return bptDatabase().select_where_single('pitchers', *fields, **filters)
 
 
-api.add_resource(Pitcher, '/pitcher/<p_token>')
+class Team(Resource):
+	parser = reqparse.RequestParser()
+	parser.add_argument('team_name', type=str, help='Team name')
+	
+	def get(self):
+		filters = self.parser.parse_args(strict=True)
+
+		fields = ('id', 'team_name', 'team_info')
+
+		return bptDatabase().select_where('team', *fields, **filters)
+
+
+api.add_resource(Pitcher, '/pitcher')
+api.add_resource(Team, '/team')
