@@ -14,11 +14,11 @@ api = Api(app)
 
 class Pitcher(Resource):
 	
-	
-	def get(self):
-		parser = reqparse.RequestParser()
-		parser.add_argument('p_token', type=str, help='Pitcher access token')
-		filters = parser.parse_args(strict=True)
+	def get(self, p_token):
+		#parser = reqparse.RequestParser()
+		#parser.add_argument('p_token', type=str, help='Pitcher access token')
+		#filters = parser.parse_args(strict=True)
+		filters = {'p_token': p_token}
 		fields = ('p_token', 'throws', 'email', 'firstname', 'lastname')
 		return bptDatabase().select_where_first('pitchers', *fields, **filters)
 
@@ -37,21 +37,19 @@ class Pitcher(Resource):
 		return bptDatabase().insert('pitchers', **data)
 
 
-
-
 class Team(Resource):
 	parser = reqparse.RequestParser()
-	parser.add_argument('team_name', type=str, help='Team name')
+	#parser.add_argument('team_name', type=str, help='Team name')
 	
-	def get(self):
-		filters = self.parser.parse_args(strict=True)
-
+	def get(self, t_name):
+		#filters = self.parser.parse_args(strict=True)
+		filters = {'team_name': t_name}
 		fields = ('id', 'team_name', 'team_info')
 
 		return bptDatabase().select_where('team', *fields, **filters)
 
 
-api.add_resource(Pitcher, '/pitcher')
-api.add_resource(Team, '/team')
+api.add_resource(Pitcher, 'api/pitcher/<string:p_token>')
+api.add_resource(Team, 'api/team/<string:t_name>')
 
 
