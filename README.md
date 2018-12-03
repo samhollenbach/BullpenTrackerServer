@@ -1,4 +1,4 @@
 # BullpenTrackerServer
 The server backend for BullpenTracker
 
-Using SQLAlchemy and Falcon
+Using Flask, Flask-Restful and SQLAlchemcy
