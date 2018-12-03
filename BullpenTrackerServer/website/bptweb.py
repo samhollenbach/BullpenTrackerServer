@@ -32,7 +32,7 @@ def login():
 			'lastname': 'Pls',
 			'email': 'test@test.test',
 			'pass': loginManager.create_pass_hash(pass_in),
-			'p_token': loginManager.create_token(4)}
+			'p_token': loginManager.create_token(8)}
 
 	url = 'http://127.0.0.1:5000/pitcher'
 

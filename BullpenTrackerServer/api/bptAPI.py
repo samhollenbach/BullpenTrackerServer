@@ -1,12 +1,11 @@
 from flask import Flask, jsonify, request
 from flask_restful import Resource, Api, reqparse
 from flask_sqlalchemy import SQLAlchemy
-
 from sqlalchemy import *
 from sqlalchemy.sql import select
+from html import unescape
 
 from BullpenTrackerServer.api.bptDatabase import bptDatabase
-
 from BullpenTrackerServer import app
 
 api = Api(app)
@@ -32,7 +31,6 @@ class Pitcher(Resource):
 		parser.add_argument('lastname', type=str, help='Pitcher last name')
 		parser.add_argument('pass', type=str, help='Pitcher password')
 		data = parser.parse_args()
-		print(data)
 
 		return bptDatabase().insert('pitchers', **data)
 
@@ -43,10 +41,12 @@ class Team(Resource):
 	
 	def get(self, t_name):
 		#filters = self.parser.parse_args(strict=True)
-		filters = {'team_name': t_name}
+		n = unescape(t_name)
+
+		filters = {'team_name': n}
 		fields = ('id', 'team_name', 'team_info')
 
-		return bptDatabase().select_where('team', *fields, **filters)
+		return bptDatabase().select_where_first('team', *fields, **filters)
 
 
 api.add_resource(Pitcher, '/api/pitcher/<string:p_token>')
