@@ -49,7 +49,7 @@ class Team(Resource):
 		return bptDatabase().select_where('team', *fields, **filters)
 
 
-api.add_resource(Pitcher, 'api/pitcher/<string:p_token>')
-api.add_resource(Team, 'api/team/<string:t_name>')
+api.add_resource(Pitcher, '/api/pitcher/<string:p_token>')
+api.add_resource(Team, '/api/team/<string:t_name>')
 
 
