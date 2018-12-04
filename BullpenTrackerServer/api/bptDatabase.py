@@ -22,29 +22,30 @@ class bptDatabase(object):
 		t = Table(table, self.metadata, autoload=True)
 		q = self.session.query(t).filter_by(**filters).all()
 		resp = [{k: d._asdict()[k] for k in fields} if fields else d._asdict() for d in q]
-		return jsonify(resp)
+		return resp
 
 	def select_where_first(self, table, *fields, **filters):
 		t = Table(table, self.metadata, autoload=True)
 		q = self.session.query(t).filter_by(**filters).first()
 		if q is None:
-			return jsonify({})
-
+			return {}
 		d = q._asdict()
-		resp = {k: d[k] for k in fields } if fields else d
-		return jsonify(resp)
+		resp = {k: d[k] for k in fields} if fields else d
+		return resp
 
 	def insert(self, table, **values):
 		t = Table(table, self.metadata, autoload=True)
 		i = t.insert().values(**values)
-		self.session.execute(i)
+		r = self.session.execute(i)
 		self.session.commit()
-		return jsonify({})
+		return dict(r)
 
-	def update(self, table, filters, **values): # TODO: double kwargs
+	def update(self, table, values_dict, **filters):
 		t = Table(table, self.metadata, autoload=True)
-		u = t.update().where(filters).values(**values)
-		return self.session.execute(u)
+		u = self.session.query(t).filter_by(**filters).update(values_dict, synchronize_session=False)
+		#r = self.session.execute(u)
+		self.session.commit()
+		return {'message': '{} rows updated'.format(u)}
 
 
 

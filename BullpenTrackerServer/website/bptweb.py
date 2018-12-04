@@ -21,22 +21,18 @@ def about():
 @app.route('/login', methods=['GET'])
 def login():
 
-	db_auth = (config.DB_USER, config.DB_PASS)
-
 	pass_in = 'pass'
 
-	#headers = {'Content-Type': 'application/json'}
-
 	data = {'throws': 'R',
-			'firstname': 'PutTest',
-			'lastname': 'Pls',
-			'email': 'test@test.test',
+			'firstname': 'PostT323est',
+			'lastname': 'B4IG',
+			'email': 'tes4rt@test.test',
 			'pass': loginManager.create_pass_hash(pass_in),
-			'p_token': loginManager.create_token(8)}
+			}
 
-	url = 'http://127.0.0.1:5000/pitcher'
+	url = 'http://127.0.0.1:5000/api/password'
 
-	#r = requests.post(url, auth=db_auth, data=data)
+	#r = requests.put(url, data=data)
 
 	#print(r.text)
 
