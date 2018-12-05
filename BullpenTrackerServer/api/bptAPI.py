@@ -33,7 +33,7 @@ class Password(Resource):
 
 class LoginHelp(Resource):
 
-	def post(self):
+	def get(self):
 		parser = reqparse.RequestParser()
 		parser.add_argument('email', type=str, help='Account email')
 		parser.add_argument('pass', type=str, help='Account password')
