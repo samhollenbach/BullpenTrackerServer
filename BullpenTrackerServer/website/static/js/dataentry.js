@@ -1,0 +1,115 @@
+    var tooltip = $( '<div id="tooltip">' ).appendTo( 'body' )[0];
+
+$( '.coords' ).
+    each(function () {
+        var pos = $( this ).position(),
+            top = pos.top,
+            left = pos.left,
+            width = $( this ).width(),
+            height = $( this ).height();
+
+
+        $( this ).
+            click(function ( e ) {
+                var x, y, block;
+
+                x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
+                y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
+                if(x<=.13){
+                    if(y<=.5){
+                    block = 13
+                    }
+                    else if(y>.5){
+                    block = 11
+                    }
+                }
+                else if(x>=.14 && x<=.37){
+                    if(y>=.63 && y<=.86){
+                    block = 1
+                    }
+                    else if(y>=.38 && y<=.62){
+                    block = 4
+                    }
+                    else if(y>=.14 && y<=.37){
+                    block = 7
+                    }
+                }
+                else if(x>=.38 && x<=.61){
+                    if(y>=.63 && y<=.86){
+                    block = 2
+                    }
+                    else if(y>=.38 && y<=.62){
+                    block = 5
+                    }
+                    else if(y>=.14 && y<=.37){
+                    block = 8
+                    }
+                }
+                else if(x>=.62 && x<=.85){
+                    if(y>=.63 && y<=.86){
+                    block = 3
+                    }
+                    else if(y>=.38 && y<=.62){
+                    block = 6
+                    }
+                    else if(y>=.14 && y<=.37){
+                    block = 9
+                    }
+                }
+                else if(x>=.86){
+                    if(y<=.5){
+                    block = 14
+                    }
+                    else if(y>.5){
+                    block = 12
+                    }
+                }
+                if(y<=.13){
+                    if(x<=.5){
+                    block = 13
+                    }
+                    else if(x>.5){
+                    block = 14
+                    }
+                }
+                if(y>=.87){
+                    if(x<=.5){
+                    block = 11
+                    }
+                    else if(x>.5){
+                    block = 12
+                    }
+                }
+
+
+                $( tooltip ).text( x + ', ' + block ).css({
+                    left: e.clientX - 30,
+                    top: e.clientY - 30
+                }).show();
+            }).
+            mouseleave(function () {
+                $( tooltip ).hide();
+            });
+    });
+
+
+$(document).ready(function() {
+    var pitchtype = {};
+    $(document).keydown(function(e){
+    if (e.which == 49) {
+       pitchtype = "Fastball";
+       document.getElementById("Fastball").checked = true;
+    }
+    });
+    $(document).keydown(function(e){
+    if (e.which == 50) {
+       pitchtype = "Changeup";
+       document.getElementById("Changeup").checked = true;
+    }
+    });
+}
+
+/*
+Automate this process such that the pitches are personalized by the player
+and on each keypress the correct pitch is gathered. To do this it would
+require a call to the player data and have relevant pitches to access*/
