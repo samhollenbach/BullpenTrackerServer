@@ -166,6 +166,29 @@ class Team(Resource):
 
 		return jsonify(bptDatabase().select_where_first(['team'], *fields, **filters))
 
+
+class Test(Resource):
+
+	def get(self):
+		pass_in = 'pass'
+
+		# data = {'throws': 'R',
+		# 		'firstname': 'PostT323est',
+		# 		'lastname': 'B4IG',
+		# 		'email': 'tes4rt@test.test',
+		# 		'pass': loginManager.create_pass_hash(pass_in),
+		# 		}
+
+		data = {'email': 'shollenb@macalester.edu', 'pass': 'pass'}
+
+		url = 'http://127.0.0.1:5000/api/login'
+
+		r = requests.post(url, data=data)
+
+		print(r.text)
+
+api.add_resource(Test, '/api/test')
+
 api.add_resource(LoginHelp, '/api/login')
 api.add_resource(Password, '/api/password')
 api.add_resource(PitcherBullpens, '/api/pitcher/<string:p_token>/bullpens')
