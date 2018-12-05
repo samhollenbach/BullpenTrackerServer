@@ -6,6 +6,7 @@ from sqlalchemy.sql import select
 from html import unescape
 import json
 import datetime
+import requests
 
 from BullpenTrackerServer.api import loginManager
 from BullpenTrackerServer.api.bptDatabase import bptDatabase
@@ -185,7 +186,7 @@ class Test(Resource):
 
 		r = requests.post(url, data=data)
 
-		print(r.text)
+		return r.text
 
 api.add_resource(Test, '/api/test')
 
