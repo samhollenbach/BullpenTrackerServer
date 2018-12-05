@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Team page</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
+
+</head>
+<body>
+    <div class="header">
+        <span class="title">Bullpen Tracker</span>
+        <a class="login_logout" id="logout_btn" href="login.html">logout</a>
+    </div>
+
+    <table class="team_members">
+        <tr><th>My Teammates</th></tr>
+        <!--{% for pitcher in team.pitchers %}-->
+        <tr><td>pitcher 1</td></tr>
+        <tr><td>pitcher 2</td></tr>
+        <!--{% endfor %}-->
+    </table>
+
+    <div class="team">
+        <a href="home.html"><h3>< My Profile</h3></a>
+        <h1>Macalester Baseball</h1>
+    </div><br>
+
+    <table class="team_summary">
+        <!--{% for stat in team.stats %}-->
+        <tr><th>pitchers</th><td>13</td></tr>
+        <tr><th>lefties/righties</th><td>6/7</td></tr>
+        <!--{% endfor %}-->
+    </table>
+</body>
+</html>

@@ -33,7 +33,7 @@ class Password(Resource):
 
 class LoginHelp(Resource):
 
-	def get(self):
+	def post(self):
 		parser = reqparse.RequestParser()
 		parser.add_argument('email', type=str, help='Account email')
 		parser.add_argument('pass', type=str, help='Account password')
@@ -150,9 +150,6 @@ class PitcherBullpens(Resource):
 			b_token = loginManager.create_token(8)
 
 		return jsonify(bptDatabase().insert('bullpens', **{'b_token': b_token, 'p_id': pid, 'date': datetime.datetime.now(), **data}))
-
-
-
 
 
 

@@ -1,0 +1,216 @@
+body {
+    margin: 0;
+}
+
+.header {
+    background-color: #01426A;
+    color: #FFFFFF;
+    top:0;
+    width: 100%;
+}
+
+.column {
+    width: 150px;
+    margin-left: 20px;
+    float: right;
+    position: relative;
+}
+
+.column#login_btn {
+    width: 60px;
+}
+
+.row {
+    margin-top:20px;
+    margin-bottom: 20px;
+}
+
+#login_btn, #logout_btn {
+    width: 60px;
+    padding-top: 20px;
+}
+
+.title {
+    font-size: 2.5rem;
+    font-family: 'Shrikhand', cursive;
+    padding-left: 10px;
+}
+
+.login_logout {
+    font-size: 1.2rem;
+    font-family: 'Arial', serif;
+    padding-right: 10px;
+    padding-top: 5px;
+    float: right;
+    color: white;
+    text-decoration: none;
+    position: relative;
+}
+
+.sign_up {
+    text-align: center;
+    font-size: 1.5rem;
+    font-family: 'Arial', serif;
+    margin-top: 150px;
+}
+
+.overview {
+    font-family: 'Arial', serif;
+    text-align: center;
+    margin-top: 25px;
+    margin-left: 20%;
+    margin-right: 20%;
+}
+
+.profile #profile_pic {
+    float: left;
+    margin-left: 5%;
+    margin-top: 5px;
+    width: 80px;
+    height: 80px;
+}
+
+.profile .pitcher_name {
+    margin-left: 20%;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+.profile a {
+    text-decoration: none;
+}
+
+.profile a .team_name {
+    color: #404040;
+    margin-left: 20%;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.team a {
+    text-decoration: none;
+    color: black;
+}
+
+.team a h3 {
+    margin-left: 10px;
+    margin-top: 10px;
+    margin-bottom: 0;
+}
+
+.team h1 {
+    margin-left: 10%;
+    margin-top: 20px;
+    margin-bottom: 0px;
+}
+
+button {
+    font-size: 2rem;
+    font-family: 'Vidaloka', serif;
+    width: 30%;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    margin: 3% 9.9%;
+}
+
+b#summary {
+    margin-left: 5%;
+    font-size: 1.5rem;
+}
+
+#complete_stats a {
+    text-decoration: none;
+    color: blue;
+}
+
+i#complete_stats {
+    float: right;
+    margin-right: 5%;
+    margin-top: 8px;
+}
+
+.summary_table {
+    text-align:center;
+    width: 90%;
+    margin-left: 5%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.summary_table th {
+    width:25%;
+    height:25px;
+}
+
+.summary_table th, td {
+    border: 1px solid black;
+}
+
+.team_summary {
+    text-align:center;
+    width: 45%;
+    margin-left: 5%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.team_summary th {
+    width:20%;
+    height:25px;
+}
+
+.team_summary th, td {
+    border: 1px solid black;
+}
+
+.team_members {
+    text-align:center;
+    width: 30%;
+    float: right;
+    margin-right: 5%;
+    margin-top: 5%;
+	border: 1px solid black;
+	border-collapse: collapse;
+}
+
+.team_members td {
+    height:25px;
+    border: 1px solid black;
+}
+
+div.blurb{
+    padding-top: 0;
+    width: 100%;
+}
+div.blurb h2{
+    margin-top:0;
+    font-family: 'Arial', 'serif';
+    color: #101010;
+    font-size: 4vw;
+    font-weight: lighter;
+
+}
+div.blurb h3{
+    margin-top: -3%;
+    font-family: 'Arial', 'serif';
+    color: #606060;
+    font-size: 3.5vw;
+    font-weight: lighter;
+    font-style: italic;
+    margin-bottom: 3.5%;
+}
+div.blurb p{
+    font-family: 'Arial', 'serif';
+    color: #000000;
+    font-size: 1.5vw;
+    display: inline;
+}
+div.blurb p .bpt-emph{
+    color: #01426A;
+    font-weight: normal;
+}
+div.blurb a{
+    font-family: 'Arial', 'serif';
+    font-size: 1.5vw;
+    display: inline;
+}

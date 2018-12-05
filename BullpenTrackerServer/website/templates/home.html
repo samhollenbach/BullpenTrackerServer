@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>BullpenTracker Homepage</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+	<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+
+</head>
+<body>
+
+    <div class="header">
+        <span class="title">Bullpen Tracker</span>
+        <a class="login_logout" id="logout_btn" href="login.html">logout</a>
+    </div>
+
+    <div class="profile">
+        <img id="profile_pic" src="" title="Profile Pic">
+        <h1 class="pitcher_name"></h1><br>
+        <a href="team.html"><h3 class="team_name"></h3></a>
+    </div><br>
+
+    <div class="data">
+        <button id="data_viz">Data Visualization</button>
+        <button id="data_entry">Data Entry</button>
+    </div><br>
+
+    <b id="summary">Summary</b>
+    <i id="complete_stats"><a href="">View Complete Stats</a></i>
+
+    <table class="summary_table">
+        <!--{% for stat in pitcher.stats %}-->
+        <tr><th>bullpens</th><td>27</td></tr>
+        <tr><th>side</th><td>right</td></tr>
+        <tr><th>pitch types</th><td>fastball, curveball, changeup</td></tr>
+        <tr><th>strike %</th><td>82.6%</td></tr>
+        <tr><th>avg. fastball velocity</th><td>79 mph</td></tr>
+        <!--{% endfor %}-->
+    </table>
+
+</body>
+</html>
