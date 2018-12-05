@@ -182,7 +182,7 @@ class Test(Resource):
 
 		data = {'email': 'shollenb@macalester.edu', 'pass': 'pass'}
 
-		url = 'http://127.0.0.1:5000/api/login'
+		url = 'http://bullpentracker.com/api/login'
 
 		r = requests.post(url, data=data)
 
