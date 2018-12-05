@@ -5,6 +5,7 @@ from sqlalchemy import *
 from sqlalchemy.sql import select
 from html import unescape
 import json
+import datetime
 
 from BullpenTrackerServer.api import loginManager
 from BullpenTrackerServer.api.bptDatabase import bptDatabase
@@ -41,7 +42,7 @@ class LoginHelp(Resource):
 		if loginManager.verify_login(data['email'], data['pass']):
 			fields = ('email', 'p_token', 'firstname', 'lastname', 'throws')
 
-			return jsonify(bptDatabase().select_where_first('pitchers', *fields, **{'email': data['email']}))
+			return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **{'email': data['email']}))
 
 		return jsonify({'message': 'invalid login credentials'})
 
@@ -58,7 +59,7 @@ class Pitcher(Resource):
 		#filters = parser.parse_args(strict=True)
 		filters = {'p_token': p_token}
 		fields = ('p_token', 'throws', 'email', 'firstname', 'lastname')
-		return jsonify(bptDatabase().select_where_first('pitchers', *fields, **filters))
+		return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **filters))
 
 
 	def post(self, p_token=None):
@@ -101,6 +102,59 @@ class Pitcher(Resource):
 
 		return jsonify(bptDatabase().update('pitchers', filters, **data))
 
+class PitcherBullpens(Resource):
+
+	def get(self, p_token):
+
+		parser = reqparse.RequestParser()
+
+		# TODO: Fix join loading
+		parser.add_argument('date', type=lambda d: datetime.strptime(d, '%Y%m%d'), help='Pen date') # needs formatting?
+		parser.add_argument('type', type=str, help='Pen type')
+		parser.add_argument('team', type=str, help='Pen team') 
+
+		data = parser.parse_args()
+
+		fields = ('id', 'date', 'type', 'pitch_count', 'team', 'b_token')
+		output = bptDatabase().select_where(['bullpens', 'pitchers'], *fields, **{'p_token': p_token})
+		filtered_output = []
+		for d in output:
+			include = True
+			for key, val in data.items():
+				if val is None:
+					continue
+				if d[key] != val:
+					include = False
+					break
+			if include:
+				filtered_output.append(d)
+
+		return jsonify(filtered_output)
+
+
+	def post(self, p_token):
+		parser = reqparse.RequestParser()
+
+		# TODO: Fix join loading
+		parser.add_argument('pitch_count', type=int, help='Pen pitch count')
+		parser.add_argument('type', type=str, help='Pen type')
+		parser.add_argument('team', type=str, help='Pen team') 
+
+
+		data = parser.parse_args()
+
+		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
+
+		b_token = loginManager.create_token(8)
+		while not loginManager.valid_token(b_token, 'bullpens', 'b_token'):
+			b_token = loginManager.create_token(8)
+
+		return jsonify(bptDatabase().insert('bullpens', **{'b_token': b_token, 'p_id': pid, 'date': datetime.datetime.now(), **data}))
+
+
+
+
+
 
 class Team(Resource):
 	parser = reqparse.RequestParser()
@@ -113,10 +167,11 @@ class Team(Resource):
 		filters = {'team_name': n}
 		fields = ('id', 'team_name', 'team_info')
 
-		return jsonify(bptDatabase().select_where_first('team', *fields, **filters))
+		return jsonify(bptDatabase().select_where_first(['team'], *fields, **filters))
 
 api.add_resource(LoginHelp, '/api/login')
 api.add_resource(Password, '/api/password')
+api.add_resource(PitcherBullpens, '/api/pitcher/<string:p_token>/bullpens')
 api.add_resource(Pitcher, '/api/pitcher/<string:p_token>', '/api/pitcher')
 api.add_resource(Team, '/api/team/<string:t_name>')
 

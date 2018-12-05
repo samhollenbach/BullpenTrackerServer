@@ -23,18 +23,20 @@ def login():
 
 	pass_in = 'pass'
 
-	data = {'throws': 'R',
-			'firstname': 'PostT323est',
-			'lastname': 'B4IG',
-			'email': 'tes4rt@test.test',
-			'pass': loginManager.create_pass_hash(pass_in),
-			}
+	# data = {'throws': 'R',
+	# 		'firstname': 'PostT323est',
+	# 		'lastname': 'B4IG',
+	# 		'email': 'tes4rt@test.test',
+	# 		'pass': loginManager.create_pass_hash(pass_in),
+	# 		}
 
-	url = 'http://127.0.0.1:5000/api/password'
+	data = {'type': 'FLAT', 'team': 1}
 
-	#r = requests.put(url, data=data)
+	url = 'http://127.0.0.1:5000/api/pitcher/861c7cd4/bullpens'
 
-	#print(r.text)
+	r = requests.post(url, data=data)
+
+	print(r.text)
 
 	return render_template('login.html')
 

@@ -17,7 +17,7 @@ def verify_pass_hash(raw_pass, hashed_pass):
 	return sha256_crypt.verify(salted_pass, hashed_pass)
 
 def get_account_hash(email):
-	return bptDatabase().select_where_first('pitchers', *('pass', ), **{'email': email})['pass']
+	return bptDatabase().select_where_first(['pitchers'], *('pass', ), **{'email': email})['pass']
 
 
 def verify_login(email, raw_pass):
@@ -31,10 +31,10 @@ def create_token(length):
 
 
 def valid_token(token, table, field):
-	#fields = [field]
-	#filters = {field: token}
-	#resp = bptDatabase().select_where_first(table, *fields, **filters)
-	#d = json.loads(resp)
-	#if field in d:
-	#	return False
+	fields = (field, )
+	filters = {field: token}
+	resp = bptDatabase().select_where_first(table, *fields, **filters)
+
+	if field in resp:
+		return False
 	return True
