@@ -186,7 +186,7 @@ class Test(Resource):
 
 		r = requests.post(url, data=data)
 
-		return r.text
+		return jsonify(r.text)
 
 api.add_resource(Test, '/api/test')
 
