@@ -4,15 +4,13 @@ $(document).ready(function() {
 
     $.get("/api/pitcher", function(data){
         $(".pitcher_name").text(data.firstname + " " + data.lastname);
-    });
 
-    var team_name = "Macalester%20College";
+        var team_name = "Macalester%20College";
+        $.get("/api/team/" + team_name, function(data){
 
-    $.get("/api/team/" + team_name, function(data){
-        $(".team_name").text(data.team_name);
-    });
+            $(".team_name").text(data.team_name);
 
-    $.get("/api/pitcher/bullpens", function(bullpen_data) {
+            $.get("/api/pitcher/bullpens", function(bullpen_data) {
 
         var b_token = data[0].b_token;
 
@@ -24,6 +22,14 @@ $(document).ready(function() {
 
 
     });
+
+        });
+    });
+
+
+
+
+
 
 
 
