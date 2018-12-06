@@ -13,7 +13,7 @@ def requires_pitcher_auth(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
 		p_token = request.cookies.get('p_token')
-		if not p_token:
+		if not p_token  or p_token == '':
 			return redirect('/login', code=302)
 		return f(*args, **kwargs)
 	return decorated
@@ -22,8 +22,8 @@ def requires_pitcher_auth(f):
 
 @app.route('/', methods=['GET'])
 @requires_pitcher_auth
-def home(p_token=None):
-	return render_template('home.html', p_token=p_token)
+def home():
+	return render_template('home.html')
 
 
 @app.route('/about', methods=['GET'])
