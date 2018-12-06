@@ -10,7 +10,7 @@ class bptDatabase(object):
 	Session = sessionmaker()
 
 	db = create_engine('{}://{}:{}@{}:{}/{}'.format(
-		config.DB_DRIVER, config.DB_USER, config.DB_PASS, config.DB_ADDRESS, config.DB_PORT, config.DB_DB))
+		config.DB_DRIVER, config.DB_USER, config.DB_PASS, config.DB_ADDRESS, config.DB_PORT, config.DB_DB), convert_unicode=True, connect_args=dict(use_unicode=True))
 
 	metadata = MetaData(db)
 	#conn = db.connect()

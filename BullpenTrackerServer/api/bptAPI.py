@@ -15,6 +15,8 @@ from BullpenTrackerServer import app
 
 
 
+api = Api(app)
+
 def requires_pitcher_auth(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
@@ -24,9 +26,6 @@ def requires_pitcher_auth(f):
 		return f(*args, **kwargs)
 	return decorated
 
-
-
-api = Api(app)
 
 class Password(Resource):
 
@@ -100,10 +99,11 @@ class Pitcher(Resource):
 
 		return jsonify(bptDatabase().insert('pitchers', **data))
 
+
+	@requires_pitcher_auth
 	def put(self, p_token=None):
 
-		if not p_token:
-			return jsonify({'message': 'must append access token (/api/pitcher/<token>) to update pitcher'})
+		p_token = request.cookies.get('p_token')
 
 		parser = reqparse.RequestParser()
 		#parser.add_argument('p_token', type=str, help='Pitcher access token')
@@ -124,8 +124,6 @@ class PitcherBullpens(Resource):
 	def get(self):
 
 		p_token = request.cookies.get('p_token')
-		#if not p_token:
-		#	return jsonify({'message': 'not logged in'})
 
 		parser = reqparse.RequestParser()
 
@@ -152,12 +150,10 @@ class PitcherBullpens(Resource):
 
 		return jsonify(filtered_output)
 
-
+	@requires_pitcher_auth
 	def post(self):
 
 		p_token = request.cookies.get('p_token')
-		if not p_token:
-			return jsonify({'message': 'not logged in'})
 
 		parser = reqparse.RequestParser()
 
