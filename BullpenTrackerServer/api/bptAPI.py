@@ -7,10 +7,24 @@ from html import unescape
 import json
 import datetime
 import requests
+from functools import wraps
 
 from BullpenTrackerServer.api import loginManager
 from BullpenTrackerServer.api.bptDatabase import bptDatabase
 from BullpenTrackerServer import app
+
+
+
+def requires_pitcher_auth(f):
+	@wraps(f)
+	def decorated(*args, **kwargs):
+		p_token = request.cookies.get('p_token')
+		if not p_token:
+			return jsonify({'message': 'not logged in'})
+		return f(*args, **kwargs)
+	return decorated
+
+
 
 api = Api(app)
 
@@ -50,10 +64,11 @@ class LoginHelp(Resource):
 
 class Pitcher(Resource):
 	
-	def get(self, p_token=None):
+	def get(self):
 
+		p_token = request.cookies.get('p_token')
 		if not p_token:
-			return jsonify({'message': 'must append access token (/api/pitcher/<token>) to view pitcher'})
+			return jsonify({'message': 'not logged in'})
 
 		#parser = reqparse.RequestParser()
 		#parser.add_argument('p_token', type=str, help='Pitcher access token')
@@ -105,7 +120,12 @@ class Pitcher(Resource):
 
 class PitcherBullpens(Resource):
 
-	def get(self, p_token):
+	@requires_pitcher_auth
+	def get(self):
+
+		p_token = request.cookies.get('p_token')
+		#if not p_token:
+		#	return jsonify({'message': 'not logged in'})
 
 		parser = reqparse.RequestParser()
 
@@ -133,7 +153,12 @@ class PitcherBullpens(Resource):
 		return jsonify(filtered_output)
 
 
-	def post(self, p_token):
+	def post(self):
+
+		p_token = request.cookies.get('p_token')
+		if not p_token:
+			return jsonify({'message': 'not logged in'})
+
 		parser = reqparse.RequestParser()
 
 		# TODO: Fix join loading
@@ -165,8 +190,6 @@ class Bullpen(Resource):
 			pitch['vel'] = float(pitch['vel'])
 			pitches_reform.append(pitch)
 
-
-		print(pitches_reform)
 		return jsonify(pitches_reform)
 
 
@@ -204,13 +227,18 @@ class Test(Resource):
 
 		return jsonify(r.text)
 
+
+
+
+
+
 api.add_resource(Test, '/api/test')
 
 api.add_resource(LoginHelp, '/api/login')
 api.add_resource(Password, '/api/password')
 api.add_resource(Bullpen, '/api/bullpen/<string:b_token>')
-api.add_resource(PitcherBullpens, '/api/pitcher/<string:p_token>/bullpens')
-api.add_resource(Pitcher, '/api/pitcher/<string:p_token>', '/api/pitcher')
+api.add_resource(PitcherBullpens, '/api/pitcher/bullpens')
+api.add_resource(Pitcher, '/api/pitcher')
 api.add_resource(Team, '/api/team/<string:t_name>')
 
 
