@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify, request, redirect
+from flask import Flask, render_template, jsonify, request, redirect, make_response
 import requests
 import json
 from functools import wraps
@@ -33,6 +33,14 @@ def about():
 @app.route('/login', methods=['GET'])
 def login():
 	return render_template('login.html')
+
+
+@app.route('/logout', methods=['GET'])
+def logout():	
+	redirect_login = redirect('/login')
+	resp = make_response(redirect_login)
+	resp.set_cookie('p_token', '', expires=0)
+	return resp
 
 
 @app.route('/data_entry', methods=['GET'])
