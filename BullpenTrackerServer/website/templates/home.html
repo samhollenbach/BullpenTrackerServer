@@ -14,7 +14,7 @@
 
     <div class="header">
         <span class="title">Bullpen Tracker</span>
-        <a class="login_logout" id="logout_btn" href="login.html">logout</a>
+        <a class="login_logout" id="logout_btn" href="/login">logout</a>
     </div>
 
     <div class="profile">
@@ -24,21 +24,19 @@
     </div><br>
 
     <div class="data">
-        <button id="data_viz">Data Visualization</button>
-        <button id="data_entry">Data Entry</button>
+        <button onclick="location.href='/data_viz'">Data Visualization</button>
+        <button onclick="location.href='/data_entry'">Data Entry</button>
     </div><br>
 
     <b id="summary">Summary</b>
     <i id="complete_stats"><a href="">View Complete Stats</a></i>
 
     <table class="summary_table">
-        <!--{% for stat in pitcher.stats %}-->
         <tr><th>bullpens</th><td>27</td></tr>
         <tr><th>side</th><td>right</td></tr>
         <tr><th>pitch types</th><td>fastball, curveball, changeup</td></tr>
         <tr><th>strike %</th><td>82.6%</td></tr>
         <tr><th>avg. fastball velocity</th><td>79 mph</td></tr>
-        <!--{% endfor %}-->
     </table>
 
 </body>

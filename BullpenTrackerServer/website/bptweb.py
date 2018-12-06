@@ -7,10 +7,10 @@ from BullpenTrackerServer.api import loginManager
 
 from BullpenTrackerServer.instance import config
 
-
-@app.route('/<token>', methods=['GET'])
-def home(token):
-	return render_template('home.html', p_token=token)
+@app.route('/', methods=['GET'])
+@app.route('/<p_token>', methods=['GET'])
+def home(p_token=None):
+	return render_template('home.html', p_token=p_token)
 
 
 @app.route('/about', methods=['GET'])
@@ -24,11 +24,11 @@ def login():
 
 
 @app.route('/data_entry', methods=['GET'])
-def login():
+def data_entry():
 	return render_template('data_entry.html')
 
 
-@app.route('/data_viz/<token>', methods=['GET'])
-def login(token):
-	return render_template('data_viz.html', p_token=token)
+@app.route('/data_viz', methods=['GET'])
+def data_viz():
+	return render_template('data_viz.html')
 
