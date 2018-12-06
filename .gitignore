@@ -5,3 +5,4 @@ api/php
 */__pycache__
 *.egg-info
 instance
+.idea
