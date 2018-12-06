@@ -8,7 +8,12 @@
     <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+<<<<<<< HEAD
 	<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+=======
+    <script rel="stylesheet" type="text/css" href="{{ url_for('static',filename='js/dataentry.js') }}">
+    <script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
+>>>>>>> f9cc288992525009cc7ff9b855230c8f38a0fb2a
 
 </head>
 <body>
@@ -19,6 +24,11 @@
     </div>
 
     <form action="" class="data_entry_form">
+        <div>
+            <img class="coords" src="images/strikezone.png">
+        </div>
+        <input type="checkbox" value="1" id="Fastball"><span>Fastball</span>
+        <input type="checkbox" value="2" id="Changeup"><span>Changeup</span>
     </form>
 
 </body>
