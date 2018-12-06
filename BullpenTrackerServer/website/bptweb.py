@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request, redirect
 import requests
 import json
 
@@ -8,9 +8,10 @@ from BullpenTrackerServer.api import loginManager
 from BullpenTrackerServer.instance import config
 
 @app.route('/', methods=['GET'])
-@app.route('/<p_token>', methods=['GET'])
-def home(p_token=None):
-	return render_template('home.html', p_token=p_token)
+def home():
+	if request.cookies.get('p_token'):
+		return render_template('home.html')
+	return redirect("/login", code=302)
 
 
 @app.route('/about', methods=['GET'])

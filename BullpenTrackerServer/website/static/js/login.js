@@ -7,10 +7,12 @@ $(document).ready(function() {
 
         event.preventDefault();
 
-        $.post("http://127.0.0.1:5000/api/login", {email: username, pass: password}, function(data, status, xhr) {
+        $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
+
             var p_token = data.p_token;
             document.cookie = "p_token="+ p_token;
-            window.location.href='/' + p_token;
+
+            window.location.href='/';
         }, "json");
 
 
