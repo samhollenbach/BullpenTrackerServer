@@ -93,6 +93,15 @@ $( '.coords' ).
     });
 
 
+/*var datatype='jsonp'
+var token = accessedtoken
+var data = {}
+$.post('targeturl', accessedtoken, success, datatype)
+function success(response) {
+// do something here
+    set variables of pitchtypes for the for loop
+}*/
+
 $(document).ready(function() {
     var pitchtype = {};
     $(document).keydown(function(e){
@@ -107,6 +116,12 @@ $(document).ready(function() {
        document.getElementById("Changeup").checked = true;
     }
     });
+
+    var form = document.createElement("form");
+    f.setAttribute('method',"post");
+    f.setAttribute('action',"submit.php");
+
+
 }
 
 /*
