@@ -7,7 +7,8 @@ setup(
     install_requires=[
         'flask', 
         'flask-restful', 
-        'flask-sqlalchemy', 
+        'flask-sqlalchemy',
+        'flask_cors' 
         'sqlalchemy', 
         'requests', 
         'passlib',

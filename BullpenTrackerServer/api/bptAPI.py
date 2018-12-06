@@ -152,6 +152,22 @@ class PitcherBullpens(Resource):
 
 		return jsonify(bptDatabase().insert('bullpens', **{'b_token': b_token, 'p_id': pid, 'date': datetime.datetime.now(), **data}))
 
+class Bullpen(Resource):
+
+	def get(self, b_token):
+		bid = bptDatabase().select_where_first(['bullpens'], *('id', ), **{'b_token': b_token})['id']
+
+		ret_fields = ('id', 'bullpen_id', 'pitch_type', 'ball_strike', 'vel', 'result', 'pitchX', 'pitchY', 'ab', 'hard_contact')
+		pitches = bptDatabase().select_where(['pitches'], *ret_fields, **{'bullpen_id': bid})
+
+		pitches_reform = []
+		for pitch in pitches:
+			pitch['vel'] = float(pitch['vel'])
+			pitches_reform.append(pitch)
+
+
+		print(pitches_reform)
+		return jsonify(pitches_reform)
 
 
 class Team(Resource):
@@ -192,6 +208,7 @@ api.add_resource(Test, '/api/test')
 
 api.add_resource(LoginHelp, '/api/login')
 api.add_resource(Password, '/api/password')
+api.add_resource(Bullpen, '/api/bullpen/<string:b_token>')
 api.add_resource(PitcherBullpens, '/api/pitcher/<string:p_token>/bullpens')
 api.add_resource(Pitcher, '/api/pitcher/<string:p_token>', '/api/pitcher')
 api.add_resource(Team, '/api/team/<string:t_name>')
