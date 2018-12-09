@@ -58,18 +58,25 @@ class bptDatabase(object):
 		return resp
 
 	def insert(self, table, **values):
-		t = Table(table, self.metadata, autoload=True)
-		i = t.insert().values(**values)
-		r = self.session.execute(i)
-		self.session.commit()
-		return dict(r)
+		try:
+			t = Table(table, self.metadata, autoload=True)
+			i = t.insert().values(**values)
+			r = self.session.execute(i)
+			self.session.commit()
+		except:
+			return False
+		return True
+		
 
 	def update(self, table, values_dict, **filters):
-		t = Table(table, self.metadata, autoload=True)
-		u = self.session.query(t).filter_by(**filters).update(values_dict, synchronize_session=False)
-		#r = self.session.execute(u)
-		self.session.commit()
-		return {'message': '{} rows updated'.format(u)}
+		try:
+			t = Table(table, self.metadata, autoload=True)
+			u = self.session.query(t).filter_by(**filters).update(values_dict, synchronize_session=False)
+			self.session.commit()
+		except:
+			return False
+		return True
+
 
 
 

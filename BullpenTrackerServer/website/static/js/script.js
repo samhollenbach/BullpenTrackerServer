@@ -12,13 +12,13 @@ $(document).ready(function() {
 
             $.get("/api/pitcher/bullpens", function(bullpen_data) {
 
-        var b_token = data[0].b_token;
+        //var b_token = data[0].b_token;
 
 
-        $.get("/api/bullpen/" + b_token, function(pitch_data) {
+        // $.get("/api/bullpen/" + b_token, function(pitch_data) {
 
 
-        });
+        // });
 
 
     });
