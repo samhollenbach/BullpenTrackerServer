@@ -71,18 +71,15 @@ body {
 }
 
 .profile .pitcher_name {
-    margin-left: 20%;
+    margin-left: 10%;
     margin-top: 20px;
     margin-bottom: 0px;
 }
 
-.profile a {
-    text-decoration: none;
-}
-
-.profile a .team_name {
-    color: #404040;
-    margin-left: 20%;
+.profile .throw_side {
+    font-size:1.5rem;
+    color: black;
+    margin-left: 10%;
     margin-top: 0;
     margin-bottom: 0;
 }
@@ -213,4 +210,10 @@ div.blurb a{
     font-family: 'Arial', 'serif';
     font-size: 1.5vw;
     display: inline;
+}
+
+canvas {
+    width: 80%;
+    margin: 100px;
+
 }
