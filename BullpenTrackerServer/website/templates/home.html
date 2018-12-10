@@ -25,7 +25,13 @@
 
     <div class="data">
         <button onclick="location.href='/data_viz'">Data Visualization</button>
-        <button onclick="location.href='/data_entry'">Data Entry</button>
+        <select id="pentype">
+        <option value="GAME">GAME</option>
+        <option value="COMP">COMP</option>
+        <option value="FLAT">FLAT</option>
+        <option value="NORM">NORM</option>
+</select>
+        <button onclick="location.href='/data_entry'" id="data_entry">Data Entry</button>
     </div><br>
 
     <b id="summary">Summary</b>

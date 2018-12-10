@@ -48,8 +48,24 @@ $(document).ready(function() {
             $(".summary_table").append(rowDiv);
 
         }
+        // $.get("/api/bullpen/" + b_token, function(pitch_data) {
 
 
+        // });
+
+
+    });
+
+
+    document.getElementById('data_entry').onclick() = function newbullpen() {
+        var pentype = $('#pentype :selected').text();
+        $.post(
+            "/api/pitcher/bullpens/" + p_token,
+            {team: "-1", type: pentype},
+            function(data) {
+                alert("Response: " + data);
+            }
+        );
     };
 
     name();

@@ -117,9 +117,30 @@ $(document).ready(function() {
     }
     });
 
-    var form = document.createElement("form");
+    var form = document.getElementById("form")
     f.setAttribute('method',"post");
     f.setAttribute('action',"submit.php");
+
+
+    $('.data_entry_form').on("submit", function(){
+        var values = {};
+        if(block >= 11){
+            var strike = "N";
+        }
+        else{
+            var strike = "Y";
+        }
+        $.each($(this).serializeArray(), function(){ values[this.name] = this.value; });
+        var data = {
+            hard_contact: values["hard_contact"],
+            ball_strike: strike,
+            pitchX: x,
+            pitchY: y,
+            pitch_type: values["pitch_type"],
+            velocity: values["vel"],
+
+        };
+    }
 
 
 }

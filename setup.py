@@ -8,8 +8,9 @@ setup(
         'flask', 
         'flask-restful', 
         'flask-sqlalchemy',
-        'flask_cors' 
+        'flask_cors',
         'sqlalchemy', 
+        'pymysql',
         'requests', 
         'passlib',
         
