@@ -267,7 +267,21 @@ class Team(Resource):
 class Test(Resource):
 
 	def get(self):
-		pass_in = 'pass'
+
+
+		bids = bptDatabase().select_where('bullpens', *('id', ), **{})
+
+
+		for bid in bids:
+			t = loginManager.create_token(8)
+			try:
+				bptDatabase().update('bullpens', {'b_token': t}, **{'id': bid['id']})
+			except:
+				return jsonify({'message': 'failed'})
+
+		return jsonify({})
+
+		#pass_in = 'pass'
 
 		# data = {'throws': 'R',
 		# 		'firstname': 'PostT323est',
@@ -276,13 +290,13 @@ class Test(Resource):
 		# 		'pass': loginManager.create_pass_hash(pass_in),
 		# 		}
 
-		data = {'email': 'shollenb@macalester.edu', 'pass': 'pass'}
+		# data = {'email': 'shollenb@macalester.edu', 'pass': 'pass'}
 
-		url = 'http://bullpentracker.com/api/login'
+		# url = 'http://bullpentracker.com/api/login'
 
-		r = requests.post(url, data=data)
+		# r = requests.post(url, data=data)
 
-		return jsonify(r.text)
+		#return jsonify(r.text)
 
 
 
