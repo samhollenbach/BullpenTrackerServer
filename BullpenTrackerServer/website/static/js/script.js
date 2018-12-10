@@ -52,22 +52,20 @@ $(document).ready(function() {
 
 
         // });
-
-
-    });
-
-
-    document.getElementById('data_entry').onclick() = function newbullpen() {
-        var pentype = $('#pentype :selected').text();
-        $.post(
-            "/api/pitcher/bullpens/" + p_token,
-            {team: "-1", type: pentype},
-            function(data) {
-                alert("Response: " + data);
-            }
-        );
     };
 
     name();
+
+
+//    document.getElementById('data_entry').onclick() = function newbullpen() {
+//        var pentype = $('#pentype :selected').text();
+//        $.post(
+//            "/api/pitcher/bullpens/" + p_token,
+//            {team: "-1", type: pentype},
+//            function(data) {
+//                alert("Response: " + data);
+//            }
+//        );
+//    };
 
 });

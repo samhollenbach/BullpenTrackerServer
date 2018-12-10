@@ -7,7 +7,7 @@ $(document).ready(function() {
 
         $.ajax({
             method: 'GET',
-            url: "/api/bullpen/0",
+            url: "/api/bullpen/3d068257",
             success: function(pitch_data) {
 
                 for (i = 0; i < pitch_data.length; i++) {

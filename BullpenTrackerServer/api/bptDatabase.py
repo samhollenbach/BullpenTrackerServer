@@ -10,7 +10,7 @@ class bptDatabase(object):
 	Session = sessionmaker()
 
 	if config.DEBUG:
-		db = create_engine('{}:///{}'.format(config.DB_DRIVER, config.DB_ADDRESS))
+		db = create_engine('{}:///{}?check_same_thread=False'.format(config.DB_DRIVER, config.DB_ADDRESS))
 	else:
 		db = create_engine('{}://{}:{}@{}:{}/{}'.format(
 			config.DB_DRIVER, config.DB_USER, config.DB_PASS, config.DB_ADDRESS, config.DB_PORT, config.DB_DB))

@@ -1,7 +1,64 @@
+
+
+/*var datatype='jsonp'
+var token = accessedtoken
+var data = {}
+$.post('targeturl', accessedtoken, success, datatype)
+function success(response) {
+// do something here
+    set variables of pitchtypes for the for loop
+}*/
+
+$(document).ready(function() {
+    var pitchtype = {};
+
+    $(document).keydown(function(e){
+        if (e.which == 49) {
+           pitchtype = "Fastball";
+           document.getElementById("Fastball").checked = true;
+        }
+    });
+
+    $(document).keydown(function(e){
+        if (e.which == 50) {
+           pitchtype = "Changeup";
+           document.getElementById("Changeup").checked = true;
+        }
+    });
+
+    var form = document.getElementById("form")
+    f.setAttribute('method',"post");
+    f.setAttribute('action',"submit.php");
+
+
+    $('.data_entry_form').on("submit", function(){
+        var values = {};
+
+        if(block >= 11){
+            var strike = "N";
+        }
+        else{
+            var strike = "Y";
+        }
+
+        $.each($(this).serializeArray(), function(){ values[this.name] = this.value; });
+        var data = {
+            hard_contact: values["hard_contact"],
+            ball_strike: strike,
+            pitchX: x,
+            pitchY: y,
+            pitch_type: values["pitch_type"],
+            velocity: values["vel"],
+
+        };
+    }
+
+
+
+
     var tooltip = $( '<div id="tooltip">' ).appendTo( 'body' )[0];
 
-$( '.coords' ).
-    each(function () {
+    $( '.coords' ).each(function () {
         var pos = $( this ).position(),
             top = pos.top,
             left = pos.left,
@@ -91,57 +148,6 @@ $( '.coords' ).
                 $( tooltip ).hide();
             });
     });
-
-
-/*var datatype='jsonp'
-var token = accessedtoken
-var data = {}
-$.post('targeturl', accessedtoken, success, datatype)
-function success(response) {
-// do something here
-    set variables of pitchtypes for the for loop
-}*/
-
-$(document).ready(function() {
-    var pitchtype = {};
-    $(document).keydown(function(e){
-    if (e.which == 49) {
-       pitchtype = "Fastball";
-       document.getElementById("Fastball").checked = true;
-    }
-    });
-    $(document).keydown(function(e){
-    if (e.which == 50) {
-       pitchtype = "Changeup";
-       document.getElementById("Changeup").checked = true;
-    }
-    });
-
-    var form = document.getElementById("form")
-    f.setAttribute('method',"post");
-    f.setAttribute('action',"submit.php");
-
-
-    $('.data_entry_form').on("submit", function(){
-        var values = {};
-        if(block >= 11){
-            var strike = "N";
-        }
-        else{
-            var strike = "Y";
-        }
-        $.each($(this).serializeArray(), function(){ values[this.name] = this.value; });
-        var data = {
-            hard_contact: values["hard_contact"],
-            ball_strike: strike,
-            pitchX: x,
-            pitchY: y,
-            pitch_type: values["pitch_type"],
-            velocity: values["vel"],
-
-        };
-    }
-
 
 }
 
