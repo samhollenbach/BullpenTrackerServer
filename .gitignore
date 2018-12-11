@@ -5,4 +5,7 @@ api/php
 */__pycache__
 *.egg-info
 instance
-.idea
+*.sqlite
+*.idea
+build
+dist
