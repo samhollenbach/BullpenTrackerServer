@@ -10,25 +10,26 @@ function success(response) {
 }*/
 
 $(document).ready(function() {
-    var pitchtype = {};
 
-    $(document).keydown(function(e){
-        if (e.which == 49) {
-           pitchtype = "Fastball";
-           document.getElementById("Fastball").checked = true;
-        }
-    });
-
-    $(document).keydown(function(e){
-        if (e.which == 50) {
-           pitchtype = "Changeup";
-           document.getElementById("Changeup").checked = true;
-        }
-    });
 
     var form = document.getElementById("form")
-    f.setAttribute('method',"post");
-    f.setAttribute('action',"submit.php");
+    var form = document.getElementById("start")
+
+        document.getElementById('start').onclick() = function newbullpen() {
+        document.getElementById("form").style.display="block";
+        var pentype = $('#pentype :selected').text();
+        $.post(
+            "/api/pitcher/bullpens/" + p_token,
+            {team: "-1", type: pentype},
+            function(data) {
+                alert("Response: " + data);
+            }
+        );
+    };
+
+
+   // f.setAttribute('method',"post");
+   // f.setAttribute('action',"submit.php");
 
 
     $('.data_entry_form').on("submit", function(){
