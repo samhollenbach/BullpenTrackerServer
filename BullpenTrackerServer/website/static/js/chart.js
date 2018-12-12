@@ -2,6 +2,7 @@ $(document).ready(function() {
 
     var vars = ['pitch types', 'strike/executed', 'velocity', 'location'];
     var types = {};
+    var pitching_data = {};
 
     $(function() {
         for (var i = 0; i < vars.length; i++) {
@@ -13,48 +14,207 @@ $(document).ready(function() {
 
     $("input[name=pick_chart_button]").click(function(event) {
 		var stat = $("#chart_form #stat_select option:selected");
+
 		event.preventDefault();
 		$('#chart_form').trigger("reset");
-		alert(stat.val());
     });
 
     $.ajax({
         method: 'GET',
-        url: "/api/bullpen/3d068257",
+        url: "/api/bullpen/4738af76",
         success: function(pitch_data) {
 
-            var total_pitches = pitch_data.length;
-
+            var pitch_count = 1;
             for (i = 0; i < pitch_data.length; i++) {
 
                 var pitch_type = pitch_data[i].pitch_type;
+                var velocity = pitch_data[i].vel;
                 var strike = pitch_data[i].ball_strike;
 
-                if (types[pitch_type] === undefined) {
-                    types[pitch_type] = {"velocity":[], "count":0, "strike%":0};
+                if (pitch_type == "F") {pitch_type = "Fastball"}
+                else if (pitch_type == "X") {pitch_type = "Change-Up"}
+                else if (pitch_type == "S") {pitch_type = "Slider"}
+                else if (pitch_type == "B") {pitch_type = "Curveball"}
+
+                if (pitching_data[pitch_type] === undefined) {
+                    pitching_data[pitch_type] = [];
                 }
 
-                types[pitch_type]["velocity"].push(pitch_data[i].vel);
+                pitch_data[i]["pitch_count"] = pitch_count;
+                pitching_data[pitch_type].push(pitch_data[i]);
+                pitch_count++;
+
+                if (types[pitch_type] === undefined) {
+                    types[pitch_type] = {"avg_velocity":0, "count":0, "strike%":0, "vel_pitches":0};
+                }
+
                 types[pitch_type]["count"] += 1;
-                if (strike == "Y" | "E") {
+
+                if (velocity != 0) {
+                    types[pitch_type]["avg_velocity"] += velocity;
+                    types[pitch_type]["vel_pitches"] += 1;
+                }
+
+                if (strike === "X" | "Y") {
                     types[pitch_type]["strike%"] += 1;
                 };
 
             }
 
-            types[pitch_type]["strike%"] = types[pitch_type]["strike%"]/total_pitches;
             var pitch_type = Object.keys(types);
 
             for (i = 0; i < pitch_type.length; i++) {
                 types[pitch_type[i]]["strike%"] = types[pitch_type[i]]["strike%"]/types[pitch_type[i]]["count"]
+                types[pitch_type[i]]["avg_velocity"] = types[pitch_type[i]]["avg_velocity"]/types[pitch_type[i]]["vel_pitches"];
             };
+
 
 //            create_chart();
             new_chart();
+            bubble_chart();
         }
     });
 
 
+    function bubble_chart() {
+
+        var text = "<div><canvas id='canvas4'></canvas></div>";
+        $("body").append(text);
+
+        var myChart = $("#canvas4");
+        var chart4 = new Chart(myChart, {
+            type: 'bubble',
+            data: {
+                datasets: [
+                {
+                    label: ["Fastball"],
+                    backgroundColor: "rgba(255,221,50,0.2)",
+                    borderColor: "rgba(255,221,50,1)",
+                    data: [{
+                        x: 9,
+                        y: 74,
+                        r: 57
+                    }]
+                },
+                {
+                    label: ["Change-Up"],
+                    backgroundColor: "rgba(60,186,159,0.2)",
+                    borderColor: "rgba(60,186,159,1)",
+                    data: [{
+                        x: 1,
+                        y: 71,
+                        r: 76
+                    }]
+                },
+                {
+                    label: ["Slider"],
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                    borderColor: "#000",
+                    data: [{
+                        x: 13,
+                        y: 68,
+                        r: 42
+                    }]
+                },
+                {
+                    label: ["Curveball"],
+                    backgroundColor: "rgba(193,46,12,0.2)",
+                    borderColor: "rgba(193,46,12,1)",
+                    data: [{
+                        x: 4,
+                        y: 69,
+                        r: 48
+                    }]
+                }]
+            },
+            options: {
+                maintainAspectRatio: true,
+                responsive: false,
+                title: {
+                    display: true,
+                    text: 'Predicted strike percent'
+                },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Average Velocity"
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Pitch Count"
+                        }
+                    }]
+                }
+            }
+        });
+
+        var colors = [{"background":"rgba(255,221,50,0.2)","border":"rgba(255,221,50,1)"},
+                      {"background":"rgba(60,186,159,0.2)","border":"rgba(60,186,159,1)"},
+                      {"background":"rgba(193,46,12,0.2)","border":"rgba(193,46,12,1)"},
+                      {"background":"rgba(173,216,230,0.2)","border":"rgba(173,216,230,1)"}];
+        var datasets = [];
+        var pitch_type = Object.keys(types);
+
+        for (i = 0; i < pitch_type.length; i++) {
+
+            var data_dict = {};
+            data_dict["label"] = [pitch_type[i]];
+            data_dict["data"] = [];
+            data_dict["backgroundColor"] = colors[i].background;
+            data_dict["borderColor"] = colors[i].border;
+            for (k = 0; k < pitching_data[pitch_type[i]].length; k++) {
+                var position = {};
+                position['x'] = pitching_data[pitch_type[i]][k].pitch_count;
+                if (pitching_data[pitch_type[i]][k].vel == 0) {
+                    position['y'] = types[pitch_type[i]]["avg_velocity"];
+                    position['r'] = 5;
+                } else {
+                    position['y'] = pitching_data[pitch_type[i]][k].vel;
+                    position['r'] = 10;
+                }
+
+                data_dict['data'].push(position);
+            }
+            datasets.push(data_dict);
+        }
+
+        var text = "<div><canvas id='canvas5'></canvas></div>";
+        $("body").append(text);
+
+        var myChart = $("#canvas5");
+        var chart5 = new Chart(myChart, {
+            type: 'bubble',
+            data: {
+                datasets: datasets
+            },
+            options: {
+                maintainAspectRatio: true,
+                responsive: false,
+                title: {
+                    display: true,
+                    text: 'Velocity by Pitch Count'
+                },
+                scales: {
+                    yAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Pitch Velocity"
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Pitch Count"
+                        }
+                    }]
+                }
+            }
+        });
+
+    }
 
     function create_chart() {
 
@@ -103,7 +263,7 @@ $(document).ready(function() {
         var avg_velocities = [];
 
         for (i = 0; i < pitch_types_array.length; i++) {
-            var vel_array = types[pitch_types_array[i]]['velocity'];
+            var vel_array = types[pitch_types_array[i]]['avg_velocity'];
             var vel_sum = 0;
 
             for (k = 0; k < vel_array.length; k++) {
@@ -184,9 +344,6 @@ $(document).ready(function() {
 
     function new_chart() {
 
-//        var text = "<div><canvas id='canvas1'></canvas></div>";
-//        $("body").append(text);
-
         var pitch_types_array = Object.keys(types);
         var counts = [];
 
@@ -194,29 +351,20 @@ $(document).ready(function() {
             counts.push(types[pitch_types_array[i]]['count']);
         };
 
-        chart_builder('canvas1', 'pie', "# of pitches", counts, "Pitch Count");
+        chart_builder('canvas1', 'bar', "# of pitches", counts, "Pitch Count");
 
-//        var text = "<div><canvas id='canvas2'></canvas></div>";
-//        $("body").append(text);
 
-        var avg_velocities = [];
+
+        var velocities = [];
 
         for (i = 0; i < pitch_types_array.length; i++) {
-            var vel_array = types[pitch_types_array[i]]['velocity'];
-            var vel_sum = 0;
+            velocities.push(types[pitch_types_array[i]]['avg_velocity']);
+        };
 
-            for (k = 0; k < vel_array.length; k++) {
-                vel_sum += Number(vel_array[k]);
-            }
+        chart_builder('canvas2', 'bar', "avg. velocity", velocities, "Average Velocity");
 
-            var vel_avg = vel_sum/vel_array.length;
-            avg_velocities.push(vel_avg);
-        }
 
-        chart_builder('canvas2', 'bar', "avg. velocity", avg_velocities, "Average Velocity");
 
-//        var text = "<div><canvas id='canvas3'></canvas></div>";
-//        $("body").append(text);
         var strikes = [];
 
         for (i = 0; i < pitch_types_array.length; i++) {
@@ -230,6 +378,12 @@ $(document).ready(function() {
     function chart_builder(canvas, chart, label, data, title) {
 
         var pitch_types_array = Object.keys(types);
+        for (i = 0; i < pitch_types_array.length; i++) {
+            if (pitch_types_array[i] == "F") {pitch_types_array[i] = "Fastball"}
+            else if (pitch_types_array[i] == "X") {pitch_types_array[i] = "Change-Up"}
+            else if (pitch_types_array[i] == "S") {pitch_types_array[i] = "Slider"}
+            else if (pitch_types_array[i] == "B") {pitch_types_array[i] = "Curveball"}
+        };
 
         var text = "<div><canvas id='" + canvas + "'></canvas></div>";
         $("body").append(text);
