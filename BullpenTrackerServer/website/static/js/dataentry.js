@@ -23,6 +23,7 @@ $(document).ready(function() {
             {team: "-1", type: pentype},
             function(data) {
                 alert("Response: " + data);
+                var b_token = data.b_token;
             }
         );
     };
@@ -31,28 +32,6 @@ $(document).ready(function() {
    // f.setAttribute('method',"post");
    // f.setAttribute('action',"submit.php");
 
-
-    $('.data_entry_form').on("submit", function(){
-        var values = {};
-
-        if(block >= 11){
-            var strike = "N";
-        }
-        else{
-            var strike = "Y";
-        }
-
-        $.each($(this).serializeArray(), function(){ values[this.name] = this.value; });
-        var data = {
-            hard_contact: values["hard_contact"],
-            ball_strike: strike,
-            pitchX: x,
-            pitchY: y,
-            pitch_type: values["pitch_type"],
-            velocity: values["vel"],
-
-        };
-    }
 
 
 
@@ -149,6 +128,52 @@ $(document).ready(function() {
                 $( tooltip ).hide();
             });
     });
+
+    $('.data_entry_form').on("submit", function(){
+        var values = {};
+
+        if(block >= 11){
+            var strike = "N";
+        }
+        else{
+            var strike = "Y";
+        }
+
+        var data = {
+            hard_contact: values["hard_contact"],
+            ball_strike: strike,
+            pitchX: x,
+            pitchY: y,
+            pitch_type: values["pitch_type"],
+            velocity: values["vel"],
+
+        };
+        $.ajax({
+        type: "POST",
+        url: "/api/pitcher/bullpens/" + b_token +"/",
+        // The key needs to match your method's input parameter (case-sensitive).
+        data: JSON.stringify({ data }),
+        contentType: "application/json; charset=utf-8",
+        dataType: "json",
+        success: function(data){alert(data);},
+        failure: function(errMsg) {
+            alert(errMsg);
+        }
+        });
+    }
+
+   // $.ajax({
+   // type: "POST",
+   // url: "/api/pitcher/bullpens/" + b_token +"/",
+    // The key needs to match your method's input parameter (case-sensitive).
+   // data: JSON.stringify({ data }),
+   // contentType: "application/json; charset=utf-8",
+   // dataType: "json",
+   // success: function(data){alert(data);},
+   // failure: function(errMsg) {
+   //     alert(errMsg);
+   // }
+   // });
 
 }
 
