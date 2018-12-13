@@ -5,18 +5,38 @@ $(document).ready(function() {
     var pitching_data = {};
 
     $(function() {
+        var text = "<option selected value='all'>all</option>";
+        $("#stat_select").append(text);
         for (var i = 0; i < vars.length; i++) {
             variable = vars[i];
             var text = "<option value='" + variable + "'>" + variable + "</option>";
             $("#stat_select").append(text);
         };
+
+        $.get("/api/pitcher/bullpens", function(bullpen_data) {
+            bullpen_types = [];
+            for (var i = 0; i < bullpen_data.length; i++) {
+                bullpen_type = bullpen_data[i].type;
+                if (!bullpen_types.includes(bullpen_type)) {
+                    bullpen_types.push(bullpen_type);
+                }
+            };
+            var text = "<option selected value='all'>all</option>";
+            $("#ullpentype_select").append(text);
+            for (var i = 0; i < bullpen_types.length; i++) {
+                var text = "<option value='" + bullpen_types[i] + "'>" + bullpen_types[i] + "</option>";
+                $("#bullpentype_select").append(text);
+            };
+        });
     });
 
-    $("input[name=pick_chart_button]").click(function(event) {
-		var stat = $("#chart_form #stat_select option:selected");
+    $("#stat_select").on("change", function () {
+        var stat = $("#chart_form #stat_select option:selected");
+        var type = $("#chart_form #bullpentype_select option:selected");
+    });
 
-		event.preventDefault();
-		$('#chart_form').trigger("reset");
+    $("#bullpentype_select").on("change", function () {
+        var type = $("#chart_form #bullpentype_select option:selected");
     });
 
     $.ajax({

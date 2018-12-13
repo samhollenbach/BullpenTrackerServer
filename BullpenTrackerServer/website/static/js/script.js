@@ -48,10 +48,6 @@ $(document).ready(function() {
             $(".summary_table").append(rowDiv);
 
         }
-        // $.get("/api/bullpen/" + b_token, function(pitch_data) {
-
-
-        // });
     };
 
     name();
