@@ -15,7 +15,7 @@ $(document).ready(function() {
     var form = document.getElementById("form")
     var form = document.getElementById("start")
 
-        document.getElementById('start').onclick() = function newbullpen() {
+        document.getElementById('start').onclick = function newbullpen() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
