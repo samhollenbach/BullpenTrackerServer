@@ -5,6 +5,27 @@ $(document).ready(function() {
     var pitching_data = {};
 
     $(function() {
+        bullpen_types = [];
+        bullpen_sessions = [];
+        $.get("/api/pitcher/bullpens", function(bullpen_data) {
+            for (var i = 0; i < bullpen_data.length; i++) {
+                bullpen_session = {"date":bullpen_data[i].date, "b_token":bullpen_data[i].b_token, "type":bullpen_data[i].type};
+                bullpen_sessions.push(bullpen_session);
+
+                bullpen_type = bullpen_data[i].type;
+                if (!bullpen_types.includes(bullpen_type)) {
+                    bullpen_types.push(bullpen_type);
+                }
+            };
+
+            set_select();
+        });
+    });
+
+
+    function set_select() {
+        var b_tokens = [];
+
         var text = "<option selected value='all'>all</option>";
         $("#stat_select").append(text);
         for (var i = 0; i < vars.length; i++) {
@@ -13,87 +34,130 @@ $(document).ready(function() {
             $("#stat_select").append(text);
         };
 
-        $.get("/api/pitcher/bullpens", function(bullpen_data) {
-            bullpen_types = [];
-            for (var i = 0; i < bullpen_data.length; i++) {
-                bullpen_type = bullpen_data[i].type;
-                if (!bullpen_types.includes(bullpen_type)) {
-                    bullpen_types.push(bullpen_type);
-                }
-            };
-            var text = "<option selected value='all'>all</option>";
-            $("#ullpentype_select").append(text);
-            for (var i = 0; i < bullpen_types.length; i++) {
-                var text = "<option value='" + bullpen_types[i] + "'>" + bullpen_types[i] + "</option>";
-                $("#bullpentype_select").append(text);
-            };
-        });
-    });
+        var text = "<option selected value='all'>all</option>";
+        $("#type_select").append(text);
+        for (var i = 0; i < bullpen_types.length; i++) {
+            var text = "<option value='" + bullpen_types[i] + "'>" + bullpen_types[i] + "</option>";
+            $("#type_select").append(text);
+        };
+
+        var text = "<option selected value='all'>all</option>";
+        $("#session_select").append(text);
+        for (var i = 0; i < bullpen_sessions.length; i++) {
+            var text = "<option value='" + bullpen_sessions[i].b_token + "'>" + bullpen_sessions[i].date + "</option>";
+            b_tokens.push(bullpen_sessions[i].b_token)
+            $("#session_select").append(text);
+        };
+
+//        ajax(b_tokens);
+    };
 
     $("#stat_select").on("change", function () {
         var stat = $("#chart_form #stat_select option:selected");
-        var type = $("#chart_form #bullpentype_select option:selected");
+        console.log(stat.val());
     });
 
-    $("#bullpentype_select").on("change", function () {
-        var type = $("#chart_form #bullpentype_select option:selected");
-    });
+    $("#type_select").on("change", function () {
+        var type = $("#chart_form #type_select option:selected");
 
-    $.ajax({
-        method: 'GET',
-        url: "/api/bullpen/4738af76",
-        success: function(pitch_data) {
-
-            var pitch_count = 1;
-            for (i = 0; i < pitch_data.length; i++) {
-
-                var pitch_type = pitch_data[i].pitch_type;
-                var velocity = pitch_data[i].vel;
-                var strike = pitch_data[i].ball_strike;
-
-                if (pitch_type == "F") {pitch_type = "Fastball"}
-                else if (pitch_type == "X") {pitch_type = "Change-Up"}
-                else if (pitch_type == "S") {pitch_type = "Slider"}
-                else if (pitch_type == "B") {pitch_type = "Curveball"}
-
-                if (pitching_data[pitch_type] === undefined) {
-                    pitching_data[pitch_type] = [];
-                }
-
-                pitch_data[i]["pitch_count"] = pitch_count;
-                pitching_data[pitch_type].push(pitch_data[i]);
-                pitch_count++;
-
-                if (types[pitch_type] === undefined) {
-                    types[pitch_type] = {"avg_velocity":0, "count":0, "strike%":0, "vel_pitches":0};
-                }
-
-                types[pitch_type]["count"] += 1;
-
-                if (velocity != 0) {
-                    types[pitch_type]["avg_velocity"] += velocity;
-                    types[pitch_type]["vel_pitches"] += 1;
-                }
-
-                if (strike === "X" | "Y") {
-                    types[pitch_type]["strike%"] += 1;
-                };
-
+        var type = type.val();
+        var text = "<option selected value='all'>all</option>";
+        $("#session_select").html(text);
+        for (var i = 0; i < bullpen_sessions.length; i++) {
+            if (type == "all") {
+                var text = "<option value='" + bullpen_sessions[i].b_token + "'>" + bullpen_sessions[i].date + "</option>";
+                $("#session_select").append(text);
+            }
+            else if (bullpen_sessions[i].type == type) {
+                var text = "<option value='" + bullpen_sessions[i].b_token + "'>" + bullpen_sessions[i].date + "</option>";
+                $("#session_select").append(text);
             }
 
-            var pitch_type = Object.keys(types);
+        };
+    });
 
-            for (i = 0; i < pitch_type.length; i++) {
-                types[pitch_type[i]]["strike%"] = types[pitch_type[i]]["strike%"]/types[pitch_type[i]]["count"]
-                types[pitch_type[i]]["avg_velocity"] = types[pitch_type[i]]["avg_velocity"]/types[pitch_type[i]]["vel_pitches"];
-            };
-
-
-//            create_chart();
-            new_chart();
-            bubble_chart();
+    $("#session_select").on("change", function () {
+        var session = $("#chart_form #session_select option:selected");
+        if (session.val() == "all") {
+            var tokens_list = $('#session_select option').map(function() { return $(this).val(); }).get();
+            tokens_list.shift();
+//            ajax(tokens_list);
+        } else {
+            ajax([session.val()]);
         }
     });
+
+    function ajax(b_tokens) {
+
+        var all_pitches = [];
+
+        for (i = 0; i < b_tokens.length; i++) {
+            $.ajax({
+                method: 'GET',
+                url: "/api/bullpen/" + b_tokens[i],
+                success: function(pitch_data) {
+                    all_pitches = all_pitches.concat(pitch_data);
+                },
+                complete: function(pitch_data) {
+                    if (i == b_tokens.length) {
+                        processData(all_pitches);
+                    }
+                }
+            });
+        };
+    };
+
+    function processData(pitch_data) {
+        var pitch_count = 1;
+
+        for (i = 0; i < pitch_data.length; i++) {
+
+            var pitch_type = pitch_data[i].pitch_type;
+            var velocity = pitch_data[i].vel;
+            var strike = pitch_data[i].ball_strike;
+
+            if (pitch_type == "F") {pitch_type = "Fastball"}
+            else if (pitch_type == "X") {pitch_type = "Change-Up"}
+            else if (pitch_type == "S") {pitch_type = "Slider"}
+            else if (pitch_type == "B") {pitch_type = "Curveball"}
+
+            if (pitching_data[pitch_type] === undefined) {
+                pitching_data[pitch_type] = [];
+            }
+
+            pitch_data[i]["pitch_count"] = pitch_count;
+            pitching_data[pitch_type].push(pitch_data[i]);
+            pitch_count++;
+
+            if (types[pitch_type] === undefined) {
+                types[pitch_type] = {"avg_velocity":0, "count":0, "strike%":0, "vel_pitches":0};
+            }
+
+            types[pitch_type]["count"] += 1;
+
+            if (velocity != 0) {
+                types[pitch_type]["avg_velocity"] += velocity;
+                types[pitch_type]["vel_pitches"] += 1;
+            }
+
+            if (strike === "X" | "Y") {
+                types[pitch_type]["strike%"] += 1;
+            };
+
+        }
+
+        var pitch_type = Object.keys(types);
+
+        for (i = 0; i < pitch_type.length; i++) {
+            types[pitch_type[i]]["strike%"] = types[pitch_type[i]]["strike%"]/types[pitch_type[i]]["count"]
+            types[pitch_type[i]]["avg_velocity"] = types[pitch_type[i]]["avg_velocity"]/types[pitch_type[i]]["vel_pitches"];
+        };
+
+
+//        create_chart();
+//        new_chart();
+//        bubble_chart();
+    }
 
 
     function bubble_chart() {

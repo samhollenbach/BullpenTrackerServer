@@ -204,3 +204,7 @@ canvas {
     margin-top: 40px;
     margin-left: 40px;
 }
+
+#chart_form select {
+    margin-right: 20px;
+}
