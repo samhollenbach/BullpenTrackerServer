@@ -200,7 +200,6 @@ class PitcherTeams(Resource):
 		return jsonify(teams)
 
 
-
 class Bullpen(Resource):
 
 	@requires_pitcher_auth
@@ -248,8 +247,6 @@ class Bullpen(Resource):
 			return jsonify({'message': 'failed to create new pitch'})
 
 
-
-
 class Team(Resource):
 	parser = reqparse.RequestParser()
 	#parser.add_argument('team_name', type=str, help='Team name')
@@ -267,19 +264,17 @@ class Team(Resource):
 class Test(Resource):
 
 	def get(self):
+		# bids = bptDatabase().select_where('bullpens', *('id', ), **{})
 
 
-		bids = bptDatabase().select_where('bullpens', *('id', ), **{})
+		# for bid in bids:
+		# 	t = loginManager.create_token(8)
+		# 	try:
+		# 		bptDatabase().update('bullpens', {'b_token': t}, **{'id': bid['id']})
+		# 	except:
+		# 		return jsonify({'message': 'failed'})
 
-
-		for bid in bids:
-			t = loginManager.create_token(8)
-			try:
-				bptDatabase().update('bullpens', {'b_token': t}, **{'id': bid['id']})
-			except:
-				return jsonify({'message': 'failed'})
-
-		return jsonify({})
+		# return jsonify({})
 
 		#pass_in = 'pass'
 
@@ -297,10 +292,7 @@ class Test(Resource):
 		# r = requests.post(url, data=data)
 
 		#return jsonify(r.text)
-
-
-
-
+		pass
 
 
 api.add_resource(Test, '/api/test')

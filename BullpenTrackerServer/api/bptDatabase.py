@@ -7,18 +7,19 @@ import BullpenTrackerServer.instance.config as config
 
 class bptDatabase(object):
 
-	Session = sessionmaker()
+	def __init__(self):
+		self.Session = sessionmaker()
 
-	if config.DEBUG:
-		db = create_engine('{}:///{}?check_same_thread=False'.format(config.DB_DRIVER, config.DB_ADDRESS))
-	else:
-		db = create_engine('{}://{}:{}@{}:{}/{}'.format(
-			config.DB_DRIVER, config.DB_USER, config.DB_PASS, config.DB_ADDRESS, config.DB_PORT, config.DB_DB))
+		if config.DEBUG:
+			self.db = create_engine('{}:///{}?check_same_thread=False'.format(config.DB_DRIVER, config.DB_ADDRESS))
+		else:
+			self.db = create_engine('{}://{}:{}@{}:{}/{}'.format(
+				config.DB_DRIVER, config.DB_USER, config.DB_PASS, config.DB_ADDRESS, config.DB_PORT, config.DB_DB))
 
-	metadata = MetaData(db)
-	#conn = db.connect()
-	Session.configure(bind=db)
-	session = Session()
+		self.metadata = MetaData(self.db)
+		#conn = db.connect()
+		self.Session.configure(bind=self.db)
+		self.session = self.Session()
 
 
 	def select_where(self, tables, *fields, **filters):
