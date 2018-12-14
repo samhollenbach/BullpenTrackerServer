@@ -9,7 +9,7 @@ function success(response) {
     set variables of pitchtypes for the for loop
 }*/
 
-$(document).ready(function() {
+$(document).ready(function()) {
 
 
     var form = document.getElementById("form")
