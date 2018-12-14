@@ -174,7 +174,7 @@ $(document).ready(function() {
    // }
    // });
 
-})
+});
 
 /*
 Automate this process such that the pitches are personalized by the player
