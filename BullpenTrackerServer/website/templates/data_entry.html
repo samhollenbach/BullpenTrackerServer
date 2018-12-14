@@ -8,7 +8,7 @@
     <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <script rel="stylesheet" type="text/css" href="{{ url_for('static',filename='js/dataentry.js') }}">
+    <script rel="text/javascript" src="{{ url_for('static',filename='js/dataentry.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
 
 </head>
@@ -23,11 +23,12 @@
 
     <form action="" class="data_entry_form" name="form" id="form" display="none">
         <div>
-            <img class="coords" src="images/strikezone.png">
+            <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png">
         </div>
         <input type="checkbox" id="hard_contact">Hard Contact <br>
         <input type="text" id="pitch_type">Pitch Type <br>
         <input type="text" id="vel">Velocity <br>
+        <input type="submit" value="Submit">
     </form>
     <div>
         <button id="exit">End Session</button>

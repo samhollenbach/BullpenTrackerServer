@@ -12,10 +12,11 @@ function success(response) {
 $(document).ready(function() {
 
 
-    var form = document.getElementById("form")
-    var form = document.getElementById("start")
-
-        document.getElementById('start').onclick() = function newbullpen() {
+    var form = document.getElementById("form");
+    var start = document.getElementById("start");
+    form.style.display="none";
+    var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
+        document.getElementById('start').onclick = function newbullpen() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
@@ -130,7 +131,6 @@ $(document).ready(function() {
     });
 
     $('.data_entry_form').on("submit", function(){
-        var values = {};
 
         if(block >= 11){
             var strike = "N";
@@ -160,7 +160,7 @@ $(document).ready(function() {
             alert(errMsg);
         }
         });
-    }
+    });
 
    // $.ajax({
    // type: "POST",
@@ -175,7 +175,7 @@ $(document).ready(function() {
    // }
    // });
 
-}
+});
 
 /*
 Automate this process such that the pitches are personalized by the player
