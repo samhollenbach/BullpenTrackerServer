@@ -205,13 +205,24 @@ class Bullpen(Resource):
 	@requires_pitcher_auth
 	def get(self, b_token):
 
+		b_token_list = b_token.split('+')
+
 		p_token = request.cookies.get('p_token')
 		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
 
-		bid = bptDatabase().select_where_first(['bullpens'], *('id', ), **{'b_token': b_token, 'p_id': pid})['id']
+		bid_list = []
+		for token in b_token_list:
+			b = bptDatabase().select_where_first(['bullpens'], *('id', ), **{'b_token': token, 'p_id': pid})
+			if 'id' in b:
+				bid_list.append(b['id'])
+
 
 		ret_fields = ('id', 'bullpen_id', 'pitch_type', 'ball_strike', 'vel', 'result', 'pitchX', 'pitchY', 'ab', 'hard_contact')
-		pitches = bptDatabase().select_where(['pitches'], *ret_fields, **{'bullpen_id': bid})
+		
+
+		pitches = []
+		for bid in bid_list:
+			pitches += bptDatabase().select_where(['pitches'], *ret_fields, **{'bullpen_id': bid})
 
 		pitches_reform = []
 		for pitch in pitches:

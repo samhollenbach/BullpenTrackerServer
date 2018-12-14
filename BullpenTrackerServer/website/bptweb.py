@@ -35,6 +35,11 @@ def login():
 	return render_template('login.html')
 
 
+@app.route('/signup', methods=['GET'])
+def signup():
+	return render_template('sign_up.html')
+
+
 @app.route('/logout', methods=['GET'])
 def logout():	
 	redirect_login = redirect('/login')
