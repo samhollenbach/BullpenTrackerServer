@@ -9,7 +9,7 @@ function success(response) {
     set variables of pitchtypes for the for loop
 }*/
 
-$(document).ready(function()) {
+$(document).ready(function() {
 
 
     var form = document.getElementById("form")
@@ -130,7 +130,6 @@ $(document).ready(function()) {
     });
 
     $('.data_entry_form').on("submit", function(){
-        var values = {};
 
         if(block >= 11){
             var strike = "N";
@@ -160,7 +159,7 @@ $(document).ready(function()) {
             alert(errMsg);
         }
         });
-    }
+    });
 
    // $.ajax({
    // type: "POST",
@@ -175,7 +174,7 @@ $(document).ready(function()) {
    // }
    // });
 
-}
+})
 
 /*
 Automate this process such that the pitches are personalized by the player
