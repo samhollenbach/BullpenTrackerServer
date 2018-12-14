@@ -20,13 +20,13 @@ $(document).ready(function() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
-            "/api/pitcher/bullpens/" + p_token,
+            "/api/pitcher/bullpens/",
             {team: "-1", type: pentype},
             function(data) {
-                alert("Response: " + data);
                 var b_token = data.b_token;
             }
         );
+
     };
 
 
