@@ -4,6 +4,22 @@ $(document).ready(function() {
     var types = {};
     var pitching_data = {};
 
+    var colors = [{"background":"rgba(255,221,50,0.2)","border":"rgba(255,221,50,1)"}, // yellow
+                      {"background":"rgba(60,186,159,0.2)","border":"rgba(60,186,159,1)"}, // green
+                      {"background":"rgba(193,46,12,0.2)","border":"rgba(193,46,12,1)"}, // red
+                      {"background":"rgba(173,216,230,0.2)","border":"rgba(173,216,230,1)"}, // blue
+                      {"background":"rgba(104,19,214,0.2)","border":"rgba(104,19,214,1)"}, // purple
+                      {"background":"rgba(249,122,232,0.2)","border":"rgba(249,122,232,1)"}  // pink
+                      ];
+
+    var pitch_list = {"2":"2-Seam",
+                      "B":"Curveball",
+                      "C":"Cutter",
+                      "F":"Fastball",
+                      "S":"Slider",
+                      "X":"Change-Up"
+                      }
+
     $(function() {
         bullpen_types = [];
         bullpen_sessions = [];
@@ -118,12 +134,7 @@ $(document).ready(function() {
             var velocity = pitch_data[i].vel;
             var strike = pitch_data[i].ball_strike;
 
-            if (pitch_type == "F") {pitch_type = "Fastball"}
-            else if (pitch_type == "X") {pitch_type = "Change-Up"}
-            else if (pitch_type == "S") {pitch_type = "Slider"}
-            else if (pitch_type == "B") {pitch_type = "Curveball"}
-            else if (pitch_type == "C") {pitch_type = "Cutter"}
-            else if (pitch_type == "2") {pitch_type = "2-Seam"}
+            pitch_type = pitch_list[pitch_type];
 
             if (pitching_data[pitch_type] === undefined) {
                 pitching_data[pitch_type] = [];
@@ -158,21 +169,13 @@ $(document).ready(function() {
         };
 
 
-//        create_chart();
-//        new_chart();
+        new_chart();
         bubble_chart();
     }
 
 
     function bubble_chart() {
 
-        var colors = [{"background":"rgba(255,221,50,0.2)","border":"rgba(255,221,50,1)"}, // yellow
-                      {"background":"rgba(60,186,159,0.2)","border":"rgba(60,186,159,1)"}, // green
-                      {"background":"rgba(193,46,12,0.2)","border":"rgba(193,46,12,1)"}, // red
-                      {"background":"rgba(173,216,230,0.2)","border":"rgba(173,216,230,1)"}, // blue
-                      {"background":"rgba(104,19,214,0.2)","border":"rgba(104,19,214,1)"}, // purple
-                      {"background":"rgba(249,122,232,0.2)","border":"rgba(249,122,232,1)"}  // pink
-                      ];
         var datasets = [];
         var pitch_type = Object.keys(types);
 
@@ -246,7 +249,6 @@ $(document).ready(function() {
         chart_builder('canvas1', 'bar', "# of pitches", counts, "Pitch Count");
 
 
-
         var velocities = [];
 
         for (i = 0; i < pitch_types_array.length; i++) {
@@ -268,17 +270,14 @@ $(document).ready(function() {
     };
 
     function chart_builder(canvas, chart, label, data, title) {
-
         var pitch_types_array = Object.keys(types);
-        for (i = 0; i < pitch_types_array.length; i++) {
-            if (pitch_types_array[i] == "F") {pitch_types_array[i] = "Fastball"}
-            else if (pitch_types_array[i] == "X") {pitch_types_array[i] = "Change-Up"}
-            else if (pitch_types_array[i] == "S") {pitch_types_array[i] = "Slider"}
-            else if (pitch_types_array[i] == "B") {pitch_types_array[i] = "Curveball"}
-        };
+        var background_colors = [];
+        for (i = 0; i < colors.length; i++) {
+            background_colors.push(colors[i].border);
+        }
 
         var text = "<div><canvas id='" + canvas + "'></canvas></div>";
-        $("body").append(text);
+        $(".chart_container").append(text);
 
         var myChart = $("#"+canvas);
         var chart3 = new Chart(myChart, {
@@ -287,7 +286,7 @@ $(document).ready(function() {
                 labels: pitch_types_array,
                 datasets:[{
                     label: label,
-                    backgroundColor: ["#3e95cd", "#8e5ea2","#3cba9f","#e8c3b9","#c45850"],
+                    backgroundColor: background_colors,
                     data: data
                 }]
             },
