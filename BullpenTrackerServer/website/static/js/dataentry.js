@@ -49,6 +49,11 @@ $(document).ready(function() {
 
         $( this ).
             click(function ( e ) {
+                var pos = $( this ).position(),
+                top = pos.top,
+                left = pos.left,
+                width = $( this ).width(),
+                height = $( this ).height();
                 var x, y, block;
 
                 x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
