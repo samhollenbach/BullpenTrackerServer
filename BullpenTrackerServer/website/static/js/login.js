@@ -4,16 +4,30 @@ $(document).ready(function() {
 
         var username = $("input[name=username]").val();
         var password = $("input[name=password]").val();
+        console.log(username, password);
 
         event.preventDefault();
 
-        $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
+        if (username == "" | password == "") {
+            window.location.href='/login';
+        }
+        else {
+            $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
+                console.log(data,status, xhr);
 
-            var p_token = data.p_token;
-            document.cookie = "p_token="+ p_token;
+                var p_token = data.p_token;
+                console.log(p_token);
+                document.cookie = "p_token="+ p_token;
 
-            window.location.href='/';
-        }, "json");
+                window.location.href='/';
+            }, "json")
+            .fail(function() {
+                alert("You entered an invalid login, please try again.")
+            });
+
+
+
+        }
 
 
 
