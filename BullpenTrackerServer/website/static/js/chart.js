@@ -318,7 +318,17 @@ $(document).ready(function() {
                     labels: {
                         filter: function(legendItem, data) {
                             return legendItem.text != undefined // catches line data with undefined labels
-                        }
+                        },
+                        fontSize: 14
+                    },
+                    position: 'right'
+                },
+                layout: {
+                    padding: {
+                        left: 200,
+                        right: 150,
+                        top: 0,
+                        bottom: 0
                     }
                 },
                 title: {
@@ -334,6 +344,9 @@ $(document).ready(function() {
                     xAxes: [{
                         scaleLabel: {
                             display: true
+                        },
+                        ticks: {
+                            stepSize:1
                         }
                     }]
                 }
