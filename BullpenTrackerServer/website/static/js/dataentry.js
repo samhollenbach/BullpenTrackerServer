@@ -14,7 +14,6 @@ $(document).ready(function() {
 
     var form = document.getElementById("form");
     var start = document.getElementById("start");
-    form.style.display="none";
     var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         document.getElementById('start').onclick = function newbullpen() {
         document.getElementById("form").style.display="block";
