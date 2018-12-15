@@ -25,6 +25,7 @@ $(document).ready(function() {
             {team: "-1", type: pentype},
             function(data) {
                 b_token = data.b_token;
+                PitchLoc.btoken = b_token
             }
         );
 
@@ -136,6 +137,7 @@ $(document).ready(function() {
         var block = PitchLoc.block;
         var x = PitchLoc.x;
         var y = PitchLoc.y;
+        var b_token = PitchLoc.btoken;
         var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
