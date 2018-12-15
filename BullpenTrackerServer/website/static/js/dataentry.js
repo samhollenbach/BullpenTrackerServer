@@ -139,7 +139,8 @@ $(document).ready(function() {
         var y = PitchLoc.y;
         var b_token = PitchLoc.btoken;
         var contact = document.getElementById('hard_contact');
-        var pentype = $('#pitch_type :selected').value();
+        var pitchtype = document.getElementById('pitch_type')
+        var pitch_type = pitchtype.options[pitchtype.selectedIndex].value;
         var vel = document.getElementById("vel").value;
     if (contact.checked){
         var hard_contact = 1;
