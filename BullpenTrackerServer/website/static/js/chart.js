@@ -203,7 +203,7 @@ $(document).ready(function() {
                 types[pitch_type]["vel_pitches"] += 1;
             }
 
-            if (strike === "X" | "Y") {
+            if (strike == "X" || strike == "Y" || strike == "S") {
                 types[pitch_type]["strike%"] += 1;
             };
 
