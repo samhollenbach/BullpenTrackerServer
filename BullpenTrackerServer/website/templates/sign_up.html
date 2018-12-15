@@ -4,19 +4,83 @@
     <meta charset="UTF-8">
     <title>Sign Up Page</title>
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <link href="https://fonts.googleapis.com/css?family=Shrikhand" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="{{ url_for('static',filename='js/login.js') }}"></script>
+
+
 </head>
 <body>
     <div class="header">
         <span class="title">Bullpen Tracker</span>
     </div>
 
-    <div>
+    
+
+    <div class="container">
+        <br>
+        <br>
+        <div id="signup-alert" class="alert alert-danger" style="display: none;"></div>
+        
         <form name="sign_up_form" class="sign_up">
-            <span class="row">Username:<input type="text" id="username"></span><br><br>
-            <span>Password:<input type="password" id="password"></span><br><br>
-            <span>Confirm Password:<input type="password" id="confirm_password"></span><br><br>
-            <span id="sign_up_btn"><input type="submit" value="Sign Up"></span>
+            
+
+
+
+            <div class="row signup-fields">
+
+
+                <div class="col-md-4 offset-md-2">
+                    <div class="form-group">
+                        <label for="fname">First Name</label><br>
+                        <input type="text" id="fname">
+                    </div>
+                    <div class="form-group">
+                        <br><label for="lname">Last Name</label><br>
+                        <input type="text" id="lname">
+                    </div>
+
+                        <br>
+                        <label> Throwing Side</label>
+                        <br>
+                        <label class="radio-inline">
+                            <input type="radio" name="throwSide" id="throwSideR" value="R"> <em>R</em>&nbsp;&nbsp;&nbsp;&nbsp;
+                        </label>
+                        <label class="radio-inline">
+                            <input type="radio" name="throwSide" id="throwSideL" value="L"> <em>L</em>
+                        </label>
+             
+
+                </div>
+
+                <div class="col-md-4">
+                    
+                     <div class="form-group">
+                        <label for="email">Email</label><br>
+                        <input type="text" id="email">
+                    </div>
+                    <div class="form-group">
+                        <br><label for="password">Password</label><br>
+                        <input type="password" id="password">
+                    </div>
+                    <div class="form-group">
+                        <br><label for="password">Confirm Password</label><br>
+                        <input type="password" id="confirm_password">
+                    </div>
+
+
+                </div>
+
+            </div>
+            
+            <br>
+            <div>
+                <button id="signup_btn" type="submit" class="btn-default" name="signup_btn">Sign Up</button>
+            </div>
+            
+
         </form>
     </div>
 </body>

@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-from flask_restful import Resource, Api, reqparse
+from flask_restful import Resource, Api, reqparse, abort
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import *
 from sqlalchemy.sql import select
@@ -22,7 +22,7 @@ def requires_pitcher_auth(f):
 	def decorated(*args, **kwargs):
 		p_token = request.cookies.get('p_token')
 		if not p_token or p_token == '':
-			return jsonify({'message': 'not logged in'})
+			abort(401, message="not logged in")
 		return f(*args, **kwargs)
 	return decorated
 
@@ -42,7 +42,7 @@ class Password(Resource):
 			r = bptDatabase().update('pitchers', data, **{'email', email})
 			return jsonify({'message': 'updated password for account -- {}'.format(email)})
 
-		return jsonify({'message': 'invalid credentials'})
+		return jsonify({'message': 'invalid credentials'}) #, 403
 
 
 class LoginHelp(Resource):
@@ -58,7 +58,7 @@ class LoginHelp(Resource):
 
 			return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **{'email': data['email']}))
 
-		return jsonify({'message': 'invalid login credentials'})
+		return jsonify({'message': 'invalid login credentials'}) #, 403
 
 
 class Pitcher(Resource):
@@ -77,6 +77,7 @@ class Pitcher(Resource):
 
 
 	def post(self):
+
 		parser = reqparse.RequestParser()
 		#parser.add_argument('p_token', type=str, help='Pitcher access token')
 		parser.add_argument('throws', type=str, help='Pitcher throwing side')
@@ -86,20 +87,24 @@ class Pitcher(Resource):
 		parser.add_argument('pass', type=str, help='Pitcher password')
 		data = parser.parse_args()
 
+
+
 		if 'email' in bptDatabase().select_where_first('pitchers', *('email', ), **{'email': data['email']}):
-			return jsonify({'message': 'email address already linked to existing account'})
+			return jsonify({'message': 'email address already linked to existing account'}) #, 409
 
 		token = loginManager.create_token(8)
 		while not loginManager.valid_token(token, 'pitchers', 'p_token'):
 			token = loginManager.create_token(8)
 
 		
-		data = {'p_token': token, **data}
+		data = {'p_token': token, 'name': '', **data}
 
-		if bptDatabase().insert('pitchers', **data):
-			return jsonify({'message': 'added new pitcher successfully', 'p_token': token})
+		ins = bptDatabase().insert('pitchers', **data)
+
+		if ins:
+			return jsonify({'message': 'added new pitcher successfully', 'p_token': token}) #, 201
 		else:
-			return jsonify({'message': 'failed to add new pitcher with email {}'.format(data['email'])})
+			abort(401, message='failed to add new pitcher with email {}'.format(data['email'])) #, 304
 
 
 	@requires_pitcher_auth
@@ -120,9 +125,11 @@ class Pitcher(Resource):
 
 
 		if bptDatabase().update('pitchers', filters, **data):
-			return jsonify({'message': 'successfully updated pitcher profile'})
+			return jsonify({'message': 'successfully updated pitcher profile'}) #, 201
 		else:
-			return jsonify({'message': 'failed to update pitcher profile'})
+			return jsonify({'message': 'failed to update pitcher profile'}) #, 304
+
+
 
 class PitcherBullpens(Resource):
 
@@ -180,8 +187,8 @@ class PitcherBullpens(Resource):
 
 		if bptDatabase().insert('bullpens', **{'b_token': b_token, 'p_id': pid, 'date': datetime.datetime.now(), **data}):
 			return jsonify({'message': 'New bullpen successfully created', 'b_token': b_token})
-
-		return jsonify({'message': 'bullpen creation failed'})
+		else:
+			abort(401, message="bullpen creation failed")
 
 
 class PitcherTeams(Resource):
