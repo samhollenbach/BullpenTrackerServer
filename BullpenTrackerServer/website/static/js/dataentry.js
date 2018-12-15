@@ -162,7 +162,7 @@ $(document).ready(function() {
             velocity: vel,
 
         };
-        $.post("/api/pitcher/bullpen/" + b_token,{
+        $.post("/api/bullpen/" + b_token,{
             hard_contact: hard_contact,
             ball_strike: strike,
             pitchX: x,
