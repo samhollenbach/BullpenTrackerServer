@@ -134,8 +134,15 @@ $(document).ready(function() {
             });
     });
 
-    $('.data_entry_form').submit(function(){
-
+    document.getElementById('hard_contact').onclick = function() {
+        var contact = document.getElementById('remember');
+        var pitch_type = document.getElementById("pitch_type").value;
+        var vel = document.getElementById("vel").value;
+    if (contact.checked){
+        var hard_contact = 1;
+    }else{
+        var hard_contact = 0;
+     }
         if(block >= 11){
             var strike = "N";
         }
@@ -144,12 +151,12 @@ $(document).ready(function() {
         }
         var url = "/api/pitcher/bullpen/" + b_token +"/";
         var data = {
-            hard_contact: values["hard_contact"],
+            hard_contact: hard_contact,
             ball_strike: strike,
             pitchX: x,
             pitchY: y,
-            pitch_type: values["pitch_type"],
-            velocity: values["vel"],
+            pitch_type: pitch_type,
+            velocity: vel,
 
         };
         $.post(url,data,function(data, status) {
@@ -157,7 +164,7 @@ $(document).ready(function() {
                     alert(data);
                 });
         return false;
-        });
+        };
 /*        $.ajax({
         type: "POST",
         url: "/api/pitcher/bullpens/" + b_token +"/",
