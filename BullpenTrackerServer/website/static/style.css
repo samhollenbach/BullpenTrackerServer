@@ -94,8 +94,11 @@ body {
     cursor: pointer;
 }
 
-.data button:hover {
-  box-shadow: 5px 5px 10px rgba(80,80,80,0.5);
+button:hover {
+    background-color: #01426A;
+    color: white;
+    border: none;
+    box-shadow: 10px 10px 10px rgba(80,80,80,0.5);
 }
 
 b#summary {
@@ -206,23 +209,16 @@ canvas {
 }
 
 .back_btn {
-    color: white;
     padding: 10px;
     font-size: 1.4rem;
     float: left;
     margin-top: 20px;
     margin-left: 20px;
-    border: none;
-    background-color: #01426A;
     border-radius: 12px;
     text-decoration: none;
     font-family: 'Vidaloka', serif;
     font-weight: bold;
     cursor: pointer;
-}
-
-.back_btn:hover {
-    padding: 12px;
 }
 
 .form_div {
@@ -236,4 +232,27 @@ canvas {
 
 #chart_form select {
     margin-right: 40px;
+}
+
+.loader {
+    border: 24px solid #aaa;
+    border-radius: 50%;
+    border-top: 24px solid #01426A;
+    margin-left: 45%;
+    margin-top: 10%;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }
