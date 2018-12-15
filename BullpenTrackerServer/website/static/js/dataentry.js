@@ -134,7 +134,7 @@ $(document).ready(function() {
             });
     });
 
-    $('.data_entry_form').on("submit", function(){
+    $('.data_entry_form').on("submit", function(event){
 
         if(block >= 11){
             var strike = "N";
@@ -164,7 +164,7 @@ $(document).ready(function() {
             alert(errMsg);
         }
         });
-        return = false;
+        event.preventDefault();
     });
 
    // $.ajax({
