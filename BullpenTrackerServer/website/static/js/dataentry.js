@@ -156,6 +156,7 @@ $(document).ready(function() {
                 alert("Ajax post status is " + status);
                     alert(data);
                 });
+        return false;
         });
 /*        $.ajax({
         type: "POST",
