@@ -154,7 +154,15 @@ $(document).ready(function() {
             velocity: vel,
 
         };
-        $.post(url,data,function(data, status) {
+        $.post(url,{
+            hard_contact: hard_contact,
+            ball_strike: strike,
+            pitchX: x,
+            pitchY: y,
+            pitch_type: pitch_type,
+            velocity: vel,
+
+        },function(data, status) {
                 });
         };
 /*        $.ajax({
