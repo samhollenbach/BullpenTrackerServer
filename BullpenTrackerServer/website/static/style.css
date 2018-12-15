@@ -91,13 +91,21 @@ body {
     margin-bottom: 0;
 }
 
-button {
+.data button {
     font-size: 2rem;
     font-family: 'Vidaloka', serif;
     width: 30%;
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 3% 9.9%;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #01426A;
+    color: white;
+    border: none;
+    box-shadow: 10px 10px 10px rgba(80,80,80,0.5);
 }
 
 b#summary {
@@ -207,11 +215,54 @@ canvas {
     margin: 100px;
 }
 
+.back_btn {
+    padding: 10px;
+    font-size: 1.4rem;
+    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: 'Vidaloka', serif;
+    font-weight: bold;
+    cursor: pointer;
+}
+
 .form_div {
     margin-top: 40px;
-    margin-left: 40px;
+    margin-right: 40px;
+    text-align:right;
 }
 
 #chart_form select {
-    margin-right: 20px;
+    font-size: 14px;
+}
+
+#chart_form span {
+    margin-left: 40px;
+    font-size: 20px;
+}
+
+
+.loader {
+    border: 24px solid #aaa;
+    border-radius: 50%;
+    border-top: 24px solid #01426A;
+    margin-left: 45%;
+    margin-top: 10%;
+    width: 80px;
+    height: 80px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+}
+
+/* Safari */
+@-webkit-keyframes spin {
+    0% { -webkit-transform: rotate(0deg); }
+    100% { -webkit-transform: rotate(360deg); }
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
 }

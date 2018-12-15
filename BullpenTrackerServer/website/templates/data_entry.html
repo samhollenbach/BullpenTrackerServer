@@ -19,16 +19,27 @@
         <a class="login_logout" id="logout_btn" href="/logout">logout</a>
     </div>
 
+    <button class="back_btn" onclick="location.href='/'">Back</button>
+
+
+    <select id="pentype">
+  <option value="COMP">COMP</option>
+  <option value="FLAT">FLAT</option>
+  <option value="NORM">NORM</option>
+  <option value="GAME">GAME</option>
+    </select>
     <button id="start">Start Session</button>
 
     <form action="" class="data_entry_form" name="form" id="form" display="none">
         <div>
             <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png">
+            <!--<img class="coords" src="strikezone.png">-->
         </div>
         <input type="checkbox" id="hard_contact">Hard Contact <br>
         <input type="text" id="pitch_type">Pitch Type <br>
         <input type="text" id="vel">Velocity <br>
-        <input type="submit" value="Submit">
+
+        <button id="submitbutton">Submit</button>
     </form>
     <div>
         <button id="exit">End Session</button>

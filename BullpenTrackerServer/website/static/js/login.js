@@ -7,11 +7,23 @@ $(document).ready(function() {
 
         event.preventDefault();
 
-        $.post("/api/login", {email: email, pass: password}, function(data, status, xhr) {
-            var p_token = data.p_token;
-            document.cookie = "p_token="+ p_token;
-            window.location.href='/';
-        }, "json");
+
+         if (username == "" | password == "") {
+            window.location.href='/login';
+        }
+        else {
+            $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
+
+                var p_token = data.p_token;
+                document.cookie = "p_token="+ p_token;
+
+                window.location.href='/';
+            }, "json")
+            .fail(function() {
+                alert("You entered an invalid login, please try again.")
+            });
+        }
+        
     });
 
 
@@ -49,12 +61,14 @@ $(document).ready(function() {
             console.log(data);
             console.log(status);
 
-
-            var p_token = data.p_token;
-            document.cookie = "p_token="+ p_token;
-            
-
-            window.location.href='/';
+            if ('p_token' in data){
+                var p_token = data.p_token;
+                document.cookie = "p_token="+ p_token;
+                window.location.href='/';
+            }else{
+                signup_alert("Signup Error", data['message'])
+                return
+            }            
 
         }, "json");
 

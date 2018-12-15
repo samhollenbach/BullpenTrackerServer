@@ -14,19 +14,18 @@ $(document).ready(function() {
 
     var form = document.getElementById("form");
     var start = document.getElementById("start");
-    form.style.display="none";
     var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         document.getElementById('start').onclick = function newbullpen() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
-            "/api/pitcher/bullpens/" + p_token,
+            "/api/pitcher/bullpens/",
             {team: "-1", type: pentype},
             function(data) {
-                alert("Response: " + data);
                 var b_token = data.b_token;
             }
         );
+
     };
 
 
@@ -49,6 +48,11 @@ $(document).ready(function() {
 
         $( this ).
             click(function ( e ) {
+                var pos = $( this ).position(),
+                top = pos.top,
+                left = pos.left,
+                width = $( this ).width(),
+                height = $( this ).height();
                 var x, y, block;
 
                 x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
@@ -130,25 +134,38 @@ $(document).ready(function() {
             });
     });
 
-    $('.data_entry_form').on("submit", function(){
-
+    document.getElementById('hard_contact').onclick = function() {
+        var contact = document.getElementById('remember');
+        var pitch_type = document.getElementById("pitch_type").value;
+        var vel = document.getElementById("vel").value;
+    if (contact.checked){
+        var hard_contact = 1;
+    }else{
+        var hard_contact = 0;
+     }
         if(block >= 11){
             var strike = "N";
         }
         else{
             var strike = "Y";
         }
-
+        var url = "/api/pitcher/bullpen/" + b_token +"/";
         var data = {
-            hard_contact: values["hard_contact"],
+            hard_contact: hard_contact,
             ball_strike: strike,
             pitchX: x,
             pitchY: y,
-            pitch_type: values["pitch_type"],
-            velocity: values["vel"],
+            pitch_type: pitch_type,
+            velocity: vel,
 
         };
-        $.ajax({
+        $.post(url,data,function(data, status) {
+                alert("Ajax post status is " + status);
+                    alert(data);
+                });
+        return false;
+        };
+/*        $.ajax({
         type: "POST",
         url: "/api/pitcher/bullpens/" + b_token +"/",
         // The key needs to match your method's input parameter (case-sensitive).
@@ -160,7 +177,8 @@ $(document).ready(function() {
             alert(errMsg);
         }
         });
-    });
+        event.preventDefault();
+    });*/
 
    // $.ajax({
    // type: "POST",

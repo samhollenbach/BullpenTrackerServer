@@ -18,15 +18,19 @@
         <a class="login_logout" id="logout_btn" href="/logout">logout</a>
     </div>
 
+    <button class="back_btn" onclick="location.href='/'">Back</button>
+
     <div class="form_div">
         <form id="chart_form">
-            Variables:<select id="stat_select"></select>
-            Bullpen Types:<select id="type_select"></select>
-            Bullpen Sessions:<select id="session_select"></select>
+            <span>Statistic Measures:&nbsp</span><select id="stat_select"></select>
+            <span>Bullpen Types:&nbsp</span><select id="type_select"></select>
+            <span>Bullpen Sessions:&nbsp</span><select id="session_select"></select>
         </form>
     </div>
 
-    <div class="chart_container"></div>
+    <div class="chart_container">
+        <div class="loader"></div>
+    </div>
 
 </body>
 </html>
