@@ -233,7 +233,8 @@ class Bullpen(Resource):
 
 		pitches_reform = []
 		for pitch in pitches:
-			pitch['vel'] = float(pitch['vel'])
+			if pitch['vel'] != "":
+				pitch['vel'] = float(pitch['vel'])
 			pitches_reform.append(pitch)
 
 		return jsonify(pitches_reform)
@@ -254,7 +255,7 @@ class Bullpen(Resource):
 		parser.add_argument('pitchX', type=float, help='Pitch X location') 
 		parser.add_argument('pitchY', type=float, help='Pitch Y location') 
 		parser.add_argument('ab', type=str, help='At bat ID for this pitch') 
-		parser.add_argument('hard_contact', type=str, help='Pitch resulted in hard contact by batter') 
+		parser.add_argument('hard_contact', type=bool, help='Pitch resulted in hard contact by batter') 
 
 		data = parser.parse_args()
 		data['bullpen_id'] = bid
