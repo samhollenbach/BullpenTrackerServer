@@ -142,7 +142,7 @@ $(document).ready(function() {
         else{
             var strike = "Y";
         }
-        var url = "/api/pitcher/bullpens/" + b_token +"/";
+        var url = "/api/pitcher/bullpen/" + b_token +"/";
         var data = {
             hard_contact: values["hard_contact"],
             ball_strike: strike,
