@@ -4,7 +4,6 @@ $(document).ready(function() {
 
         var username = $("input[name=username]").val();
         var password = $("input[name=password]").val();
-        console.log(username, password);
 
         event.preventDefault();
 
@@ -13,10 +12,8 @@ $(document).ready(function() {
         }
         else {
             $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
-                console.log(data,status, xhr);
 
                 var p_token = data.p_token;
-                console.log(p_token);
                 document.cookie = "p_token="+ p_token;
 
                 window.location.href='/';
