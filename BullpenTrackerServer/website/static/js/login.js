@@ -8,11 +8,11 @@ $(document).ready(function() {
         event.preventDefault();
 
 
-         if (username == "" | password == "") {
+         if (email == "" | password == "") {
             window.location.href='/login';
         }
         else {
-            $.post("/api/login", {email: username, pass: password}, function(data, status, xhr) {
+            $.post("/api/login", {email: email, pass: password}, function(data, status, xhr) {
 
                 var p_token = data.p_token;
                 document.cookie = "p_token="+ p_token;
