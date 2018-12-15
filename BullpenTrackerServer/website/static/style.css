@@ -84,13 +84,18 @@ body {
     margin-bottom: 0;
 }
 
-button {
+.data button {
     font-size: 2rem;
     font-family: 'Vidaloka', serif;
     width: 30%;
     padding-top: 15px;
     padding-bottom: 15px;
     margin: 3% 9.9%;
+    cursor: pointer;
+}
+
+.data button:hover {
+  box-shadow: 5px 5px 10px rgba(80,80,80,0.5);
 }
 
 b#summary {
@@ -200,11 +205,35 @@ canvas {
     margin: 100px;
 }
 
+.back_btn {
+    color: white;
+    padding: 10px;
+    font-size: 1.4rem;
+    float: left;
+    margin-top: 20px;
+    margin-left: 20px;
+    border: none;
+    background-color: #01426A;
+    border-radius: 12px;
+    text-decoration: none;
+    font-family: 'Vidaloka', serif;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.back_btn:hover {
+    padding: 12px;
+}
+
 .form_div {
     margin-top: 40px;
-    margin-left: 40px;
+    text-align:right;
+}
+
+#chart_form {
+    text-size: 20px;
 }
 
 #chart_form select {
-    margin-right: 20px;
+    margin-right: 40px;
 }
