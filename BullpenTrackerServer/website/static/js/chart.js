@@ -1,20 +1,20 @@
 $(document).ready(function() {
 
-    var vars = ['pitch types', 'strike/executed', 'velocity', 'location'];
     var types = {};
     var pitching_data = {};
     var b_tokens = [];
     var bullpen_types = [];
     var bullpen_sessions = [];
+    var measures = ['pitch types', 'strike/executed', 'velocity', 'location'];  // list of variables to use in charts
 
     // list of colors for charts
     var colors = [{"background":"rgba(255,221,50,0.2)","border":"rgba(255,221,50,1)"}, // yellow
-                      {"background":"rgba(60,186,159,0.2)","border":"rgba(60,186,159,1)"}, // green
-                      {"background":"rgba(193,46,12,0.2)","border":"rgba(193,46,12,1)"}, // red
-                      {"background":"rgba(173,216,230,0.2)","border":"rgba(173,216,230,1)"}, // blue
-                      {"background":"rgba(104,19,214,0.2)","border":"rgba(104,19,214,1)"}, // purple
-                      {"background":"rgba(249,122,232,0.2)","border":"rgba(249,122,232,1)"}  // pink
-                      ];
+                  {"background":"rgba(60,186,159,0.2)","border":"rgba(60,186,159,1)"}, // green
+                  {"background":"rgba(193,46,12,0.2)","border":"rgba(193,46,12,1)"}, // red
+                  {"background":"rgba(173,216,230,0.2)","border":"rgba(173,216,230,1)"}, // blue
+                  {"background":"rgba(104,19,214,0.2)","border":"rgba(104,19,214,1)"}, // purple
+                  {"background":"rgba(249,122,232,0.2)","border":"rgba(249,122,232,1)"}  // pink
+                  ];
 
     // dictionary of pitch type variables to pitch type names
     var pitch_list = {"2":"2-Seam",
@@ -24,7 +24,7 @@ $(document).ready(function() {
                       "S":"Slider",
                       "X":"Change-Up"}
 
-    // gets list of bullpens for user
+    // initializing function that gets list of bullpens for user
     $(function() {
         $.get("/api/pitcher/bullpens", function(bullpen_data) {
             for (var i = 0; i < bullpen_data.length; i++) {
@@ -46,10 +46,10 @@ $(document).ready(function() {
     function set_select() {
         b_tokens = [];
 
-        var text = "<option selected value='all'>all</option>";
-        $("#stat_select").append(text);
-        for (var i = 0; i < vars.length; i++) {
-            variable = vars[i];
+//        var text = "<option selected value='all'>all</option>";
+//        $("#stat_select").append(text);
+        for (var i = 0; i < measures.length; i++) {
+            variable = measures[i];
             var text = "<option value='" + variable + "'>" + variable + "</option>";
             $("#stat_select").append(text);
         };
@@ -76,6 +76,10 @@ $(document).ready(function() {
     $("#stat_select").on("change", function() {
         var stat = $("#chart_form #stat_select option:selected");
         console.log(stat.val());
+        $(".chart_container").html("");
+//        if (stat.val() == "location") {
+//            location_chart();
+//        }
     });
 
     // event handler for type_select
@@ -198,7 +202,7 @@ $(document).ready(function() {
 
         // calculates strike percentage and average velocity for each pitch type
         for (i = 0; i < pitch_type.length; i++) {
-            types[pitch_type[i]]["strike%"] = types[pitch_type[i]]["strike%"]/types[pitch_type[i]]["count"]
+            types[pitch_type[i]]["strike%"] = (types[pitch_type[i]]["strike%"]/types[pitch_type[i]]["count"])*100
             types[pitch_type[i]]["avg_velocity"] = types[pitch_type[i]]["avg_velocity"]/types[pitch_type[i]]["vel_pitches"];
         };
 
@@ -249,6 +253,11 @@ $(document).ready(function() {
                 title: {
                     display: true,
                     text: 'Pitch Count by Velocity'
+                },
+                legend: {
+                    labels: {
+                        fontSize: 14
+                    }
                 },
                 scales: {
                     yAxes: [{
@@ -339,6 +348,11 @@ $(document).ready(function() {
                     yAxes: [{
                         scaleLabel: {
                             display: true
+                        },
+                        ticks: {
+                            stepSize:1,
+                            min:-3,
+                            max:3
                         }
                     }],
                     xAxes: [{
@@ -346,7 +360,9 @@ $(document).ready(function() {
                             display: true
                         },
                         ticks: {
-                            stepSize:1
+                            stepSize:1,
+                            min:-2,
+                            max:2
                         }
                     }]
                 }
