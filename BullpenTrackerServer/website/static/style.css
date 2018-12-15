@@ -7,27 +7,19 @@ body {
     color: #FFFFFF;
     top:0;
     width: 100%;
-}
-
-.column {
-    width: 150px;
-    margin-left: 20px;
-    float: right;
     position: relative;
 }
 
-.column#login_btn {
-    width: 60px;
+.column {
+    width: 140px;
+    margin-right: 20px;
+    float: right;
 }
 
-.row {
-    margin-top:20px;
-    margin-bottom: 20px;
-}
-
-#login_btn, #logout_btn {
-    width: 60px;
-    padding-top: 20px;
+#login_btn {
+    margin-top: 15px;
+    width: 50px;
+    padding: 5px;
 }
 
 .title {
@@ -36,15 +28,23 @@ body {
     padding-left: 10px;
 }
 
-.login_logout {
+#login_form {
     font-size: 1.2rem;
     font-family: 'Arial', serif;
-    padding-right: 10px;
-    padding-top: 5px;
+    position: absolute;
+    right: 0px;
+    top: 5px;
     float: right;
+}
+
+.logout_link {
+    font-size: 1.2rem;
+    font-family: 'Arial', serif;
     color: white;
     text-decoration: none;
-    position: relative;
+    position: absolute;
+    right: 20px;
+    top: 20px;
 }
 
 .sign_up {
@@ -53,6 +53,7 @@ body {
     font-family: 'Arial', serif;
     margin-top: 60px;
 }
+
 #signup_btn{
     width: 150px;
 }
@@ -95,8 +96,7 @@ body {
     font-size: 2rem;
     font-family: 'Vidaloka', serif;
     width: 30%;
-    padding-top: 15px;
-    padding-bottom: 15px;
+    padding: 15px;
     margin: 3% 9.9%;
     cursor: pointer;
 }
