@@ -8,8 +8,10 @@ function success(response) {
 // do something here
     set variables of pitchtypes for the for loop
 }*/
-
+    var PitchLoc = {};
 $(document).ready(function() {
+
+
 
 
     var form = document.getElementById("form");
@@ -19,10 +21,11 @@ $(document).ready(function() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
-            "/api/pitcher/bullpens/",
+            "/api/pitcher/bullpens",
             {team: "-1", type: pentype},
             function(data) {
-                var b_token = data.b_token;
+                b_token = data.b_token;
+                PitchLoc.btoken = b_token
             }
         );
 
@@ -39,11 +42,6 @@ $(document).ready(function() {
     var tooltip = $( '<div id="tooltip">' ).appendTo( 'body' )[0];
 
     $( '.coords' ).each(function () {
-        var pos = $( this ).position(),
-            top = pos.top,
-            left = pos.left,
-            width = $( this ).width(),
-            height = $( this ).height();
 
 
         $( this ).
@@ -53,10 +51,11 @@ $(document).ready(function() {
                 left = pos.left,
                 width = $( this ).width(),
                 height = $( this ).height();
-                var x, y, block;
 
                 x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
                 y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
+                PitchLoc.x = x;
+                PitchLoc.y = y;
                 if(x<=.13){
                     if(y<=.5){
                     block = 13
@@ -122,7 +121,7 @@ $(document).ready(function() {
                     block = 12
                     }
                 }
-
+                PitchLoc.block=block;
 
                 $( tooltip ).text( x + ', ' + block ).css({
                     left: e.clientX - 30,
@@ -134,8 +133,12 @@ $(document).ready(function() {
             });
     });
 
-    document.getElementById('hard_contact').onclick = function() {
-        var contact = document.getElementById('remember');
+    document.getElementById('submitbutton').onclick = function() {
+        var block = PitchLoc.block;
+        var x = PitchLoc.x;
+        var y = PitchLoc.y;
+        var b_token = PitchLoc.btoken;
+        var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
     if (contact.checked){
@@ -149,7 +152,7 @@ $(document).ready(function() {
         else{
             var strike = "Y";
         }
-        var url = "/api/pitcher/bullpen/" + b_token +"/";
+        var url = "/api/pitcher/bullpen/" + b_token;
         var data = {
             hard_contact: hard_contact,
             ball_strike: strike,
@@ -159,11 +162,17 @@ $(document).ready(function() {
             velocity: vel,
 
         };
-        $.post(url,data,function(data, status) {
-                alert("Ajax post status is " + status);
-                    alert(data);
-                });
-        return false;
+        $.post("/api/bullpen/" + b_token,{
+            hard_contact: hard_contact,
+            ball_strike: strike,
+            pitchX: x,
+            pitchY: y,
+            pitch_type: pitch_type,
+            velocity: vel,
+
+        },function(data, status) {
+                }
+        );
         };
 /*        $.ajax({
         type: "POST",
@@ -192,6 +201,13 @@ $(document).ready(function() {
    //     alert(errMsg);
    // }
    // });
+
+    function getX(xval){
+
+    }
+    function setX(xval){
+
+    }
 
 });
 
