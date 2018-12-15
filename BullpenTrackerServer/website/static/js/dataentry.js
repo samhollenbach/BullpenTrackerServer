@@ -130,6 +130,7 @@ $(document).ready(function() {
     });
 
     document.getElementById('submitbutton').onclick = function() {
+        var block = block;
         var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
