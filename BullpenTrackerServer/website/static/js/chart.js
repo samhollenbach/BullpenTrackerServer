@@ -5,7 +5,8 @@ $(document).ready(function() {
     var b_tokens = [];
     var bullpen_types = [];
     var bullpen_sessions = [];
-    var measures = ['pitch types', 'strike/executed', 'velocity', 'location'];  // list of variables to use in charts
+    var stat_measures = ['pitch types', 'count', 'velocity', 'location'];  // list of variables to use in charts
+    var stat = ""; // selected variable to graph in charts
 
     // list of colors for charts
     var colors = [{"background":"rgba(255,221,50,0.2)","border":"rgba(255,221,50,1)"}, // yellow
@@ -48,8 +49,8 @@ $(document).ready(function() {
 
 //        var text = "<option selected value='all'>all</option>";
 //        $("#stat_select").append(text);
-        for (var i = 0; i < measures.length; i++) {
-            variable = measures[i];
+        for (var i = 0; i < stat_measures.length; i++) {
+            variable = stat_measures[i];
             var text = "<option value='" + variable + "'>" + variable + "</option>";
             $("#stat_select").append(text);
         };
@@ -74,18 +75,29 @@ $(document).ready(function() {
 
     // event handler for stat_select
     $("#stat_select").on("change", function() {
-        var stat = $("#chart_form #stat_select option:selected");
-        console.log(stat.val());
+        stat = $("#chart_form #stat_select option:selected").val();
         $(".chart_container").html("");
-//        if (stat.val() == "location") {
-//            location_chart();
-//        }
+        if (stat == "location") {
+            location_chart();
+        }
+        else if (stat == "count") {
+            bar_charts(true);
+            count_velocity_chart();
+        }
+        else if (stat == "velocity") {
+            bar_charts(false,true);
+            count_velocity_chart();
+        }
+        else {
+            bar_charts(true,true,true);
+            count_velocity_chart();
+            location_chart();
+        }
     });
 
     // event handler for type_select
     $("#type_select").on("change", function() {
-        var type = $("#chart_form #type_select option:selected");
-        var type = type.val();
+        var type = $("#chart_form #type_select option:selected").val();
 
         // edits session_select options to only the ones of the selected bullpen type,
         // automatically calls ajax to redraw charts with data fitting the type filter
@@ -111,15 +123,15 @@ $(document).ready(function() {
 
     // event handler for session_select
     $("#session_select").on("change", function () {
-        var session = $("#chart_form #session_select option:selected");
+        var session = $("#chart_form #session_select option:selected").val();
 
         // automatically calls ajax to redraw charts with data fitting the session filter
-        if (session.val() == "all") {
+        if (session == "all") {
             b_tokens = $('#session_select option').map(function() { return $(this).val(); }).get();
             b_tokens.shift();
             ajax(b_tokens);
         } else {
-            ajax([session.val()]);
+            ajax([session]);
         };
     });
 
@@ -208,9 +220,22 @@ $(document).ready(function() {
 
         // empties chart_container in html before drawing new charts
         $(".chart_container").html("");
-        new_chart();
-        count_velocity_chart();
-        location_chart();
+        if (stat == "location") {
+            location_chart();
+        }
+        else if (stat == "count") {
+            bar_charts(true);
+            count_velocity_chart();
+        }
+        else if (stat == "velocity") {
+            bar_charts(false,true);
+            count_velocity_chart();
+        }
+        else {
+            bar_charts(true,true,true);
+            count_velocity_chart();
+            location_chart();
+        }
     }
 
 
@@ -372,35 +397,39 @@ $(document).ready(function() {
     }
 
 
-    function new_chart() {
-
+    function bar_charts(count=false,velocity=false,strike=false) {
         var pitch_types_array = Object.keys(types);
-        var counts = [];
 
-        for (i = 0; i < pitch_types_array.length; i++) {
-            counts.push(types[pitch_types_array[i]]['count']);
-        };
+        if (count) {
+            var counts = [];
 
-        chart_builder('canvas1', 'bar', "# of pitches", counts, "Pitch Count");
+            for (i = 0; i < pitch_types_array.length; i++) {
+                counts.push(types[pitch_types_array[i]]['count']);
+            };
 
+            chart_builder('canvas1', 'bar', "# of pitches", counts, "Pitch Count");
+        }
 
-        var velocities = [];
+        if (velocity) {
+            var velocities = [];
 
-        for (i = 0; i < pitch_types_array.length; i++) {
-            velocities.push(types[pitch_types_array[i]]['avg_velocity']);
-        };
+            for (i = 0; i < pitch_types_array.length; i++) {
+                velocities.push(types[pitch_types_array[i]]['avg_velocity']);
+            };
 
-        chart_builder('canvas2', 'bar', "avg. velocity", velocities, "Average Velocity");
+            chart_builder('canvas2', 'bar', "avg. velocity", velocities, "Average Velocity");
+        }
 
+        if (strike) {
+            var strikes = [];
 
+            for (i = 0; i < pitch_types_array.length; i++) {
+                strikes.push(types[pitch_types_array[i]]['strike%']);
+            };
 
-        var strikes = [];
+            chart_builder('canvas3', 'bar', "strike %", strikes, "Strike Percentage");
+        }
 
-        for (i = 0; i < pitch_types_array.length; i++) {
-            strikes.push(types[pitch_types_array[i]]['strike%']);
-        };
-
-        chart_builder('canvas3', 'bar', "strike %", strikes, "Strike Percentage");
 
     };
 
