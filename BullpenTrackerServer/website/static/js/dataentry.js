@@ -163,9 +163,8 @@ $(document).ready(function() {
             velocity: vel,
 
         },function(data, status) {
-                };
+                }
         );
-
         };
 /*        $.ajax({
         type: "POST",
