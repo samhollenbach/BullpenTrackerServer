@@ -134,7 +134,7 @@ $(document).ready(function() {
             });
     });
 
-    $('.data_entry_form').on("submit", function(event){
+    $('.data_entry_form').submit(function(){
 
         if(block >= 11){
             var strike = "N";
@@ -142,7 +142,7 @@ $(document).ready(function() {
         else{
             var strike = "Y";
         }
-
+        var url = "/api/pitcher/bullpens/" + b_token +"/";
         var data = {
             hard_contact: values["hard_contact"],
             ball_strike: strike,
@@ -152,7 +152,13 @@ $(document).ready(function() {
             velocity: values["vel"],
 
         };
-        $.ajax({
+        $.post(url,data,function(data, status) {
+                alert("Ajax post status is " + status);
+                    alert(data);
+                });
+        );
+        });
+/*        $.ajax({
         type: "POST",
         url: "/api/pitcher/bullpens/" + b_token +"/",
         // The key needs to match your method's input parameter (case-sensitive).
@@ -165,7 +171,7 @@ $(document).ready(function() {
         }
         });
         event.preventDefault();
-    });
+    });*/
 
    // $.ajax({
    // type: "POST",
