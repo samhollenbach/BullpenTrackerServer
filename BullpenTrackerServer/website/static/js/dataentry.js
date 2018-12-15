@@ -11,7 +11,7 @@ function success(response) {
 
 $(document).ready(function() {
 
-
+    var x, y, block;
     var form = document.getElementById("form");
     var start = document.getElementById("start");
     var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -48,7 +48,6 @@ $(document).ready(function() {
                 left = pos.left,
                 width = $( this ).width(),
                 height = $( this ).height();
-                var x, y, block;
 
                 x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
                 y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
