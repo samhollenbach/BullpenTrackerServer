@@ -8,10 +8,9 @@ function success(response) {
 // do something here
     set variables of pitchtypes for the for loop
 }*/
-
+    var x, y, block, b_token;
 $(document).ready(function() {
 
-    var x, y, block;
     var form = document.getElementById("form");
     var start = document.getElementById("start");
     var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
@@ -22,7 +21,7 @@ $(document).ready(function() {
             "/api/pitcher/bullpens",
             {team: "-1", type: pentype},
             function(data) {
-                var b_token = data.b_token;
+                b_token = data.b_token;
             }
         );
 
