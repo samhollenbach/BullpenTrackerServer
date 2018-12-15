@@ -64,13 +64,9 @@ class bptDatabase(object):
 	def insert(self, table, **values):
 		try:
 			t = Table(table, self.metadata, autoload=True)
-			print(t)
 			i = t.insert().values(**values)
-			print(i)
 			r = self.session.execute(i)
-			print(r)
 			self.session.commit()
-			
 		except Exception as e:
 			print(str(e))
 			return False 
@@ -82,8 +78,9 @@ class bptDatabase(object):
 			t = Table(table, self.metadata, autoload=True)
 			u = self.session.query(t).filter_by(**filters).update(values_dict, synchronize_session=False)
 			self.session.commit()
-		except:
-			return False
+		except Exception as e:
+			print(str(e))
+			return False 
 		return True
 
 

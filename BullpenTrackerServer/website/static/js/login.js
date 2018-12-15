@@ -28,7 +28,7 @@ $(document).ready(function() {
 
 
     function signup_alert(main, text){
-        $('#signup-alert').html("<b>" + main + "</b> " + text)
+        $('#signup-alert').html("<b>" + main + ":</b> " + text)
         $('#signup-alert').show();
     }
 
