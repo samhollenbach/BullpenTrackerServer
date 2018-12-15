@@ -154,7 +154,7 @@ $(document).ready(function() {
             velocity: vel,
 
         };
-        $.post(url,{
+        $.post("/api/pitcher/bullpen/" + b_token,{
             hard_contact: hard_contact,
             ball_strike: strike,
             pitchX: x,
@@ -163,7 +163,9 @@ $(document).ready(function() {
             velocity: vel,
 
         },function(data, status) {
-                });
+                };
+        );
+
         };
 /*        $.ajax({
         type: "POST",
