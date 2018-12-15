@@ -19,7 +19,7 @@ $(document).ready(function() {
         document.getElementById("form").style.display="block";
         var pentype = $('#pentype :selected').text();
         $.post(
-            "/api/pitcher/bullpens/",
+            "/api/pitcher/bullpens",
             {team: "-1", type: pentype},
             function(data) {
                 var b_token = data.b_token;
@@ -39,11 +39,6 @@ $(document).ready(function() {
     var tooltip = $( '<div id="tooltip">' ).appendTo( 'body' )[0];
 
     $( '.coords' ).each(function () {
-        var pos = $( this ).position(),
-            top = pos.top,
-            left = pos.left,
-            width = $( this ).width(),
-            height = $( this ).height();
 
 
         $( this ).
@@ -135,7 +130,7 @@ $(document).ready(function() {
     });
 
     document.getElementById('hard_contact').onclick = function() {
-        var contact = document.getElementById('remember');
+        var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
     if (contact.checked){
@@ -149,7 +144,7 @@ $(document).ready(function() {
         else{
             var strike = "Y";
         }
-        var url = "/api/pitcher/bullpen/" + b_token +"/";
+        var url = "/api/pitcher/bullpen/" + b_token;
         var data = {
             hard_contact: hard_contact,
             ball_strike: strike,
@@ -160,10 +155,7 @@ $(document).ready(function() {
 
         };
         $.post(url,data,function(data, status) {
-                alert("Ajax post status is " + status);
-                    alert(data);
                 });
-        return false;
         };
 /*        $.ajax({
         type: "POST",
