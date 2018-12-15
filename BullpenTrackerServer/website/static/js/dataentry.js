@@ -164,6 +164,7 @@ $(document).ready(function() {
             alert(errMsg);
         }
         });
+        return = false;
     });
 
    // $.ajax({
