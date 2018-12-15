@@ -8,8 +8,11 @@ function success(response) {
 // do something here
     set variables of pitchtypes for the for loop
 }*/
-    var x, y, block, b_token;
+    var PitchLoc = {};
 $(document).ready(function() {
+
+
+
 
     var form = document.getElementById("form");
     var start = document.getElementById("start");
@@ -50,6 +53,8 @@ $(document).ready(function() {
 
                 x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
                 y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
+                PitchLoc.x = x;
+                PitchLoc.y = y;
                 if(x<=.13){
                     if(y<=.5){
                     block = 13
@@ -115,7 +120,7 @@ $(document).ready(function() {
                     block = 12
                     }
                 }
-
+                PitchLoc.block=block;
 
                 $( tooltip ).text( x + ', ' + block ).css({
                     left: e.clientX - 30,
@@ -128,7 +133,9 @@ $(document).ready(function() {
     });
 
     document.getElementById('submitbutton').onclick = function() {
-        var block = block;
+        var block = PitchLoc.block;
+        var x = PitchLoc.x;
+        var y = PitchLoc.y;
         var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
@@ -192,6 +199,13 @@ $(document).ready(function() {
    //     alert(errMsg);
    // }
    // });
+
+    function getX(xval){
+
+    }
+    function setX(xval){
+
+    }
 
 });
 
