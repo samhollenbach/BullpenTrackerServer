@@ -129,7 +129,7 @@ $(document).ready(function() {
             });
     });
 
-    document.getElementById('hard_contact').onclick = function() {
+    document.getElementById('submitbutton').onclick = function() {
         var contact = document.getElementById('hard_contact');
         var pitch_type = document.getElementById("pitch_type").value;
         var vel = document.getElementById("vel").value;
