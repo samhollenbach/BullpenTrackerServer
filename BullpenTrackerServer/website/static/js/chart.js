@@ -238,7 +238,7 @@ $(document).ready(function() {
         }
     }
 
-
+    // graph of pitch count to velocity
     function count_velocity_chart() {
         var datasets = [];
         var pitch_type = Object.keys(types);
@@ -277,7 +277,8 @@ $(document).ready(function() {
                 responsive: false,
                 title: {
                     display: true,
-                    text: 'Pitch Count by Velocity'
+                    text: 'Pitch Count by Velocity',
+                    fontSize: 20
                 },
                 legend: {
                     labels: {
@@ -288,13 +289,15 @@ $(document).ready(function() {
                     yAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Pitch Velocity"
+                            labelString: "Pitch Velocity",
+                            fontSize: 16
                         }
                     }],
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Pitch Count"
+                            labelString: "Pitch Count",
+                            fontSize: 16
                         }
                     }]
                 }
@@ -303,10 +306,22 @@ $(document).ready(function() {
 
     }
 
+    // graph of pitch locations on strike zone grid
     function location_chart() {
         var datasets = [];
         var pitch_type = Object.keys(types);
 
+        // builds strike zone box
+        var strikezone1 = {"type":"line","data":[{'x':-1,'y':-2},{'x':1,'y':-2}]};
+        var strikezone2 = {"type":"line","data":[{'x':-1,'y':2},{'x':1,'y':2}]};
+        var strikezone3 = {"type":"line","data":[{'x':-1,'y':-2},{'x':-1,'y':2}]};
+        var strikezone4 = {"type":"line","data":[{'x':1,'y':-2},{'x':1,'y':2}]};
+        datasets.push(strikezone1);
+        datasets.push(strikezone2);
+        datasets.push(strikezone3);
+        datasets.push(strikezone4);
+
+        // plots each pitch by x and y coordinates
         for (i = 0; i < pitch_type.length; i++) {
             var data_dict = {};
             data_dict["label"] = [pitch_type[i]];
@@ -324,16 +339,6 @@ $(document).ready(function() {
             }
             datasets.push(data_dict);
         }
-
-        // builds strike zone box
-        var strikezone1 = {"type":"line","data":[{'x':-1,'y':-2},{'x':1,'y':-2}]};
-        var strikezone2 = {"type":"line","data":[{'x':-1,'y':2},{'x':1,'y':2}]};
-        var strikezone3 = {"type":"line","data":[{'x':-1,'y':-2},{'x':-1,'y':2}]};
-        var strikezone4 = {"type":"line","data":[{'x':1,'y':-2},{'x':1,'y':2}]};
-        datasets.push(strikezone1);
-        datasets.push(strikezone2);
-        datasets.push(strikezone3);
-        datasets.push(strikezone4);
 
         var text = "<div><canvas id='canvas5'></canvas></div>";
         $(".chart_container").append(text);
@@ -359,21 +364,19 @@ $(document).ready(function() {
                 },
                 layout: {
                     padding: {
-                        left: 200,
-                        right: 150,
+                        left: 200, // helps scale the axes
+                        right: 150, // helps scale the axes
                         top: 0,
                         bottom: 0
                     }
                 },
                 title: {
                     display: true,
-                    text: 'Pitch Location Map'
+                    text: 'Pitch Location Map',
+                    fontSize: 20
                 },
                 scales: {
                     yAxes: [{
-                        scaleLabel: {
-                            display: true
-                        },
                         ticks: {
                             stepSize:1,
                             min:-3,
@@ -381,9 +384,6 @@ $(document).ready(function() {
                         }
                     }],
                     xAxes: [{
-                        scaleLabel: {
-                            display: true
-                        },
                         ticks: {
                             stepSize:1,
                             min:-2,
@@ -393,10 +393,10 @@ $(document).ready(function() {
                 }
             }
         });
-
     }
 
-
+    // Sets up data to be graphed on bar charts using Chart.js
+    // Calls chart_builder() to draw charts with input data
     function bar_charts(count=false,velocity=false,strike=false) {
         var pitch_types_array = Object.keys(types);
 
@@ -407,32 +407,33 @@ $(document).ready(function() {
                 counts.push(types[pitch_types_array[i]]['count']);
             };
 
-            chart_builder('canvas1', 'bar', "# of pitches", counts, "Pitch Count");
+            chart_builder('canvas1', 'bar', "# of Pitches", counts, "Pitch Count");
         }
 
         if (velocity) {
             var velocities = [];
 
             for (i = 0; i < pitch_types_array.length; i++) {
-                velocities.push(types[pitch_types_array[i]]['avg_velocity']);
+                velocities.push(Math.round(types[pitch_types_array[i]]['avg_velocity']));
             };
 
-            chart_builder('canvas2', 'bar', "avg. velocity", velocities, "Average Velocity");
+            chart_builder('canvas2', 'bar', "Avg. Velocity", velocities, "Average Velocity");
         }
 
         if (strike) {
             var strikes = [];
 
             for (i = 0; i < pitch_types_array.length; i++) {
-                strikes.push(types[pitch_types_array[i]]['strike%']);
+                strikes.push(Math.round(types[pitch_types_array[i]]['strike%']));
             };
 
-            chart_builder('canvas3', 'bar', "strike %", strikes, "Strike Percentage");
+            chart_builder('canvas3', 'bar', "Strike %", strikes, "Strike Percentage");
         }
 
 
     };
 
+    // Graphs of pitch count, average velocity and strike percentage by pitch type
     function chart_builder(canvas, chart, label, data, title) {
         var pitch_types_array = Object.keys(types);
         var background_colors = [];
@@ -449,7 +450,6 @@ $(document).ready(function() {
             data: {
                 labels: pitch_types_array,
                 datasets:[{
-                    label: label,
                     backgroundColor: background_colors,
                     data: data
                 }]
@@ -457,22 +457,63 @@ $(document).ready(function() {
             options: {
                 maintainAspectRatio: true,
                 responsive: false,
-                legend: { display: false },
+                // disables hover animation because it hides bar values
+                hover: {
+                    animationDuration: 0
+                },
+                // shows value of bar at the top
+                animation: {
+        	        duration: 1,
+						onComplete: function () {
+							var chartInstance = this.chart,
+								ctx = chartInstance.ctx;
+
+							ctx.font = Chart.helpers.fontString(Chart.defaults.global.defaultFontSize, Chart.defaults.global.defaultFontStyle, Chart.defaults.global.defaultFontFamily);
+							ctx.textAlign = 'center';
+							ctx.textBaseline = 'bottom';
+
+							this.data.datasets.forEach(function (dataset, i) {
+								var meta = chartInstance.controller.getDatasetMeta(i);
+								meta.data.forEach(function (bar, index) {
+									var data = dataset.data[index];
+									ctx.fillText(data, bar._model.x, bar._model.y - 5);
+								});
+							});
+						}
+                },
+                tooltips: {
+                    enabled: false
+                },
+                legend: {
+                    display: false
+                },
                 title: {
                     display: true,
-                    text: title
+                    text: title,
+                    fontSize: 20,
+                    lineHeight:2
                 },
                 scales: {
                     yAxes: [{
                         ticks: {
                             beginAtZero: true
+                        },
+                        scaleLabel: {
+                            display: true,
+                            labelString: label,
+                            fontSize: 16
+                        }
+                    }],
+                    xAxes: [{
+                        scaleLabel: {
+                            display: true,
+                            labelString: "Pitch Types",
+                            fontSize: 16
                         }
                     }]
                 }
             }
         });
-
-
     }
 
 });

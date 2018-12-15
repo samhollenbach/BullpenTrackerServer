@@ -223,16 +223,19 @@ canvas {
 
 .form_div {
     margin-top: 40px;
+    margin-right: 40px;
     text-align:right;
 }
 
-#chart_form {
-    text-size: 20px;
+#chart_form select {
+    font-size: 14px;
 }
 
-#chart_form select {
-    margin-right: 40px;
+#chart_form span {
+    margin-left: 40px;
+    font-size: 20px;
 }
+
 
 .loader {
     border: 24px solid #aaa;
