@@ -6,6 +6,7 @@
 
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script rel="text/javascript" src="{{ url_for('static',filename='js/dataentry.js') }}"></script>
@@ -19,38 +20,61 @@
         <a class="logout_link" id="logout_btn" href="/logout">logout</a>
     </div>
 
-    <button class="back_btn" onclick="location.href='/'">Back</button>
+     <button class="back_btn" onclick="location.href='/'">Back</button>
 
 
-    <select id="pentype">
-  <option value="COMP">COMP</option>
-  <option value="FLAT">FLAT</option>
-  <option value="NORM">NORM</option>
-  <option value="GAME">GAME</option>
-    </select>
-    <button id="start">Start Session</button>
+    <div class="container">
 
-    <form action="" class="data_entry_form" name="form" id="form" onsubmit="return false">
-        <div>
-            <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png">
-            <!--<img class="coords" src="strikezone.png">-->
+        <div class="row">
+
+
+            <div id="start-session" class="col-md-1 offset-md-4">
+
+                <select id="pentype">
+                    <option value="COMP">COMP</option>
+                    <option value="FLAT">FLAT</option>
+                    <option value="NORM">NORM</option>
+                    <option value="GAME">GAME</option>
+                </select>
+
+
+                <button id="start">Start Session</button>
+
+            </div>  
+
+
+            <div id="session-input" class="col-md-8 offset-md-2">
+
+
+
+                <form action="" class="data_entry_form" name="form" id="form" onsubmit="return false">
+                    <div>
+                        <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png">
+                        <!--<img class="coords" src="strikezone.png">-->
+                    </div>
+                    <input type="checkbox" id="hard_contact">Hard Contact <br>
+                    <select id="pitch_type">
+                        <option value="F">Fastball</option>
+                        <option value="B">Breaking Ball</option>
+                        <option value="X">Changeup</option>
+                        <option value="C">Cutter</option>
+                        <option value="S">Slider</option>
+                        <option value="2">2-Seam Fastball</option>
+                </select>
+                    <input type="text" id="vel">Velocity <br>
+
+                    <button id="submitbutton">Submit</button>
+                </form>
+                <div>
+                    <button id="exit">End Session</button>
+                </div>
+
+            </div>
+
         </div>
-        <input type="checkbox" id="hard_contact">Hard Contact <br>
-        <select id="pitch_type">
-            <option value="F">Fastball</option>
-            <option value="B">Breaking Ball</option>
-            <option value="X">Changeup</option>
-            <option value="C">Cutter</option>
-            <option value="S">Slider</option>
-            <option value="2">2-Seam Fastball</option>
-    </select>
-        <input type="text" id="vel">Velocity <br>
 
-        <button id="submitbutton">Submit</button>
-    </form>
-    <div>
-        <button id="exit">End Session</button>
     </div>
+
 
 </body>
 </html>

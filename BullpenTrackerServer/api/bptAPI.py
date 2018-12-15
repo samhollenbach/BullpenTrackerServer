@@ -260,7 +260,7 @@ class Bullpen(Resource):
 		data = parser.parse_args()
 		data['bullpen_id'] = bid
 
-		if bptDatabase().insert('pitches', **data):
+		if bptDatabase().insert('pitches', **data):	
 			return jsonify({'message': 'successfully created new pitch'})
 		else:
 			return jsonify({'message': 'failed to create new pitch'})
