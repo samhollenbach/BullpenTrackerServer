@@ -55,6 +55,7 @@ body {
 }
 #signup_btn{
     width: 150px;
+    margin-bottom: 100px;
 }
 .signup-fields input[type=radio] {
     width: 20px;
