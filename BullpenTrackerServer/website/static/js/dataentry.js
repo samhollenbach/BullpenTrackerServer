@@ -100,7 +100,7 @@ $(document).ready(function() {
                 dottx.beginPath();
                 dottx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
                 dottx.stroke();
-                var element = document.getElementById("body");
+                var element = document.getElementsByTagName("BODY")[0]
                     element.appendChild(dot);
 
 
