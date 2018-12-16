@@ -123,7 +123,7 @@ $(document).ready(function() {
                 }
                 PitchLoc.block=block;
 
-                $( tooltip ).text( x + ', ' + block ).css({
+                $( tooltip ).text( x + ', ' + y ).css({
                     left: e.clientX - 30,
                     top: e.clientY - 30
                 }).show();
