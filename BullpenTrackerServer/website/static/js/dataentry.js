@@ -34,7 +34,24 @@ $(document).ready(function() {
 
    // f.setAttribute('method',"post");
    // f.setAttribute('action',"submit.php");
+/*   var xpos = 0;
+   var ypos = 0;
+    while (this) {
+  if (this.tagName == "IMG") {
+    // deal with browser quirks with body/window/document and page scroll
+    var xScroll = this.scrollLeft || document.documentElement.scrollLeft;
+    var yScroll = this.scrollTop || document.documentElement.scrollTop;
 
+    xPos += (this.offsetLeft - xScroll + this.clientLeft);
+    yPos += (this.offsetTop - yScroll + this.clientTop);
+  } else {
+    // for all other non-BODY elements
+    xPos += (this.offsetLeft - this.scrollLeft + this.clientLeft);
+    yPos += (this.offsetTop - this.scrollTop + this.clientTop);
+  }
+
+  this = this.offsetParent;
+}*/
 
 
 
@@ -46,14 +63,38 @@ $(document).ready(function() {
 
         $( this ).
             click(function ( e ) {
+                   var image = document.getElementById('strikezone');
+                   var xpos = 0;
+                   var ypos = 0;
+                   while (image) {
+                    if (image.tagName == "IMG") {
+                    // deal with browser quirks with body/window/document and page scroll
+                    var xScroll = image.scrollLeft || document.documentElement.scrollLeft;
+                    var yScroll = image.scrollTop || document.documentElement.scrollTop;
+
+                    xPos += (image.offsetLeft - xScroll + image.clientLeft);
+                    yPos += (image.offsetTop - yScroll + image.clientTop);
+                    } else {
+                    // for all other non-BODY elements
+                    xPos += (image.offsetLeft - image.scrollLeft + image.clientLeft);
+                    yPos += (image.offsetTop - image.scrollTop + image.clientTop);
+                    }
+
+                   image = image.offsetParent;
+                   }
+
+
+
                 var pos = $( this ).position(),
                 top = pos.top,
                 left = pos.left,
                 width = $( this ).width(),
                 height = $( this ).height();
 
-                x = ( ( e.clientX - left ) / width );
-                y = ( ( height - ( e.clientY - top ) ) / height );
+                /*x = ( ( e.clientX - left ) / width );
+                y = ( ( height - ( e.clientY - top ) ) / height );*/
+                x = xPos;
+                y = yPos;
                 PitchLoc.x = x;
                 PitchLoc.y = y;
                 if(x<=.13){
