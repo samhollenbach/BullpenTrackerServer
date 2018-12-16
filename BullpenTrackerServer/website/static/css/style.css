@@ -162,30 +162,6 @@ i#complete_stats {
 	border-collapse: collapse;
 }
 
-.team_summary th {
-    width:20%;
-    height:25px;
-}
-
-.team_summary th, td {
-    border: 1px solid black;
-}
-
-.team_members {
-    text-align:center;
-    width: 30%;
-    float: right;
-    margin-right: 5%;
-    margin-top: 5%;
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
-.team_members td {
-    height:25px;
-    border: 1px solid black;
-}
-
 div.blurb{
     padding-top: 0;
     width: 100%;
@@ -213,14 +189,18 @@ div.blurb p{
     font-size: 1.5vw;
     display: inline;
 }
-div.blurb p .bpt-emph{
+div.blurb p .bpt-emph {
     color: #01426A;
     font-weight: normal;
 }
-div.blurb a{
+div.blurb a {
     font-family: 'Arial', 'serif';
     font-size: 1.5vw;
     display: inline;
+}
+
+#sign_up {
+    font-size: 2vw;
 }
 
 canvas {
