@@ -29,9 +29,9 @@ $(document).ready(function() {
                     last_bullpen = "None"
                 };
 
-                summary_dict["bullpens recorded"] = bullpen_data.length;
-                summary_dict["last bullpen"] = last_bullpen;
-                summary_dict["pitches recorded"] = total_pitches;
+                summary_dict["Bullpens Recorded"] = bullpen_data.length;
+                summary_dict["Last Bullpen"] = last_bullpen;
+                summary_dict["Pitches Recorded"] = total_pitches;
             })
             .done(function() {
 
