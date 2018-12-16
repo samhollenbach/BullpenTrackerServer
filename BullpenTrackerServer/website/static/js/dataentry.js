@@ -64,8 +64,8 @@ $(document).ready(function() {
         $( this ).
             click(function ( e ) {
                    var image = document.getElementById('strikezone');
-                   var xpos = 0;
-                   var ypos = 0;
+                   var xPos = 0;
+                   var yPos = 0;
                    while (image) {
                     if (image.tagName == "IMG") {
                     // deal with browser quirks with body/window/document and page scroll
