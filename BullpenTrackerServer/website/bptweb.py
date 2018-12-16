@@ -8,8 +8,18 @@ from BullpenTrackerServer.api import loginManager
 
 from BullpenTrackerServer.instance import config
 
+"""
+bptweb.py
+
+Contains all routes for the user-facing web pages. 
+
+"""
+
 
 def requires_pitcher_auth(f):
+	"""
+	Decorator which indicated a pitcher token is required (stored as cookie) to view this page
+	"""
 	@wraps(f)
 	def decorated(*args, **kwargs):
 		p_token = request.cookies.get('p_token')
@@ -17,7 +27,6 @@ def requires_pitcher_auth(f):
 			return redirect('/login', code=302)
 		return f(*args, **kwargs)
 	return decorated
-
 
 
 @app.route('/', methods=['GET'])
@@ -37,7 +46,10 @@ def login():
 
 @app.route('/signup', methods=['GET'])
 def signup():
-	return render_template('sign_up.html')
+	redirect_login = render_template('sign_up.html')
+	resp = make_response(redirect_login)
+	resp.set_cookie('p_token', '', expires=0)
+	return resp
 
 
 @app.route('/logout', methods=['GET'])

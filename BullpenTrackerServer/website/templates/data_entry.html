@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <title>Data Entry Form</title>
 
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
 
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
     <script rel="text/javascript" src="{{ url_for('static',filename='js/dataentry.js') }}"></script>
@@ -43,13 +43,13 @@
             </div>  
 
 
-            <div id="session-input" class="col-md-8 offset-md-2">
+            <div id="session-input" class="col-md-8a offset-md-2">
 
 
 
                 <form action="" class="data_entry_form" name="form" id="form" onsubmit="return false">
                     <div>
-                        <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png" height="400" width="400">
+                        <img class="coords" src="http://cdn0.vox-cdn.com/assets/4384443/Inning_1.png" height="400" width="400" id="strikezone">
                         <!--<img class="coords" src="strikezone.png">-->
                     </div>
                     <input type="checkbox" id="hard_contact">Hard Contact <br>
