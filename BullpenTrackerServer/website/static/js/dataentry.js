@@ -95,6 +95,15 @@ $(document).ready(function() {
                 y = ( ( height - ( e.clientY - top ) ) / height );
                 PitchLoc.x = x;
                 PitchLoc.y = y;
+                var dot = document.createElement("canvas");
+                var dottx = dot.getContext("2d");
+                dottx.beginPath();
+                dottx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
+                dottx.stroke();
+                var element = document.getElementById("body");
+                    element.appendChild(dot);
+
+
                 if(x<=.13){
                     if(y<=.5){
                     block = 13
