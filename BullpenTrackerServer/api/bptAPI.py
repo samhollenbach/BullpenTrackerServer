@@ -14,6 +14,14 @@ from BullpenTrackerServer.api.bptDatabase import bptDatabase
 from BullpenTrackerServer import app
 
 
+"""
+bptAPI.py
+
+Contains all routes for BullpenTrackerAPI. API routes are hosted with Flask-restful.
+Database queries are processed through the bptDatabase class.
+
+"""
+
 
 api = Api(app)
 
@@ -261,8 +269,13 @@ class Bullpen(Resource):
 		data['bullpen_id'] = bid
 
 		if bptDatabase().insert('pitches', **data):	
+			r = bptDatabase().raw_query('UPDATE bullpens SET \
+				pitch_count=(SELECT COUNT(*) FROM pitches WHERE bullpen_id={}) WHERE id={};'.format(bid, bid))
+			print(r)
+			print("EGOHWEOIGOIW")
 			return jsonify({'message': 'successfully created new pitch'})
 		else:
+			print("fial")
 			return jsonify({'message': 'failed to create new pitch'})
 
 

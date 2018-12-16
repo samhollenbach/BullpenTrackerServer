@@ -95,5 +95,13 @@ class bptDatabase(object):
 		return True
 
 
+	def raw_query(self, query):
+		res = self.session.execute(query)
+		self.session.commit()
+		f = res.fetch_all()
+		print(f)
+		return f
+
+
 
 
