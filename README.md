@@ -10,6 +10,12 @@ Mobile (WIP)
 
 ## Setup
 
+
+### IMPORTANT
+
+This repository does not include the `config.py` file (required to run the project) because it contains database access information. For Shilad -- we've included this file in an email to you. Please place it in `BullpenTrackerServer/BullpenTrackerServer/instance/config.py`
+
+
 Clone this repository to desired location. Navigate to the outer BullpenTrackerServer folder in your command line. 
 
 ```bash
@@ -43,4 +49,14 @@ flask run
 ```
 
 Flask should display the host and port you are now running the project on (most likely http://127.0.0.1:5000/), which you can enter into your browser to access the website. 
+
+
+## Technical Details
+
+Website Hosting: Flask
+
+API Hosting: Flask-restful
+
+Database Access: 
+
 
