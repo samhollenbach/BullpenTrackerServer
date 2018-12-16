@@ -271,11 +271,8 @@ class Bullpen(Resource):
 		if bptDatabase().insert('pitches', **data):	
 			r = bptDatabase().raw_query('UPDATE bullpens SET \
 				pitch_count=(SELECT COUNT(*) FROM pitches WHERE bullpen_id={}) WHERE id={};'.format(bid, bid))
-			print(r)
-			print("EGOHWEOIGOIW")
 			return jsonify({'message': 'successfully created new pitch'})
 		else:
-			print("fial")
 			return jsonify({'message': 'failed to create new pitch'})
 
 

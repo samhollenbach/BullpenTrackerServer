@@ -8,6 +8,12 @@ BullpenTracker is a website and mobile app for recording and analysing baseball 
 Mobile (WIP)
 
 
+## Requirements
+
+Python 3.5+
+
+
+
 ## Setup
 
 
@@ -28,6 +34,9 @@ python -m venv venv
 
 This repository does not include the `config.py` file (required to run the project) because it contains database access information. For Shilad -- we've included this file in an email to you. Please place it in `BullpenTrackerServer/BullpenTrackerServer/instance/config.py`. If you are reading this and you are not Shilad, you can email [shollenb@macalester.edu](shollenb@macalester.edu) for the file.
 
+If you examine this config file, there is also an option to switch off of DEBUG mode, which will store all data on a remote server. 
+
+
 
 ### After adding the config.py file
 
@@ -35,7 +44,7 @@ This repository does not include the `config.py` file (required to run the proje
 In your desired Python environment, run the setup script to install all necessary packages.
 
 ```bash
-python setup.py
+python setup.py install
 ```
 
 

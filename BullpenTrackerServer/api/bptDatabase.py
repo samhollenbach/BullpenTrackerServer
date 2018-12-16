@@ -98,7 +98,6 @@ class bptDatabase(object):
 	def raw_query(self, query):
 		res = self.session.execute(query)
 		self.session.commit()
-		print(res)
 		return res
 
 
