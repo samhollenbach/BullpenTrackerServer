@@ -95,13 +95,13 @@ $(document).ready(function() {
                 y = ( ( height - ( e.clientY - top ) ) / height );
                 PitchLoc.x = x;
                 PitchLoc.y = y;
-                var dot = document.createElement("canvas");
+/*                var dot = document.createElement("canvas");
                 var dottx = dot.getContext("2d");
                 dottx.beginPath();
                 dottx.arc(e.clientX, e.clientY, 5, 0, 2 * Math.PI);
                 dottx.stroke();
                 var element = document.getElementsByTagName("BODY")[0]
-                    element.appendChild(dot);
+                    element.appendChild(dot);*/
 
 
                 if(x<=.13){
@@ -223,40 +223,7 @@ $(document).ready(function() {
                 }
         );
         };
-/*        $.ajax({
-        type: "POST",
-        url: "/api/pitcher/bullpens/" + b_token +"/",
-        // The key needs to match your method's input parameter (case-sensitive).
-        data: JSON.stringify({ data }),
-        contentType: "application/json; charset=utf-8",
-        dataType: "json",
-        success: function(data){alert(data);},
-        failure: function(errMsg) {
-            alert(errMsg);
-        }
-        });
-        event.preventDefault();
-    });*/
 
-   // $.ajax({
-   // type: "POST",
-   // url: "/api/pitcher/bullpens/" + b_token +"/",
-    // The key needs to match your method's input parameter (case-sensitive).
-   // data: JSON.stringify({ data }),
-   // contentType: "application/json; charset=utf-8",
-   // dataType: "json",
-   // success: function(data){alert(data);},
-   // failure: function(errMsg) {
-   //     alert(errMsg);
-   // }
-   // });
-
-    function getX(xval){
-
-    }
-    function setX(xval){
-
-    }
 
 });
 
