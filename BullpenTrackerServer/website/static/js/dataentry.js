@@ -93,8 +93,6 @@ $(document).ready(function() {
 
                 x = ( ( e.clientX - left ) / width );
                 y = ( ( height - ( e.clientY - top ) ) / height );
-                x = xPos;
-                y = yPos;
                 PitchLoc.x = x;
                 PitchLoc.y = y;
                 if(x<=.13){
