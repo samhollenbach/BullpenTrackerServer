@@ -48,12 +48,12 @@ def logout():
 	return resp
 
 
-@app.route('/data_entry', methods=['GET'])
+@app.route('/track', methods=['GET'])
 @requires_pitcher_auth
 def data_entry():
 	return render_template('data_entry.html')
 
-@app.route('/data_viz', methods=['GET'])
+@app.route('/stats', methods=['GET'])
 @requires_pitcher_auth
 def data_viz():
 	return render_template('data_viz.html')

@@ -52,8 +52,8 @@ $(document).ready(function() {
                 width = $( this ).width(),
                 height = $( this ).height();
 
-                x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
-                y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
+                x = ( ( e.clientX - left ) / width );
+                y = ( ( height - ( e.clientY - top ) ) / height );
                 PitchLoc.x = x;
                 PitchLoc.y = y;
                 if(x<=.13){
@@ -123,7 +123,7 @@ $(document).ready(function() {
                 }
                 PitchLoc.block=block;
 
-                $( tooltip ).text( x + ', ' + block ).css({
+                $( tooltip ).text( x + ', ' + y ).css({
                     left: e.clientX - 30,
                     top: e.clientY - 30
                 }).show();
@@ -139,7 +139,8 @@ $(document).ready(function() {
         var y = PitchLoc.y;
         var b_token = PitchLoc.btoken;
         var contact = document.getElementById('hard_contact');
-        var pitch_type = document.getElementById("pitch_type").value;
+        var pitchtype = document.getElementById('pitch_type')
+        var pitch_type = pitchtype.options[pitchtype.selectedIndex].value;
         var vel = document.getElementById("vel").value;
     if (contact.checked){
         var hard_contact = 1;
