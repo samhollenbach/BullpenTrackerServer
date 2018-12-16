@@ -14,7 +14,7 @@
 
     <div class="header">
         <span class="title">Bullpen Tracker</span>
-        <a class="logout_link" id="logout_btn" href="/logout">logout</a>
+        <a class="logout_link" id="logout_btn" href="/logout">Logout</a>
     </div>
 
     <div class="profile">
@@ -26,19 +26,15 @@
     <div class="data">
         <button onclick="location.href='/stats'">Data Visualization</button>
         <button onclick="location.href='/track'" id="data_entry">Data Entry</button>
-
-       <!--<select id="pentype">-->
-            <!--<option value="GAME">GAME</option>-->
-            <!--<option value="COMP">COMP</option>-->
-            <!--<option value="FLAT">FLAT</option>-->
-            <!--<option value="NORM">NORM</option>-->
-        <!--</select>-->
     </div><br>
 
-    <b id="summary">Summary</b>
-    <i id="complete_stats"><a href="">View Complete Stats</a></i>
+    <div class="summary">
+        <b id="summary">Stats Summary</b>
+        <i id="complete_stats"><a href="">View Complete Stats</a></i>
 
-    <table class="summary_table"></table>
+        <table class="summary_table"></table>
+    </div>
+
 
 </body>
 </html>
