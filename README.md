@@ -10,7 +10,7 @@ Mobile (WIP)
 
 ## Requirements
 
-Python 3.5+
+Python 3.5+ with [setuptools](https://pypi.org/project/setuptools/) installed
 
 
 
@@ -46,6 +46,7 @@ In your desired Python environment, run the setup script to install all necessar
 ```bash
 python setup.py install
 ```
+If any of the packages fail to install, try to install them directly with pip.
 
 
 Next, indicate to Flask what project we want to run. Optionally, run the project in debug mode to enable auto-reloading on file changes.
@@ -54,6 +55,8 @@ Next, indicate to Flask what project we want to run. Optionally, run the project
 export FLASK_APP=BullpenTrackerServer
 export FLASK_DEBUG=True  # optional
 ```
+NOTE: use `set` instead of `export` if using Windows
+
 
 Finally, run the flask server.
 
@@ -62,6 +65,9 @@ flask run
 ```
 
 Flask should display the host and port you are now running the project on (most likely http://127.0.0.1:5000/), which you can enter into your browser to access the website. 
+
+
+### 
 
 
 ## Technical Details

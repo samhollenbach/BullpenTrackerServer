@@ -211,7 +211,7 @@ $(document).ready(function() {
         else{
             var strike = "Y";
         }
-        var url = "/api/pitcher/bullpen/" + b_token;
+        
         var data = {
             hard_contact: hard_contact,
             ball_strike: strike,
@@ -230,9 +230,11 @@ $(document).ready(function() {
             velocity: vel,
 
         },function(data, status) {
-                }
-        );
-        };
+            $("#input-status").text("Pitch Added: " + pitch_type + " / " + strike + " / " + vel + "mph");
+
+        });
+
+    };
 
 
 });
