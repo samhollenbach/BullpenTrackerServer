@@ -20,19 +20,24 @@ $(document).ready(function() {
     var p_token = document.cookie.replace(/(?:(?:^|.*;\s*)p_token\s*\=\s*([^;]*).*$)|^.*$/, "$1");
         document.getElementById('start').onclick = function newbullpen() {
         document.getElementById("form").style.display="block";
-        var pentype = $('#pentype :selected').text();
-        $.post(
-            "/api/pitcher/bullpens",
-            {team: "-1", type: pentype},
-            function(data) {
-                b_token = data.b_token;
-                PitchLoc.btoken = b_token
-                $("#session-input").show();
-                $("#start-session").hide();
+            var pentype = $('#pentype :selected').text();
+
+            if (typeof b_token == 'undefined'){
+                $.post(
+                "/api/pitcher/bullpens",
+                {team: "-1", type: pentype},
+                function(data) {
+                    b_token = data.b_token;
+                    PitchLoc.btoken = b_token
+
+                    $("#session-input").show();
+                    $("#start-session").hide();
 
 
-            }
-        );
+                }
+            );
+        }
+        
 
     };
 
