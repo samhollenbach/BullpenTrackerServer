@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name='BullpenTrackerServer',
-    version='1.0'
+    version='1.0',
     packages=['BullpenTrackerServer'],
     include_package_data=True,
     install_requires=[
