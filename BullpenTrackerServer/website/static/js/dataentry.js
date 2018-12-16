@@ -86,13 +86,13 @@ $(document).ready(function() {
 
 
                 var pos = $( this ).position(),
-                top = pos.top,
-                left = pos.left,
+                top = yPos,
+                left = xPos,
                 width = $( this ).width(),
                 height = $( this ).height();
 
-                /*x = ( ( e.clientX - left ) / width );
-                y = ( ( height - ( e.clientY - top ) ) / height );*/
+                x = ( ( e.clientX - left ) / width );
+                y = ( ( height - ( e.clientY - top ) ) / height );
                 x = xPos;
                 y = yPos;
                 PitchLoc.x = x;
