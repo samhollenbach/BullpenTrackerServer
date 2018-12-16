@@ -5,6 +5,17 @@ from flask import jsonify
 
 import BullpenTrackerServer.instance.config as config
 
+
+"""
+bptDatabase.py
+
+Driver for database connection with SQLalchemy. Generalized SELECT, INSERT, UPDATE statements.
+
+TODO: DELETE statement / more flexibility
+
+"""
+
+
 class bptDatabase(object):
 
 	def __init__(self):
