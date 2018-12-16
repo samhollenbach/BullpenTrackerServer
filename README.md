@@ -76,9 +76,29 @@ Website Hosting: [Flask](http://flask.pocoo.org/)
 
 API Hosting: [Flask-restful](https://flask-restful.readthedocs.io/en/latest/)
 
-Database Access: [SQLAlchemy](https://www.sqlalchemy.org/)
+Database Access: [SQLAlchemy](https://www.sqlalchemy.org/) + [pymysql](https://github.com/PyMySQL/PyMySQL)
 
 Password Hashing: [Passlib](https://passlib.readthedocs.io/en/stable/)
+
+
+## Known Issues
+
+### Home / Login
+-- Needs better formatting
+
+
+### Data Entry 
+-- Hard Contact field always inputs 1 into database
+
+-- Should include additional form field for Ball/Strike instead of being based off of strike zone picture
+
+
+### Visualization 
+-- Occasional issues with refreshing while loading 
+
+-- Mystery dots?
+
+
 
 
 

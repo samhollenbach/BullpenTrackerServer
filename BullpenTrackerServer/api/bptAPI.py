@@ -268,6 +268,8 @@ class Bullpen(Resource):
 		data = parser.parse_args()
 		data['bullpen_id'] = bid
 
+		print(data['vel'])
+
 		if bptDatabase().insert('pitches', **data):	
 			r = bptDatabase().raw_query('UPDATE bullpens SET \
 				pitch_count=(SELECT COUNT(*) FROM pitches WHERE bullpen_id={}) WHERE id={};'.format(bid, bid))

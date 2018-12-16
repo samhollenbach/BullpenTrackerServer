@@ -200,6 +200,10 @@ $(document).ready(function() {
         var pitchtype = document.getElementById('pitch_type')
         var pitch_type = pitchtype.options[pitchtype.selectedIndex].value;
         var vel = document.getElementById("vel").value;
+        if (vel == null || vel == ""){
+            vel = 0.0;
+        }
+
     if (contact.checked){
         var hard_contact = true;
     }else{
@@ -218,7 +222,7 @@ $(document).ready(function() {
             pitchX: x,
             pitchY: y,
             pitch_type: pitch_type,
-            velocity: vel,
+            vel: vel,
 
         };
         $.post("/api/bullpen/" + b_token,{
@@ -227,7 +231,7 @@ $(document).ready(function() {
             pitchX: x,
             pitchY: y,
             pitch_type: pitch_type,
-            velocity: vel,
+            vel: vel,
 
         },function(data, status) {
             $("#input-status").text("Pitch Added: " + pitch_type + " / " + strike + " / " + vel + "mph");
