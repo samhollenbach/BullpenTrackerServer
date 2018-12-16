@@ -182,9 +182,9 @@ $(document).ready(function() {
         var pitch_type = pitchtype.options[pitchtype.selectedIndex].value;
         var vel = document.getElementById("vel").value;
     if (contact.checked){
-        var hard_contact = 1;
+        var hard_contact = true;
     }else{
-        var hard_contact = 0;
+        var hard_contact = false;
      }
         if(block >= 11){
             var strike = "N";
