@@ -52,8 +52,8 @@ $(document).ready(function() {
                 width = $( this ).width(),
                 height = $( this ).height();
 
-                x = ( ( e.clientX - left ) / width ).toFixed( 2 ),
-                y = ( ( height - ( e.clientY - top ) ) / height ).toFixed( 2 );
+                x = ( ( e.clientX - left ) / width );
+                y = ( ( height - ( e.clientY - top ) ) / height );
                 PitchLoc.x = x;
                 PitchLoc.y = y;
                 if(x<=.13){
