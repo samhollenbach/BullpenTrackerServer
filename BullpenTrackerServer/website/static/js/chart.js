@@ -82,15 +82,15 @@ $(document).ready(function() {
         }
         else if (stat == "count") {
             bar_charts(true);
-            count_velocity_chart();
+            velocity_chart();
         }
         else if (stat == "velocity") {
             bar_charts(false,true);
-            count_velocity_chart();
+            velocity_chart();
         }
         else {
             bar_charts(true,true,true);
-            count_velocity_chart();
+            velocity_chart();
             location_chart();
         }
     });
@@ -170,7 +170,7 @@ $(document).ready(function() {
     function processData(pitch_data) {
         types = {}; // summary of each pitch type
         pitching_data = {};  // pitch_data + pitch_count organized by pitch type
-        var pitch_count = 1;
+        var pitch_number = 1;
 
         for (i = 0; i < pitch_data.length; i++) {
 
@@ -186,9 +186,9 @@ $(document).ready(function() {
                 pitching_data[pitch_type] = [];
             }
 
-            pitch_data[i]["pitch_count"] = pitch_count;
+            pitch_data[i]["pitch_number"] = pitch_number;
             pitching_data[pitch_type].push(pitch_data[i]);
-            pitch_count++;
+            pitch_number++;
 
             // avoids key repetition when building types dictionary
             if (types[pitch_type] === undefined) {
@@ -225,21 +225,21 @@ $(document).ready(function() {
         }
         else if (stat == "count") {
             bar_charts(true);
-            count_velocity_chart();
+            velocity_chart();
         }
         else if (stat == "velocity") {
             bar_charts(false,true);
-            count_velocity_chart();
+            velocity_chart();
         }
         else {
             bar_charts(true,true,true);
-            count_velocity_chart();
+            velocity_chart();
             location_chart();
         }
     }
 
-    // graph of pitch count to velocity
-    function count_velocity_chart() {
+    // graph of pitches to velocity
+    function velocity_chart() {
         var datasets = [];
         var pitch_type = Object.keys(types);
 
@@ -253,7 +253,7 @@ $(document).ready(function() {
             for (k = 0; k < pitching_data[pitch_type[i]].length; k++) {
                 if (pitching_data[pitch_type[i]][k].vel != 0) {
                     var position = {};
-                    position['x'] = pitching_data[pitch_type[i]][k].pitch_count;
+                    position['x'] = pitching_data[pitch_type[i]][k].pitch_number;
                     position['y'] = pitching_data[pitch_type[i]][k].vel;
                     position['r'] = 10;
                 }
@@ -277,7 +277,7 @@ $(document).ready(function() {
                 responsive: false,
                 title: {
                     display: true,
-                    text: 'Pitch Count by Velocity',
+                    text: 'Pitches by Velocity',
                     fontSize: 20
                 },
                 legend: {
@@ -296,7 +296,7 @@ $(document).ready(function() {
                     xAxes: [{
                         scaleLabel: {
                             display: true,
-                            labelString: "Pitch Count",
+                            labelString: "Pitches",
                             fontSize: 16
                         }
                     }]
