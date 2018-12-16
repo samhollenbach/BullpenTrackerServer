@@ -205,20 +205,23 @@ $(document).ready(function() {
         } else {
             var hard_contact = false;
         }
+        if (vel == null || vel == ""){
+            vel = 0.0;
+        }
         if(block >= 11){
             var strike = "N";
         }
         else{
             var strike = "Y";
         }
-        var url = "/api/pitcher/bullpen/" + b_token;
+        
         var data = {
             hard_contact: hard_contact,
             ball_strike: strike,
             pitchX: x,
             pitchY: y,
             pitch_type: pitch_type,
-            velocity: vel,
+            vel: vel,
 
         };
         $.post("/api/bullpen/" + b_token,{
@@ -227,10 +230,14 @@ $(document).ready(function() {
             pitchX: x,
             pitchY: y,
             pitch_type: pitch_type,
-            velocity: vel,
+            vel: vel,
 
         },function(data, status) {
         });
+            $("#input-status").text("Pitch Added: " + pitch_type + " / " + strike + " / " + vel + "mph");
+
+        });
+
     };
 
 

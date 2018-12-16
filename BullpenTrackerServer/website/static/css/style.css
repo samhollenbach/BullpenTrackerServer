@@ -230,6 +230,20 @@ canvas {
     margin-left: 40px;
     font-size: 20px;
 }
+#start-session{
+    margin-top: 100px;
+}
+
+#start-session > select{
+    text-align: center;
+    width: 200px;
+    height: 30px;
+}
+#start-session > button{
+    margin-top: 50px;
+    width: 180px;
+    height: 100px;
+}
 
 
 .loader {
