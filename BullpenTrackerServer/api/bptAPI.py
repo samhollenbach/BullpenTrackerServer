@@ -25,6 +25,8 @@ Database queries are processed through the bptDatabase class.
 
 api = Api(app)
 
+
+# Wrapper for required pitcher to be authorized to use http method
 def requires_pitcher_auth(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
@@ -35,6 +37,7 @@ def requires_pitcher_auth(f):
 	return decorated
 
 
+# Resource for account password management
 class Password(Resource):
 
 	def put(self):
@@ -53,6 +56,7 @@ class Password(Resource):
 		return jsonify({'message': 'invalid credentials'}) #, 403
 
 
+# Resource for processing login POSTs
 class LoginHelp(Resource):
 
 	def post(self):
@@ -64,28 +68,31 @@ class LoginHelp(Resource):
 		if loginManager.verify_login(data['email'], data['pass']):
 			fields = ('email', 'p_token', 'firstname', 'lastname', 'throws')
 
+			# t = loginManager.create_token(8)
+			# if not bptDatabase().update('pitchers', {'p_token': t}, **{'email': data['email']}):
+			# 	print("Could not create new p_token")
+			# else:
+			# 	print("successfully created new p_token")
+
 			return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **{'email': data['email']}))
 
 		return jsonify({'message': 'invalid login credentials'}) #, 403
 
 
+# Resource for managing pitcher accounts
 class Pitcher(Resource):
 	
+	# Get details of pitcher account
 	@requires_pitcher_auth
 	def get(self):
-
 		p_token = request.cookies.get('p_token')
-
-		#parser = reqparse.RequestParser()
-		#parser.add_argument('p_token', type=str, help='Pitcher access token')
-		#filters = parser.parse_args(strict=True)
 		filters = {'p_token': p_token}
 		fields = ('p_token', 'throws', 'email', 'firstname', 'lastname')
 		return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **filters))
 
 
+	# Create new pitcher account
 	def post(self):
-
 		parser = reqparse.RequestParser()
 		#parser.add_argument('p_token', type=str, help='Pitcher access token')
 		parser.add_argument('throws', type=str, help='Pitcher throwing side')
@@ -95,18 +102,14 @@ class Pitcher(Resource):
 		parser.add_argument('pass', type=str, help='Pitcher password')
 		data = parser.parse_args()
 
-
-
 		if 'email' in bptDatabase().select_where_first('pitchers', *('email', ), **{'email': data['email']}):
 			return jsonify({'message': 'email address already linked to existing account'}) #, 409
 
 		token = loginManager.create_token(8)
 		while not loginManager.valid_token(token, 'pitchers', 'p_token'):
 			token = loginManager.create_token(8)
-
-		
+	
 		data = {'p_token': token, 'name': '', **data}
-
 		ins = bptDatabase().insert('pitchers', **data)
 
 		if ins:
@@ -115,6 +118,7 @@ class Pitcher(Resource):
 			abort(401, message='failed to add new pitcher with email {}'.format(data['email'])) #, 304
 
 
+	# Update pitcher account information
 	@requires_pitcher_auth
 	def put(self):
 
@@ -138,18 +142,15 @@ class Pitcher(Resource):
 			return jsonify({'message': 'failed to update pitcher profile'}) #, 304
 
 
-
+# Resource for managing bullpens for the logged in pitcher
 class PitcherBullpens(Resource):
 
 	@requires_pitcher_auth
 	def get(self):
-
 		p_token = request.cookies.get('p_token')
 
 		parser = reqparse.RequestParser()
-
-		# TODO: Fix join loading
-		parser.add_argument('date', type=lambda d: datetime.strptime(d, '%Y%m%d'), help='Pen date') # needs formatting?
+		parser.add_argument('date', type=lambda d: datetime.strptime(d, '%Y%m%d %I%M%p %Z'), help='Pen date') # needs formatting?
 		parser.add_argument('type', type=str, help='Pen type')
 		parser.add_argument('team', type=str, help='Pen team') 
 
@@ -171,6 +172,8 @@ class PitcherBullpens(Resource):
 
 		return jsonify(filtered_output)
 
+
+	# Create new bullpen for logged in pitcher
 	@requires_pitcher_auth
 	def post(self):
 
@@ -199,6 +202,7 @@ class PitcherBullpens(Resource):
 			abort(401, message="bullpen creation failed")
 
 
+# Resource for retrieving all teams current logged in pitcher is part of
 class PitcherTeams(Resource):
 
 	@requires_pitcher_auth
@@ -215,29 +219,34 @@ class PitcherTeams(Resource):
 		return jsonify(teams)
 
 
+# Resource for management of a specific bullpen instance
 class Bullpen(Resource):
 
+	# Get information on one or more bullpens from input b_token(s) (separated by +)
 	@requires_pitcher_auth
 	def get(self, b_token):
-
 		b_token_list = b_token.split('+')
-
 		p_token = request.cookies.get('p_token')
-		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
 
+		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
 		bid_list = []
+
+		bptDB = bptDatabase()
+
 		for token in b_token_list:
-			b = bptDatabase().select_where_first(['bullpens'], *('id', ), **{'b_token': token, 'p_id': pid})
+			b = bptDB.select_where_first(['bullpens'], *('id', ), **{'b_token': token, 'p_id': pid})
 			if 'id' in b:
 				bid_list.append(b['id'])
 
 
 		ret_fields = ('id', 'bullpen_id', 'pitch_type', 'ball_strike', 'vel', 'result', 'pitchX', 'pitchY', 'ab', 'hard_contact')
-		
 
 		pitches = []
 		for bid in bid_list:
-			pitches += bptDatabase().select_where(['pitches'], *ret_fields, **{'bullpen_id': bid})
+			pitches += bptDB.select_where(['pitches'], *ret_fields, **{'bullpen_id': bid})
+
+
+		bptDB.close()
 
 		pitches_reform = []
 		for pitch in pitches:
@@ -247,15 +256,15 @@ class Bullpen(Resource):
 
 		return jsonify(pitches_reform)
 
+
+	# Create a new bullpen instance
 	@requires_pitcher_auth
 	def post(self, b_token):
 		p_token = request.cookies.get('p_token')
 		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
-
 		bid = bptDatabase().select_where_first(['bullpens'], *('id', ), **{'b_token': b_token, 'p_id': pid})['id']
 
 		parser = reqparse.RequestParser()
-
 		parser.add_argument('pitch_type', type=str, help='Pitch type')
 		parser.add_argument('ball_strike', type=str, help='Ball or Strike / Executed or Not Executed') 
 		parser.add_argument('vel', type=float, help='Pitch velocity') 
@@ -268,8 +277,6 @@ class Bullpen(Resource):
 		data = parser.parse_args()
 		data['bullpen_id'] = bid
 
-		print(data['vel'])
-
 		if bptDatabase().insert('pitches', **data):	
 			r = bptDatabase().raw_query('UPDATE bullpens SET \
 				pitch_count=(SELECT COUNT(*) FROM pitches WHERE bullpen_id={}) WHERE id={};'.format(bid, bid))
@@ -278,6 +285,7 @@ class Bullpen(Resource):
 			return jsonify({'message': 'failed to create new pitch'})
 
 
+# Resource for managing team instances
 class Team(Resource):
 	parser = reqparse.RequestParser()
 	#parser.add_argument('team_name', type=str, help='Team name')
@@ -292,42 +300,30 @@ class Team(Resource):
 		return jsonify(bptDatabase().select_where_first(['team'], *fields, **filters))
 
 
+# Test resource for easily executing test API requests
 class Test(Resource):
 
 	def get(self):
-		# bids = bptDatabase().select_where('bullpens', *('id', ), **{})
 
 
-		# for bid in bids:
+		#pids = bptDatabase().select_where('pitchers', *('email', ), **{'p_id': [1, 6]})
+
+		# for pid in pids:
 		# 	t = loginManager.create_token(8)
 		# 	try:
-		# 		bptDatabase().update('bullpens', {'b_token': t}, **{'id': bid['id']})
+		# 		bptDatabase().update('pitchers', {'p_token': t}, **{'p_id': pid['p_id']})
 		# 	except:
 		# 		return jsonify({'message': 'failed'})
 
 		# return jsonify({})
 
-		#pass_in = 'pass'
-
-		# data = {'throws': 'R',
-		# 		'firstname': 'PostT323est',
-		# 		'lastname': 'B4IG',
-		# 		'email': 'tes4rt@test.test',
-		# 		'pass': loginManager.create_pass_hash(pass_in),
-		# 		}
-
-		# data = {'email': 'shollenb@macalester.edu', 'pass': 'pass'}
-
-		# url = 'http://bullpentracker.com/api/login'
-
-		# r = requests.post(url, data=data)
-
-		#return jsonify(r.text)
 		pass
 
 
+###################
+# Resource Routes #
+###################
 api.add_resource(Test, '/api/test')
-
 api.add_resource(LoginHelp, '/api/login')
 api.add_resource(Password, '/api/password')
 api.add_resource(Bullpen, '/api/bullpen/<string:b_token>')

@@ -32,6 +32,13 @@ class bptDatabase(object):
 		self.Session.configure(bind=self.db)
 		self.session = self.Session()
 
+	def __del__(self):
+		self.close()
+
+	def close(self):
+		self.session.close()
+		self.db.dispose()
+
 
 	def select_where(self, tables, *fields, **filters):
 		
@@ -48,7 +55,7 @@ class bptDatabase(object):
 		else:
 			q = self.session.query(t).filter_by(**filters).all()
 
-
+		#self.close()
 		resp = [{k: d._asdict()[k] for k in fields} if fields else d._asdict() for d in q]
 		return resp
 
@@ -66,6 +73,7 @@ class bptDatabase(object):
 		else:
 			q = self.session.query(t).filter_by(**filters).first()
 		
+		#self.close()
 		if q is None:
 			return {}
 		d = q._asdict()
@@ -80,7 +88,9 @@ class bptDatabase(object):
 			self.session.commit()
 		except Exception as e:
 			print(str(e))
+			#self.close()
 			return False 
+		#self.close()
 		return True
 		
 
@@ -91,13 +101,16 @@ class bptDatabase(object):
 			self.session.commit()
 		except Exception as e:
 			print(str(e))
+			self.close()
 			return False 
+		#self.close()
 		return True
 
 
 	def raw_query(self, query):
 		res = self.session.execute(query)
 		self.session.commit()
+		#self.close()
 		return res
 
 
