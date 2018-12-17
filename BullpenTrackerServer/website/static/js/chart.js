@@ -1,3 +1,7 @@
+var request_list = [];
+
+
+
 $(document).ready(function() {
 
     var types = {};
@@ -24,6 +28,7 @@ $(document).ready(function() {
                       "F":"Fastball",
                       "S":"Slider",
                       "X":"Change-Up"}
+
 
     // initializing function that gets list of bullpens for user
     $(function() {
