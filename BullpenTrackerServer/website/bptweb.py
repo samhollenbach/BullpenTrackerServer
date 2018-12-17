@@ -41,8 +41,11 @@ def about():
 
 @app.route('/login', methods=['GET'])
 def login():
-	return render_template('login.html')
-
+	redirect_login = render_template('login.html')
+	resp = make_response(redirect_login)
+	resp.set_cookie('p_token', '', expires=0)
+	return resp
+	
 
 @app.route('/signup', methods=['GET'])
 def signup():
