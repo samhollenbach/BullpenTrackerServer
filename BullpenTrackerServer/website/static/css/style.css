@@ -155,14 +155,6 @@ i#complete_stats {
     text-align: center;
 }
 
-.team_summary {
-    text-align:center;
-    width: 45%;
-    margin-left: 5%;
-	border: 1px solid black;
-	border-collapse: collapse;
-}
-
 div.blurb{
     padding-top: 0;
     width: 100%;
@@ -173,8 +165,8 @@ div.blurb h2{
     color: #101010;
     font-size: 4vw;
     font-weight: lighter;
-
 }
+
 div.blurb h3{
     margin-top: -3%;
     font-family: 'Arial', 'serif';
@@ -184,16 +176,19 @@ div.blurb h3{
     font-style: italic;
     margin-bottom: 3.5%;
 }
+
 div.blurb p{
     font-family: 'Arial', 'serif';
     color: #000000;
     font-size: 1.5vw;
     display: inline;
 }
+
 div.blurb p .bpt-emph {
     color: #01426A;
     font-weight: normal;
 }
+
 div.blurb a {
     font-family: 'Arial', 'serif';
     font-size: 1.5vw;
@@ -202,11 +197,6 @@ div.blurb a {
 
 #sign_up {
     font-size: 2vw;
-}
-
-canvas {
-    width: 80%;
-    margin: 100px;
 }
 
 .back_btn {
@@ -220,6 +210,11 @@ canvas {
     font-family: 'Arial', serif;
     font-weight: normal;
     cursor: pointer;
+}
+
+canvas {
+    width: 80%;
+    margin: 100px;
 }
 
 .form_div {

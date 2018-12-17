@@ -200,15 +200,14 @@ $(document).ready(function() {
         var pitchtype = document.getElementById('pitch_type')
         var pitch_type = pitchtype.options[pitchtype.selectedIndex].value;
         var vel = document.getElementById("vel").value;
+        if (contact.checked) {
+            var hard_contact = true;
+        } else {
+            var hard_contact = false;
+        }
         if (vel == null || vel == ""){
             vel = 0.0;
         }
-
-    if (contact.checked){
-        var hard_contact = true;
-    }else{
-        var hard_contact = false;
-     }
         if(block >= 11){
             var strike = "N";
         }
@@ -234,6 +233,7 @@ $(document).ready(function() {
             vel: vel,
 
         },function(data, status) {
+        });
             $("#input-status").text("Pitch Added: " + pitch_type + " / " + strike + " / " + vel + "mph");
 
         });
