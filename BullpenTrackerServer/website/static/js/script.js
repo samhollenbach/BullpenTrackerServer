@@ -30,7 +30,7 @@ $(document).ready(function() {
                 };
 
                 summary_dict["Bullpens Recorded"] = bullpen_data.length;
-                summary_dict["Last Bullpen"] = last_bullpen;
+                summary_dict["Last Bullpen"] = last_bullpen.slice(0,16);
                 summary_dict["Pitches Recorded"] = total_pitches;
             })
             .done(function() {

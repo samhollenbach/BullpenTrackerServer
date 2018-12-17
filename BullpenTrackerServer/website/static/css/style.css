@@ -122,7 +122,7 @@ button:hover {
 
 .summary {
     margin-left: 31%;
-    margin-bottom: 150px;
+    margin-bottom: 50px;
 
 }
 
@@ -213,14 +213,14 @@ div.blurb a {
     cursor: pointer;
 }
 
-canvas {
-    width: 80%;
-    margin: 100px;
+.canvas {
+    margin-top: 80px;
+    margin-bottom: 80px;
+    margin-left: 10%;
 }
 
-.chart_container #canvas5 {
-    height: 2000px;
-    width: 1000px;
+canvas {
+    width: 80%;
 }
 
 .form_div {

@@ -291,7 +291,7 @@ $(document).ready(function() {
             datasets.push(data_dict);
         }
 
-        var text = "<div><canvas id='canvas4'></canvas></div>";
+        var text = "<div class='canvas'><canvas id='canvas4'></canvas></div>";
         $(".chart_container").append(text);
 
         var myChart = $("#canvas4");
@@ -359,8 +359,22 @@ $(document).ready(function() {
 
             for (k = 0; k < pitching_data[pitch_type[i]].length; k++) {
                 var position = {};
-                position['x'] = pitching_data[pitch_type[i]][k].pitchX;
-                position['y'] = pitching_data[pitch_type[i]][k].pitchY;
+                var pitchX = pitching_data[pitch_type[i]][k].pitchX;
+                var pitchY = pitching_data[pitch_type[i]][k].pitchY;
+
+                // checks locations are not out of chart bounds before plotting
+                if (pitchX > 2) {
+                    pitchX = 2;
+                } else if (pitchX < -2) {
+                    pitchX = -2;
+                }
+                if (pitchY > 3) {
+                    pitchY = 3;
+                } else if (pitchY < -3) {
+                    pitchY = -3;
+                }
+                position['x'] = pitchX;
+                position['y'] = pitchY;
                 position['r'] = 10;
 
                 data_dict['data'].push(position);
@@ -368,7 +382,7 @@ $(document).ready(function() {
             datasets.push(data_dict);
         }
 
-        var text = "<div><canvas id='canvas5'></canvas></div>";
+        var text = "<div class='canvas'><canvas id='canvas5'></canvas></div>";
         $(".chart_container").append(text);
 
         var myChart = $("#canvas5");
@@ -378,7 +392,7 @@ $(document).ready(function() {
                 datasets: datasets
             },
             options: {
-                maintainAspectRatio: true,
+                maintainAspectRatio: false,
                 responsive: false,
                 legend: {
                     display: true,
@@ -392,7 +406,7 @@ $(document).ready(function() {
                 },
                 layout: {
                     padding: {
-                        left: 200, // helps scale the axes
+                        left: 270, // helps scale the axes
                         right: 150, // helps scale the axes
                         top: 0,
                         bottom: 0
@@ -469,7 +483,7 @@ $(document).ready(function() {
             background_colors.push(colors[i].border);
         }
 
-        var text = "<div><canvas id='" + canvas + "'></canvas></div>";
+        var text = "<div class='canvas'><canvas id='" + canvas + "'></canvas></div>";
         $(".chart_container").append(text);
 
         var myChart = $("#"+canvas);
