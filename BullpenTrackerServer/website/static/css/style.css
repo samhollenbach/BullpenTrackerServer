@@ -218,6 +218,11 @@ canvas {
     margin: 100px;
 }
 
+.chart_container #canvas5 {
+    height: 2000px;
+    width: 1000px;
+}
+
 .form_div {
     margin-top: 40px;
     margin-right: 40px;
