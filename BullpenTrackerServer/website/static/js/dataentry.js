@@ -195,6 +195,10 @@ $(document).ready(function() {
         var block = PitchLoc.block;
         var x = PitchLoc.x;
         var y = PitchLoc.y;
+        PitchLoc.x = null;
+        PitchLoc.y = null;
+
+
         var b_token = PitchLoc.btoken;
         var contact = document.getElementById('hard_contact');
         var pitchtype = document.getElementById('pitch_type')
@@ -209,31 +213,29 @@ $(document).ready(function() {
             vel = 0.0;
         }
         if(block >= 11){
-            var strike = "N";
+            var strike = "B";
         }
         else{
-            var strike = "Y";
+            var strike = "S";
         }
         
         var data = {
             hard_contact: hard_contact,
             ball_strike: strike,
-            pitchX: x,
-            pitchY: y,
             pitch_type: pitch_type,
             vel: vel,
-
         };
-        $.post("/api/bullpen/" + b_token,{
-            hard_contact: hard_contact,
-            ball_strike: strike,
-            pitchX: x,
-            pitchY: y,
-            pitch_type: pitch_type,
-            vel: vel,
 
-        },function(data, status) {
-        });
+        if (x != null){
+            data.pitchX = x;
+        }
+        if (y != null){
+            data.pitchY = y;
+        }
+
+
+
+        $.post("/api/bullpen/" + b_token, data, function(data, status) {
             $("#input-status").text("Pitch Added: " + pitch_type + " / " + strike + " / " + vel + "mph");
 
         });

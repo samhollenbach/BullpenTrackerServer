@@ -122,6 +122,7 @@ button:hover {
 
 .summary {
     margin-left: 31%;
+    margin-bottom: 150px;
 
 }
 
@@ -244,6 +245,12 @@ canvas {
     margin-top: 50px;
     width: 180px;
     height: 100px;
+}
+.coords{
+    margin-top: 50px;
+}
+#input-status{
+    margin-bottom: 50px;
 }
 
 
