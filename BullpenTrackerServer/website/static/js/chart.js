@@ -406,7 +406,7 @@ $(document).ready(function() {
                 },
                 layout: {
                     padding: {
-                        left: 250, // helps scale the axes
+                        left: 270, // helps scale the axes
                         right: 150, // helps scale the axes
                         top: 0,
                         bottom: 0
