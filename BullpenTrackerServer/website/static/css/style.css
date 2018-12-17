@@ -1,5 +1,6 @@
 body {
     margin: 0;
+    font-family: 'Arial', serif;
 }
 
 .header {
@@ -91,7 +92,7 @@ body {
 
 .profile .pitcher_name {
     margin-left: 10%;
-    margin-top: 20px;
+    margin-top: 60px;
     margin-bottom: 0px;
 }
 
@@ -105,7 +106,7 @@ body {
 
 .data button {
     font-size: 2rem;
-    font-family: 'Vidaloka', serif;
+    font-family: 'Arial', normal;
     width: 30%;
     padding: 15px;
     margin: 3% 9.9%;
@@ -120,7 +121,7 @@ button:hover {
 }
 
 .summary {
-    margin-left: 10%;
+    margin-left: 31%;
 
 }
 
@@ -134,7 +135,7 @@ b#summary {
 }
 
 i#complete_stats {
-    margin-left: 300px;
+    margin-left: 260px;
     margin-top: 8px;
 }
 
@@ -216,8 +217,8 @@ canvas {
     margin-left: 20px;
     border-radius: 12px;
     text-decoration: none;
-    font-family: 'Vidaloka', serif;
-    font-weight: bold;
+    font-family: 'Arial', serif;
+    font-weight: normal;
     cursor: pointer;
 }
 

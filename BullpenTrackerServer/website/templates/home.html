@@ -6,6 +6,8 @@
     <link rel="stylesheet" type="text/css" href="{{ url_for('static',filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css?family=Vidaloka|Shrikhand" rel="stylesheet">
 
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
     <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 	<script type="text/javascript" src="{{ url_for('static',filename='js/script.js') }}"></script>
 
@@ -16,7 +18,6 @@
         <span class="title">Bullpen Tracker</span>
         <a class="logout_link" id="logout_btn" href="/logout">Logout</a>
     </div>
-
     <div class="profile">
         <!--<img id="profile_pic" src="" title="Profile Pic">-->
         <h1 class="pitcher_name"></h1><br>
@@ -27,14 +28,11 @@
         <button onclick="location.href='/stats'">Data Visualization</button>
         <button onclick="location.href='/track'" id="data_entry">Data Entry</button>
     </div><br>
-
-    <div class="summary">
+    <div class="summary" >
         <b id="summary">Stats Summary</b>
         <i id="complete_stats"><a href="">View Complete Stats</a></i>
 
         <table class="summary_table"></table>
     </div>
-
-
 </body>
 </html>
