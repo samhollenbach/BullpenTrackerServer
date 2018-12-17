@@ -103,8 +103,28 @@ $(document).ready(function() {
 
                 x = ( ( e.clientX - left ) / width );
                 y = ( ( height - ( e.clientY - top ) ) / height );
-                PitchLoc.x = x;
-                PitchLoc.y = y;
+                
+
+
+                
+
+                var limX = 0.36;
+                var limY = 0.36;
+                var desLimX = 1.0;
+                var desLimY = 1.5;
+
+                var tempX = x - 0.5;
+                var tempY = y - 0.5;
+
+                
+
+                tempX = (tempX / limX) * desLimX;
+                tempY = (tempY / limY) * desLimY;
+
+                PitchLoc.x = tempX;
+                PitchLoc.y = tempY;
+
+
 /*                var dot = document.createElement("canvas");
                 var dottx = dot.getContext("2d");
                 dottx.beginPath();
@@ -113,7 +133,7 @@ $(document).ready(function() {
                 var element = document.getElementsByTagName("BODY")[0]
                     element.appendChild(dot);*/
 
-
+                block = 0
                 if(x<=.13){
                     if(y<=.5){
                     block = 13

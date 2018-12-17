@@ -1,8 +1,31 @@
-var request_list = [];
 
+function onPageLoaded() {
+    var jqxhrs = [];
+
+    $(window).bind("beforeunload", function (event) {
+        $.each(jqxhrs, function (idx, jqxhr) {
+            if (jqxhr)
+                jqxhr.abort();
+        });
+    });
+
+    function registerJqxhr(event, jqxhr, settings) {
+        jqxhrs.push(jqxhr);
+    }
+
+    function unregisterJqxhr(event, jqxhr, settings) {
+        var idx = $.inArray(jqxhr, jqxhrs);
+        jqxhrs.splice(idx, 1);
+    }
+
+    $(document).ajaxSend(registerJqxhr);
+    $(document).ajaxComplete(unregisterJqxhr);
+};
 
 
 $(document).ready(function() {
+
+    $(onPageLoaded)
 
     var types = {};
     var pitching_data = {};
@@ -317,10 +340,10 @@ $(document).ready(function() {
         var pitch_type = Object.keys(types);
 
         // builds strike zone box
-        var strikezone1 = {"type":"line","data":[{'x':-1,'y':-2},{'x':1,'y':-2}]};
-        var strikezone2 = {"type":"line","data":[{'x':-1,'y':2},{'x':1,'y':2}]};
-        var strikezone3 = {"type":"line","data":[{'x':-1,'y':-2},{'x':-1,'y':2}]};
-        var strikezone4 = {"type":"line","data":[{'x':1,'y':-2},{'x':1,'y':2}]};
+        var strikezone1 = {"type":"line","data":[{'x':-1,'y':-1.5},{'x':1,'y':-1.5}]};
+        var strikezone2 = {"type":"line","data":[{'x':-1,'y':1.5},{'x':1,'y':1.5}]};
+        var strikezone3 = {"type":"line","data":[{'x':-1,'y':-1.5},{'x':-1,'y':1.5}]};
+        var strikezone4 = {"type":"line","data":[{'x':1,'y':-1.5},{'x':1,'y':1.5}]};
         datasets.push(strikezone1);
         datasets.push(strikezone2);
         datasets.push(strikezone3);
@@ -355,7 +378,7 @@ $(document).ready(function() {
                 datasets: datasets
             },
             options: {
-                maintainAspectRatio: false,
+                maintainAspectRatio: true,
                 responsive: false,
                 legend: {
                     display: true,
