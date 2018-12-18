@@ -82,6 +82,7 @@ body {
     margin-right: 20%;
 }
 
+
 .profile #profile_pic {
     float: left;
     margin-left: 5%;
@@ -251,8 +252,17 @@ canvas {
     width: 180px;
     height: 100px;
 }
+#pentype{
+    margin-top: 30px;
+    margin-bottom: 50px;
+}
+#pitch-info{
+    margin-top: 30px;
+    width: 400px;
+}
+
 .coords{
-    margin-top: 50px;
+    margin-top: 20px;
 }
 #input-status{
     margin-bottom: 50px;

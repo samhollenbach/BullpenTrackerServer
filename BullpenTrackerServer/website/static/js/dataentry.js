@@ -121,8 +121,13 @@ $(document).ready(function() {
                 tempX = (tempX / limX) * desLimX;
                 tempY = (tempY / limY) * desLimY;
 
-                PitchLoc.x = tempX;
-                PitchLoc.y = tempY;
+
+
+                PitchLoc.x = Math.round(tempX * 100) / 100;
+                PitchLoc.y = Math.round(tempY * 100) / 100;
+
+
+                $('#pitch-info').html("<p>Pitch Location: (" + PitchLoc.x + ", " + PitchLoc.y + ")</p>");
 
 
 /*                var dot = document.createElement("canvas");
@@ -252,6 +257,9 @@ $(document).ready(function() {
         if (y != null){
             data.pitchY = y;
         }
+
+
+        $('#pitch-info').text("No Pitch Location Selected");
 
 
 
