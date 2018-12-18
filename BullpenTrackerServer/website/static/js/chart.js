@@ -374,7 +374,7 @@ $(document).ready(function() {
                     pitchY = -3;
                 }
                 position['x'] = pitchX;
-                position['y'] = pitchY;
+                position['y'] = -pitchY; // Y axis flipped!
                 position['r'] = 10;
 
                 data_dict['data'].push(position);
