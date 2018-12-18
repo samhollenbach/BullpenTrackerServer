@@ -208,13 +208,17 @@ class PitcherTeams(Resource):
 	@requires_pitcher_auth
 	def get(self):
 		p_token = request.cookies.get('p_token')
-		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
-		team_players = bptDatabase().select_where(['team_player'], *('t_id', ), **{'p_id': pid})
+
+		bptDB = bptDatabase()
+		pid = bptDB.select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
+		team_players = bptDB.select_where(['team_player'], *('t_id', ), **{'p_id': pid})
 
 		teams = []
 		for team in team_players:
-			team_info = bptDatabase().select_where_first(['team'], *('team_name', 'team_info'), **{'id': team['t_id']})
+			team_info = bptDB.select_where_first(['team'], *('team_name', 'team_info'), **{'id': team['t_id']})
 			teams.append(team_info)
+
+		bptDB.close()
 
 		return jsonify(teams)
 
