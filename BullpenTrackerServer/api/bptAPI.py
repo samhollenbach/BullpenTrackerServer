@@ -39,6 +39,7 @@ def requires_pitcher_auth(f):
 	return decorated
 
 
+# Creates JSON response object with variable status code
 def respond(data, status=200):
 	response = jsonify(data)
 	response.status_code = status
@@ -61,7 +62,7 @@ class Password(Resource):
 			r = bptDatabase().update('pitchers', data, **{'email', email})
 			return jsonify({'message': 'updated password for account -- {}'.format(email)})
 
-		return respond({'message': 'invalid credentials'}, 403) #, 403
+		return abort(403, message= 'invalid credentials')
 
 
 # Resource for processing login POSTs
