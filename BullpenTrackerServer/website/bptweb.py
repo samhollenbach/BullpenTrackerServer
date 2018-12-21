@@ -1,7 +1,8 @@
-from flask import Flask, render_template, jsonify, request, redirect, make_response
+from flask import Flask, render_template, jsonify, request, redirect, make_response, send_from_directory
 import requests
 import json
 from functools import wraps
+import os
 
 from BullpenTrackerServer import app
 from BullpenTrackerServer.api import loginManager
@@ -27,6 +28,7 @@ def requires_pitcher_auth(f):
 			return redirect('/login', code=302)
 		return f(*args, **kwargs)
 	return decorated
+
 
 
 @app.route('/', methods=['GET'])
