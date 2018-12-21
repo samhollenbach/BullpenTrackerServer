@@ -237,11 +237,18 @@ div.blurb a {
     margin-top: 80px;
     margin-bottom: 80px;
     margin-left: 10%;
+    margin-right: 10%;
 }
 
 canvas {
-    width: 80%;
+    width: 100%;
 }
+#canvas5{
+    margin-left: 25%;
+    /*width: 50% ;*/
+}
+
+
 
 .form_div {
     margin-top: 40px;
