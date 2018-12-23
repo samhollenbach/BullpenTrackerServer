@@ -19,7 +19,7 @@
         <a class="logout_link" id="logout_btn" href="/logout">Logout</a>
     </div>
 
-    <div class="container">
+    <div id="home-container" class="container-fluid big-body">
         
         <div class="profile">
             <!--<img id="profile_pic" src="" title="Profile Pic">-->
@@ -29,17 +29,23 @@
 
         <hr>
 
-        <div class="data">
-            <button onclick="location.href='/stats'">View Data</button>
-            <button onclick="location.href='/track'" id="data_entry">Data Entry</button>
+        <div class="data row">
+            <button id="stats_btn" class="home_btn col-md-4 offset-md-1" onclick="location.href='/stats'">View Data</button>
+            <button id="data_entry_btn" class="home_btn col-md-4 offset-md-2" onclick="location.href='/track'">Data Entry</button>
         </div><br>
-        <div class="summary" >
-            <b id="summary">Stats Summary</b>
+        <div class="row" >
+            <b id="summary" class="col-md-6 offset-md-3">Stats Summary</b>
             <!--<i id="complete_stats"><a href="/stats">View Complete Stats</a></i>-->
-
-            <table class="summary_table"></table>
+        </div>
+        <div class="summary row">
+            <table class="summary_table col-md-6 offset-md-3"></table>
         </div>
 
+    </div>
+
+     <div class="footer navbar-fixed-bottom">
+        <!-- <span></span> -->
+        <!-- <a class="logout_link" id="logout_btn" href="/logout">Logout</a> -->
     </div>
 
 

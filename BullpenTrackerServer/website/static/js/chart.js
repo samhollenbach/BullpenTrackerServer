@@ -223,7 +223,7 @@ function location_chart() {
             position['x'] = pitchX;
             position['y'] = -pitchY; // Y axis flipped!
             position['r'] = 10;
-
+            position['vel'] = pitching_data[pitch_type[i]][k].vel;
             data_dict['data'].push(position);
         }
         datasets.push(data_dict);
@@ -286,9 +286,15 @@ function location_chart() {
             },
             tooltips: {
                 callbacks: {
-                    label: function(t, d) {
-                        return d.datasets[t.datasetIndex].label + 
-                              ': (' + t.xLabel + ', ' + t.xLabel + ')';
+                    label: function(t, d) { 
+                        var v = d.datasets[t.datasetIndex]['data'][t.index].vel;
+                        if (v == undefined || v == 0) {
+                            return d.datasets[t.datasetIndex].label;
+                        }else{
+                            return d.datasets[t.datasetIndex].label + 
+                              ' - ' + v + 'mph';
+                        }
+                        
                     }
                 }
             }

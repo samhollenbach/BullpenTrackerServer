@@ -26,9 +26,10 @@
        url('../fonts/roboto-v18-latin/roboto-v18-latin-regular.svg#Roboto') format('svg'); /* Legacy iOS */
 }
 
-body {
+html, body {
     margin: 0;
     font-family: 'Roboto', 'serif' !important;
+    height: 100%;
 }
 
 .header {
@@ -38,11 +39,29 @@ body {
     width: 100%;
     position: relative;
 }
+.footer {
+    background-color: #01426A;
+    height: 80px;
+    width: 100%;
+    /*margin-top: 30px;*/
+    /*position: relative;*/
+    /*margin-bottom: 0px;*/
+}
 
 .column {
     width: 140px;
     margin-right: 20px;
     float: right;
+}
+
+/* Wrapper for page content to push down footer */
+.big-body {
+  min-height: 100%;
+  height: auto;
+  /* Negative indent footer by its height */
+  margin: 0 auto -80px;
+  /* Pad bottom by footer height */
+  padding: 0 0 80px;
 }
 
 #login_btn {
@@ -130,11 +149,15 @@ body {
     margin-bottom: 10px;
 }
 
-.data button {
+.data > button {
+    height: 100px;
     font-size: 2rem;
-    width: 30%;
+    /*width: 30%;*/
     padding: 15px;
-    margin: 3% 9.9%;
+    /*margin: 3% 9.9%;*/
+    margin-top: 30px;
+    margin-bottom: 30px;    
+    padding-left: 0px;
     cursor: pointer;
 }
 
@@ -148,12 +171,14 @@ button:hover {
 .summary {
     margin-left: 31%;
     margin-bottom: 50px;
-
 }
 
 b#summary {
     font-size: 1.5rem;
+    padding-left: 0px;
 }
+
+
 
 #complete_stats a {
     text-decoration: none;
@@ -174,11 +199,15 @@ i#complete_stats {
 .summary_table th {
     width:35%;
 }
-
+ 
 .summary_table th, td {
     height:25px;
     border: 1px solid black;
     text-align: center;
+}
+.summary_table tr:hover{
+    background-color: #01426A;
+    color: white;
 }
 
 div.blurb{
@@ -285,10 +314,14 @@ canvas {
 #pitch-info{
     margin-top: 30px;
     width: 400px;
+    height: 50px;
+}
+#strikezone{
+
 }
 
 .coords{
-    margin-top: 20px;
+    margin-top: 0px;
 }
 #input-status{
     margin-bottom: 50px;

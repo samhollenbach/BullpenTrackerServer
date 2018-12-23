@@ -88,7 +88,7 @@ class bptDatabase(object):
 			self.session.commit()
 		except Exception as e:
 			print(str(e))
-			#self.close()
+			self.close()
 			return False 
 		#self.close()
 		return True

@@ -8,7 +8,7 @@ $(document).ready(function() {
         event.preventDefault();
 
 
-         if (email == "" | password == "") {
+        if (email == "" | password == "") {
             window.location.href='/login';
         }
         else {
@@ -44,7 +44,7 @@ $(document).ready(function() {
         var lname = $("input#lname").val();
         var throws = $("input[name=throwSide]").val();
 
-   
+        
         if (fname == "" || lname == "" || email == "" || password == "" || password_conf == "" || throws == "") {
             signup_alert("Signup Error", "All fields are required")
             return
