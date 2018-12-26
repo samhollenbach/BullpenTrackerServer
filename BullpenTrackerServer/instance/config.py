@@ -1,4 +1,5 @@
 import configparser
+from os import path
 
 # Main Config
 DEBUG = False
@@ -7,7 +8,10 @@ DB_DRIVER = 'sqlite'
 DB_ADDRESS = 'db.sqlite'
 
 conf = configparser.ConfigParser()
-conf.read('BullpenTrackerServer/instance/config.ini')
+
+basepath = path.dirname(__file__)
+filepath = path.abspath(path.join(basepath, "config.ini"))
+conf.read(filepath)
 
 if not DEBUG:
 	dbConf = conf['DATABASE']
