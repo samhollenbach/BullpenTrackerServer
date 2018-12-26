@@ -12,8 +12,9 @@ conf = configparser.ConfigParser()
 basepath = path.dirname(__file__)
 filepath = path.abspath(path.join(basepath, "config.ini"))
 conf.read(filepath)
+found_config = (len(conf.sections()) != 0)
 
-if not DEBUG:
+if not DEBUG and found_config:
 	dbConf = conf['DATABASE']
 	DB_DRIVER = dbConf['DB_DRIVER']
 	DB_ADDRESS = dbConf['DB_ADDRESS']
@@ -23,5 +24,8 @@ if not DEBUG:
 	DB_DB = dbConf['DB_DB']
 
 # Login Config
-PASS_SALT = conf['LOGIN']['PASS_SALT']
+if found_config:
+	PASS_SALT = conf['LOGIN']['PASS_SALT']
+else
+	PASS_SALT = ''
 
