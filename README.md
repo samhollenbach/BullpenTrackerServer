@@ -32,9 +32,7 @@ python -m venv venv
 
 ### IMPORTANT
 
-This repository does not include the `config.py` file (required to run the project) because it contains database access information. For Shilad -- we've included this file in an email to you. Please place it in `BullpenTrackerServer/BullpenTrackerServer/instance/config.py`. If you are reading this and you are not Shilad, you can email [shollenb@macalester.edu](shollenb@macalester.edu) for the file.
-
-If you examine this config file, there is also an option to switch off of DEBUG mode, which will store all data on a remote server. 
+Included is a  `config.py` file that controls configuration variables for the project. However to avoid including private keys and passwords, interally we use a `config.ini` file in the same folder. If you examine the `config.py` file you will see that (if not in `DEBUG` mode) the `.ini` variables will override the ones in the `.py` file.
 
 
 
