@@ -73,8 +73,6 @@ $(document).ready(function() {
 
         $( this ).click(function ( e ) {
 
-            console.log("test");
-
             var image = document.getElementById('strikezone');
             var xPos = 0;
             var yPos = 0;
@@ -115,7 +113,6 @@ $(document).ready(function() {
             PitchLoc.y = Math.round(tempY * 100) / 100;
             $('#pitch-info').html("<p>Pitch Location: (" + PitchLoc.x + ", " + PitchLoc.y + ")</p>");
 
-
             redrawTrackedPitches(c);
 
             var ctx = c.getContext("2d");
@@ -124,77 +121,76 @@ $(document).ready(function() {
             ctx.strokeStyle = '#ff0000';
             ctx.fill();
 
-
             currentPitch = {'x': x * width, 'y': (1-y) * height};
 
+            // block = 0
+            // if(x<=.13){
+            //     if(y<=.5){
+            //         block = 13
+            //     }
+            //     else if(y>.5){
+            //         block = 11
+            //     }
+            // }
+            // else if(x>=.14 && x<=.37){
+            //     if(y>=.63 && y<=.86){
+            //         block = 1
+            //     }
+            //     else if(y>=.38 && y<=.62){
+            //         block = 4
+            //     }
+            //     else if(y>=.14 && y<=.37){
+            //         block = 7
+            //     }
+            // }
+            // else if(x>=.38 && x<=.61){
+            //     if(y>=.63 && y<=.86){
+            //         block = 2
+            //     }
+            //     else if(y>=.38 && y<=.62){
+            //         block = 5
+            //     }
+            //     else if(y>=.14 && y<=.37){
+            //         block = 8
+            //     }
+            // }
+            // else if(x>=.62 && x<=.85){
+            //     if(y>=.63 && y<=.86){
+            //         block = 3
+            //     }
+            //     else if(y>=.38 && y<=.62){
+            //         block = 6
+            //     }
+            //     else if(y>=.14 && y<=.37){
+            //         block = 9
+            //     }
+            // }
+            // else if(x>=.86){
+            //     if(y<=.5){
+            //         block = 14
+            //     }
+            //     else if(y>.5){
+            //         block = 12
+            //     }
+            // }
+            // if(y<=.13){
+            //     if(x<=.5){
+            //         block = 13
+            //     }
+            //     else if(x>.5){
+            //         block = 14
+            //     }
+            // }
+            // if(y>=.87){
+            //     if(x<=.5){
+            //         block = 11
+            //     }
+            //     else if(x>.5){
+            //         block = 12
+            //     }
+            // }
 
-            block = 0
-            if(x<=.13){
-                if(y<=.5){
-                    block = 13
-                }
-                else if(y>.5){
-                    block = 11
-                }
-            }
-            else if(x>=.14 && x<=.37){
-                if(y>=.63 && y<=.86){
-                    block = 1
-                }
-                else if(y>=.38 && y<=.62){
-                    block = 4
-                }
-                else if(y>=.14 && y<=.37){
-                    block = 7
-                }
-            }
-            else if(x>=.38 && x<=.61){
-                if(y>=.63 && y<=.86){
-                    block = 2
-                }
-                else if(y>=.38 && y<=.62){
-                    block = 5
-                }
-                else if(y>=.14 && y<=.37){
-                    block = 8
-                }
-            }
-            else if(x>=.62 && x<=.85){
-                if(y>=.63 && y<=.86){
-                    block = 3
-                }
-                else if(y>=.38 && y<=.62){
-                    block = 6
-                }
-                else if(y>=.14 && y<=.37){
-                    block = 9
-                }
-            }
-            else if(x>=.86){
-                if(y<=.5){
-                    block = 14
-                }
-                else if(y>.5){
-                    block = 12
-                }
-            }
-            if(y<=.13){
-                if(x<=.5){
-                    block = 13
-                }
-                else if(x>.5){
-                    block = 14
-                }
-            }
-            if(y>=.87){
-                if(x<=.5){
-                    block = 11
-                }
-                else if(x>.5){
-                    block = 12
-                }
-            }
-            PitchLoc.block=block;
+            //PitchLoc.block = block;
 
             $( tooltip ).text( x + ', ' + y ).css({
                 left: e.clientX - 30,
@@ -207,7 +203,7 @@ $(document).ready(function() {
     });
 
     document.getElementById('submitbutton').onclick = function() {
-        var block = PitchLoc.block;
+        //var block = PitchLoc.block;
         var x = PitchLoc.x;
         var y = PitchLoc.y;
         PitchLoc.x = null;
@@ -226,12 +222,13 @@ $(document).ready(function() {
         if (vel == null || vel == ""){
             vel = 0.0;
         }
-        if(block >= 11){
-            var strike = "B";
-        }
-        else{
-            var strike = "S";
-        }
+
+        // if(block >= 11){
+        //     var strike = "B";
+        // }
+        // else{
+        //     var strike = "S";
+        // }
 
         var data = {
             hard_contact: hard_contact,
@@ -263,7 +260,3 @@ $(document).ready(function() {
 
 });
 
-/*
-Automate this process such that the pitches are personalized by the player
-and on each keypress the correct pitch is gathered. To do this it would
-require a call to the player data and have relevant pitches to access*/
