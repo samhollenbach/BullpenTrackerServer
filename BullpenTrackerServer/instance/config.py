@@ -26,6 +26,6 @@ if not DEBUG and found_config:
 # Login Config
 if found_config:
 	PASS_SALT = conf['LOGIN']['PASS_SALT']
-else
+else:
 	PASS_SALT = ''
 
