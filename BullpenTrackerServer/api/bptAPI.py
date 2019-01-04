@@ -294,17 +294,36 @@ class Team(Resource):
 		return respond(bptDatabase().select_where_first(['team'], *fields, **filters))
 
 
+class TeamPitchers(Resource):
+	parser = reqparse.RequestParser()
+	#parser.add_argument('team_name', type=str, help='Team name')
+	
+	def get(self):
+		#filters = self.parser.parse_args(strict=True)
+		n = unescape(t_name)
+
+		filters = {'team_name': n}
+		fields = ('id', 'team_name', 'team_info')
+
+		return respond(bptDatabase().select_where_first(['team'], *fields, **filters))
+
+
+
 # Test resource for easily executing test API requests
 class Test(Resource):
 
 	def get(self):
 
-		#pids = bptDatabase().select_where('pitchers', *('email', ), **{'p_id': [1, 6]})
+		# ids = bptDatabase().select_where('team_player', *('t_id', 'p_id'), **{})
 
-		# for pid in pids:
-		# 	t = loginManager.create_token(8)
+		# print(ids)
+
+		# for pid in ids:
+		# 	t1 = loginManager.create_token(8)
+		# 	t2 = loginManager.create_token(8)
+
 		# 	try:
-		# 		bptDatabase().update('pitchers', {'p_token': t}, **{'p_id': pid['p_id']})
+		# 		bptDatabase().update('team_player', {'tp_token_private': t1, 'tp_token_public': t2}, **{'p_id': pid['p_id'], 't_id': pid['t_id']})
 		# 	except:
 		# 		return jsonify({'message': 'failed'})
 

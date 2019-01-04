@@ -2,7 +2,7 @@ import configparser
 from os import path
 
 # Main Config
-DEBUG = False
+DEBUG = True
 
 DB_DRIVER = 'sqlite'
 DB_ADDRESS = 'db.sqlite'
