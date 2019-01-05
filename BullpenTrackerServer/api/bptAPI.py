@@ -299,7 +299,7 @@ class TeamPitchers(Resource):
 		parser.add_argument('priv_token', type=str, help='Pitcher private token')
 		data = parser.parse_args(strict=True)
 		#filters = self.parser.parse_args(strict=True)
-		r = bptDatabase.raw_query('SELECT A.p_id, team_number, tp_token_public, firstname, lastname, email \
+		r = bptDatabase().raw_query('SELECT A.p_id, team_number, tp_token_public, firstname, lastname, email \
 			FROM team_player AS A JOIN pitchers AS B ON A.p_id=B.p_id \
 			WHERE t_id=(SELECT t_id FROM team_player WHERE tp_token_private=\'{}\');'.format(data['priv_token']))
 

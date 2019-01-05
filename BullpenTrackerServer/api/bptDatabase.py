@@ -112,15 +112,10 @@ class bptDatabase(object):
 		if commit:
 			self.session.commit()
 
-		print(res)
-
 		res_list = []
 		for row in res:
 			res_list.append(dict(row))
-
-		print(res_list)
-
-		#self.close()
+			
 		return res_list
 
 
