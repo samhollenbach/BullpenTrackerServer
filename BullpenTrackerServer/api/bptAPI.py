@@ -26,7 +26,7 @@ Database queries are processed through the bptDatabase class.
 api = Api(app)
 
 
-# Wrapper for required pitcher to be authorized to use HTTP method
+# Wrapper for required pitcher to be authorized to use http method
 def requires_pitcher_auth(f):
 	@wraps(f)
 	def decorated(*args, **kwargs):
