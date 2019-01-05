@@ -15,7 +15,7 @@ $(document).ready(function() {
             $.post("/api/login", {email: email, pass: password}, function(data, status, xhr) {
 
                 var p_token = data.p_token;
-                document.cookie = "p_token="+ p_token;
+                //document.cookie = "p_token="+ p_token;
 
                 window.location.href='/';
             }, "json")

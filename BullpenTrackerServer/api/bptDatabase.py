@@ -107,11 +107,21 @@ class bptDatabase(object):
 		return True
 
 
-	def raw_query(self, query):
+	def raw_query(self, query, commit=False):
 		res = self.session.execute(query)
-		self.session.commit()
+		if commit:
+			self.session.commit()
+
+		print(res)
+
+		res_list = []
+		for row in res:
+			res_list.append(dict(row))
+
+		print(res_list)
+
 		#self.close()
-		return res
+		return res_list
 
 
 

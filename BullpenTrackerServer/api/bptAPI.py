@@ -38,11 +38,19 @@ def requires_pitcher_auth(f):
 		return f(*args, **kwargs)
 	return decorated
 
+def get_pid(p_token):
+	return bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
+
 
 # Creates JSON response object with variable status code
-def respond(data, status=200):
+def respond(data, status=200, cookies={}):
 	response = jsonify(data)
 	response.status_code = status
+
+	for key, val in cookies.items():
+		print(key, val)
+		response.set_cookie(key, value=val)
+
 	return response
 
 
@@ -83,7 +91,9 @@ class LoginHelp(Resource):
 			# else:
 			# 	print("successfully created new p_token")
 
-			return jsonify(bptDatabase().select_where_first(['pitchers'], *fields, **{'email': data['email']}))
+			r = bptDatabase().select_where_first(['pitchers'], *fields, **{'email': data['email']})
+
+			return respond(r, cookies={'p_token': r['p_token']})
 
 		return respond({'message': 'invalid login credentials'}, 403)
 
@@ -189,7 +199,7 @@ class PitcherBullpens(Resource):
 		data = parser.parse_args()
 		data['pitch_count'] = 0
 
-		pid = bptDatabase().select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
+		pid = get_pid(p_token)
 
 		b_token = loginManager.create_token(8)
 		while not loginManager.valid_token(b_token, 'bullpens', 'b_token'):
@@ -206,18 +216,96 @@ class PitcherTeams(Resource):
 
 	@requires_pitcher_auth
 	def get(self, p_token):
-		bptDB = bptDatabase()
-		pid = bptDB.select_where_first(['pitchers'], *('p_id', ), **{'p_token': p_token})['p_id']
-		team_players = bptDB.select_where(['team_player'], *('t_id', ), **{'p_id': pid})
 
-		teams = []
-		for team in team_players:
-			team_info = bptDB.select_where_first(['team'], *('team_name', 'team_info'), **{'id': team['t_id']})
-			teams.append(team_info)
-
-		bptDB.close()
+		teams = bptDatabase().raw_query('SELECT t_id, team_name, team_info, team_number, tp_token_private, tp_token_public, perms \
+			FROM team_player TP \
+			JOIN team T ON TP.t_id=T.id \
+			JOIN pitchers P ON TP.p_id=P.p_id \
+			WHERE p_token=\"{}\";'.format(p_token))
 
 		return respond(teams)
+
+
+class JoinTeam(Resource):
+
+	@requires_pitcher_auth
+	def post(self, p_token):
+		parser = reqparse.RequestParser()
+		parser.add_argument('team_name', type=str, help='Pen type')
+		parser.add_argument('team_access_code', type=str, help='Pen team') 
+		parser.add_argument('team_number', type=str, help='Pen team') 
+		data = parser.parse_args()
+
+		bptDB = bptDatabase()
+
+		teams = bptDB.select_where('team', ('id', 'team_access_code'), {'team_name': data['team_name']})
+		if len(teams) > 1:
+			abort(401, message="more than one team with name found")
+		elif len(teams) == 0:
+			abort(401, message="found no teams with name \'{}\''".format(data['team_name']))
+		
+		if data['team_access_code'] != teams[0]['team_access_code']:
+			abort(401, message="invalid access code for team \'{}\'".format(data['team_name']))
+
+		pid = get_pid(p_token)
+
+		pub_token = loginManager.create_token(8)
+		priv_token = loginManager.create_token(8)
+
+		d = {'t_id': teams[0]['id'], 'p_id': pid, 
+			'tp_token_private': priv_token, 'tp_token_public': pub_token,
+			'perms': 0, 'team_number': data['team_number']}
+
+		r = bptDB.insert('team_player', d)
+		return respond(r)
+
+
+# Resource for managing team instances
+class Team(Resource):
+	parser = reqparse.RequestParser()
+	#parser.add_argument('team_name', type=str, help='Team name')
+	
+	def get(self, t_name):
+		#filters = self.parser.parse_args(strict=True)
+		n = unescape(t_name)
+
+		filters = {'team_name': n}
+		fields = ('id', 'team_name', 'team_info')
+
+		return respond(bptDatabase().select_where_first(['team'], *fields, **filters))
+
+
+class CreateTeam(Resource):
+
+	def post(self):
+		parser = reqparse.RequestParser()
+		parser.add_argument('team_name', type=str, help='Team name')
+		parser.add_argument('team_info', type=str, help='Team info')
+		parser.add_argument('team_access_code', type=str, help='Team access code')
+
+		data = parser.parse_args(strict=True)
+
+		r = bptDatabase().insert('team', **data)
+
+		return respond(r)
+
+
+class TeamPitchers(Resource):
+	
+	@requires_pitcher_auth
+	def post(self, p_token):
+
+		parser = reqparse.RequestParser()
+		parser.add_argument('priv_token', type=str, help='Pitcher private token')
+		data = parser.parse_args(strict=True)
+		#filters = self.parser.parse_args(strict=True)
+		r = bptDatabase.raw_query('SELECT A.p_id, team_number, tp_token_public, firstname, lastname, email \
+			FROM team_player AS A JOIN pitchers AS B ON A.p_id=B.p_id \
+			WHERE t_id=(SELECT t_id FROM team_player WHERE tp_token_private=\'{}\');'.format(data['priv_token']))
+
+		return respond(r)
+
+
 
 
 # Resource for management of a specific bullpen instance
@@ -274,38 +362,11 @@ class Bullpen(Resource):
 		if bptDatabase().insert('pitches', **data):	
 			r = bptDatabase().raw_query('UPDATE bullpens SET \
 				pitch_count=(SELECT COUNT(*) FROM pitches WHERE bullpen_id={}) WHERE id={};'.format(bid, bid))
-			return respond({'message': 'successfully created new pitch'})
+			return respond({'message': 'successfully created new pitch'}, commit=True)
 		else:
 			return respond({'message': 'failed to create new pitch'}, 401)
 
 
-# Resource for managing team instances
-class Team(Resource):
-	parser = reqparse.RequestParser()
-	#parser.add_argument('team_name', type=str, help='Team name')
-	
-	def get(self, t_name):
-		#filters = self.parser.parse_args(strict=True)
-		n = unescape(t_name)
-
-		filters = {'team_name': n}
-		fields = ('id', 'team_name', 'team_info')
-
-		return respond(bptDatabase().select_where_first(['team'], *fields, **filters))
-
-
-class TeamPitchers(Resource):
-	parser = reqparse.RequestParser()
-	#parser.add_argument('team_name', type=str, help='Team name')
-	
-	def get(self):
-		#filters = self.parser.parse_args(strict=True)
-		n = unescape(t_name)
-
-		filters = {'team_name': n}
-		fields = ('id', 'team_name', 'team_info')
-
-		return respond(bptDatabase().select_where_first(['team'], *fields, **filters))
 
 
 
@@ -343,5 +404,8 @@ api.add_resource(PitcherBullpens, '/api/pitcher/bullpens')
 api.add_resource(PitcherTeams, '/api/pitcher/teams')
 api.add_resource(Pitcher, '/api/pitcher')
 api.add_resource(Team, '/api/team/<string:t_name>')
+api.add_resource(JoinTeam, '/api/team/join')
+api.add_resource(CreateTeam, '/api/team/create')
+api.add_resource(TeamPitchers, '/api/team/pitchers')
 
 
