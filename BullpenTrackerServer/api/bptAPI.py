@@ -164,7 +164,7 @@ class PitcherBullpens(Resource):
 		parser = reqparse.RequestParser()
 		parser.add_argument('date', type=lambda d: datetime.strptime(d, '%Y%m%d %I%M%p %Z'), help='Pen date') # needs formatting?
 		parser.add_argument('type', type=str, help='Pen type')
-		parser.add_argument('team', type=str, help='Pen team') 
+		parser.add_argument('team', type=int, help='Team ID') 
 
 		data = parser.parse_args()
 
@@ -298,6 +298,7 @@ class TeamPitchers(Resource):
 		parser = reqparse.RequestParser()
 		parser.add_argument('priv_token', type=str, help='Pitcher private token')
 		data = parser.parse_args(strict=True)
+		print(data['priv_token'])
 		#filters = self.parser.parse_args(strict=True)
 		r = bptDatabase().raw_query('SELECT A.p_id, team_number, tp_token_public, firstname, lastname, email \
 			FROM team_player AS A JOIN pitchers AS B ON A.p_id=B.p_id \
